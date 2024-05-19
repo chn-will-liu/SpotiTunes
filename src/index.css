@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root,
+    input,
+    button,
+    select,
+    textarea {
+        @apply bg-black font-sans text-white;
+    }
+
+    :root {
+        @apply h-full w-full bg-opacity-90;
+        background-image: url(/bg.jpg);
+        background-size: cover;
+        background-position: center;
+    }
+
+    ::-webkit-scrollbar {
+        @apply w-3;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply rounded-sm bg-gray-100 bg-opacity-40;
+    }
+
+    ::-webkit-scrollbar-track-piece {
+        @apply rounded-sm bg-gray-100 bg-opacity-10;
+    }
+}
+
+@layer utilities {
+    .mask-gradient-hidden {
+        mask-image: linear-gradient(90deg, black, black 70%, transparent);
+    }
+}
