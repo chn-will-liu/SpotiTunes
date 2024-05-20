@@ -23,9 +23,7 @@ const PlaylistItem = ({ title }: PlaylistItemProps) => {
     return (
         <li className="group flex cursor-pointer gap-3 py-4 text-white text-opacity-65 hover:text-opacity-100">
             <TbPlaylist className="size-6 transform group-hover:scale-110" />
-            <span className="mask-gradient-hidden flex-1 overflow-hidden whitespace-nowrap">
-                {title}
-            </span>
+            <span className="mask-gradient flex-1 overflow-hidden whitespace-nowrap">{title}</span>
             <IconButton icon={FaRegTrashCan} size="lg" hoverEffect="opacity" />
         </li>
     );

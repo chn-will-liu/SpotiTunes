@@ -11,7 +11,7 @@ import { TrackPane } from './TrackPane';
 
 export const SideMenuBar = () => {
     return (
-        <div className="flex max-h-full w-[300px] flex-col">
+        <div className="dust-bg flex max-h-full w-[300px] flex-col">
             <div className="mx-6 mt-9 flex items-center">
                 <FaSpotify color="white" size="42" />
                 <span className="ml-3 text-2xl font-bold">SpotiTunes</span>
@@ -21,7 +21,6 @@ export const SideMenuBar = () => {
                 <SideNav />
                 <SidePlaylists />
             </div>
-            <hr className="mx-6 mt-3 border-white border-opacity-25" />
             <TrackPane />
         </div>
     );

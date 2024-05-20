@@ -3,7 +3,7 @@ import { IconType } from 'react-icons';
 
 export type IconButtonProps = PropsWithChildren<{
     icon: IconType;
-    size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
+    size?: 'sm' | 'md' | 'lg' | 'xl' | 'max' | undefined;
     className?: string | undefined;
     hoverEffect?: 'opacity' | 'scale';
     onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -14,23 +14,23 @@ export const IconButton = (props: IconButtonProps) => {
         sm: 'size-3',
         md: 'size-4',
         lg: 'size-5',
-        xl: 'size-7',
-        xxl: 'size-9',
+        xl: 'size-8',
+        max: 'size-12',
     };
 
     const Icon = props.icon;
 
     let hoverEffect = '';
     if (props.hoverEffect === 'opacity') {
-        hoverEffect = 'text-opacity-65 hover:text-opacity-100';
+        hoverEffect = 'text-opacity-65 hover:text-opacity-100 active:scale-90';
     } else {
-        hoverEffect = 'transform hover:scale-110';
+        hoverEffect = 'hover:scale-110 active:scale-100 ';
     }
 
     return (
         <button
             type="button"
-            className={`bg-transparent text-white ${hoverEffect} ${props.className ?? ''}`}
+            className={`translation-transform transform bg-transparent text-white   ${hoverEffect} ${props.className ?? ''}`}
             onClick={props.onClick}
         >
             <Icon className={`${sizeMap[props.size ?? 'md']}`} />

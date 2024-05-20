@@ -16,6 +16,9 @@ export default {
             ...colors,
             spotiGreen: '#49E12E',
         },
+        animation: {
+            'spin-slow': 'spin 3s linear infinite',
+        },
         extend: {},
     },
     plugins: [],
