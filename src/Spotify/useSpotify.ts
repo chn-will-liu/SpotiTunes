@@ -1,6 +1,6 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { SdkContext } from '../SpotifySdk';
+import { SdkContext } from './SpotifySdk';
 
 type ApiCall<T> = (api: SpotifyApi) => Promise<T>;
 
@@ -14,8 +14,8 @@ export function useSpotify<T>(apiCall: ApiCall<T>) {
 
     useEffect(() => {
         const abortController = new AbortController();
-        sdk.setAbortSignalOnce(abortController.signal);
-        callApiWithSdk(sdk)
+        sdk.setAbortSignalOnceForApi(abortController.signal);
+        callApiWithSdk(sdk.api)
             .then((result) => {
                 setResult(result);
                 setLoading(false);

@@ -11,9 +11,9 @@ export type IconButtonProps = PropsWithChildren<{
 
 export const IconButton = (props: IconButtonProps) => {
     const sizeMap = {
-        sm: 'size-3',
-        md: 'size-4',
-        lg: 'size-5',
+        sm: 'size-4',
+        md: 'size-5',
+        lg: 'size-6',
         xl: 'size-8',
         max: 'size-12',
     };
@@ -30,7 +30,7 @@ export const IconButton = (props: IconButtonProps) => {
     return (
         <button
             type="button"
-            className={`translation-transform transform bg-transparent text-white   ${hoverEffect} ${props.className ?? ''}`}
+            className={`translation-transform transform bg-transparent text-white ${hoverEffect} ${props.className ?? ''}`}
             onClick={props.onClick}
         >
             <Icon className={`${sizeMap[props.size ?? 'md']}`} />

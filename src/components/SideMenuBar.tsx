@@ -1,4 +1,5 @@
 import { IconType } from 'react-icons';
+import { BiLibrary } from 'react-icons/bi';
 import { BsCassetteFill } from 'react-icons/bs';
 import { FaCompass, FaSpotify } from 'react-icons/fa';
 import { FaPodcast } from 'react-icons/fa6';
@@ -6,7 +7,6 @@ import { LuRadioTower } from 'react-icons/lu';
 import { PiMicrophoneStageFill } from 'react-icons/pi';
 import { RiHome6Fill } from 'react-icons/ri';
 import { SearchBox } from './SearchBox';
-import { SidePlaylists } from './SidePlaylists';
 import { TrackPane } from './TrackPane';
 
 export const SideMenuBar = () => {
@@ -17,9 +17,9 @@ export const SideMenuBar = () => {
                 <span className="ml-3 text-2xl font-bold">SpotiTunes</span>
             </div>
             <SearchBox />
-            <div className="overflow-auto px-6">
+            <div className="mask-gradient-vertical flex-shrink-1 flex-1 overflow-auto px-6">
                 <SideNav />
-                <SidePlaylists />
+                {/* <SidePlaylists /> */}
             </div>
             <TrackPane />
         </div>
@@ -29,10 +29,11 @@ export const SideMenuBar = () => {
 const SideNav = () => {
     return (
         <nav className="mb-8">
-            <div className="mb-8 font-light text-white text-opacity-65">MENU</div>
+            {/* <div className="mb-8 font-light text-white text-opacity-65">MENU</div> */}
             <ul>
                 <SideNavItem icon={RiHome6Fill} text="Home" />
                 <SideNavItem icon={FaCompass} text="Discover" />
+                <SideNavItem icon={BiLibrary} text="My Library" />
                 <SideNavItem icon={LuRadioTower} text="Radio" />
                 <SideNavItem icon={PiMicrophoneStageFill} text="Artists" />
                 <SideNavItem icon={BsCassetteFill} text="Albums" />
