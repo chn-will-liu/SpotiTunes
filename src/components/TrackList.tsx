@@ -1,45 +1,30 @@
-import { Page, SavedTrack, Track } from '@spotify/web-api-ts-sdk';
-import { useCallback, useMemo } from 'react';
+import { Track } from '@spotify/web-api-ts-sdk';
+import { useMemo } from 'react';
 import { FaPlay } from 'react-icons/fa';
 import { GrFavorite } from 'react-icons/gr';
 import { IoMdTime } from 'react-icons/io';
 import { MdMoreHoriz } from 'react-icons/md';
-import { usePlayer } from '../Spotify/usePlayer';
-import { mapTrackToPlaybackTrack } from '../Spotify/WebPlayer/mappers';
-import { PlaybackTrackWindow } from '../Spotify/WebPlayer/WebPlayer';
+import { NavLink } from 'react-router-dom';
+import { usePlayTrackListCallback } from '../hooks/usePlayTrackListCallback';
+import { TrackListType } from '../Spotify/WebPlayer/types';
 import { formatDurationMs } from '../utils';
 import { AlbumImage } from './AlbumImage';
+import { ArtistLinkList } from './ArtistLinkList';
 import { IconButton } from './IconButton';
 
-export type TrackListProps = {
-    type: 'savedTracks';
-    tracks: Page<SavedTrack>;
+export type TrackListProps = TrackListType & {
+    tracks: Track[];
 };
 
-export const TrackList = ({ tracks }: TrackListProps) => {
-    const player = usePlayer();
-    const onPlayButtonClick = useCallback(
-        (index: number) => {
-            const playbackTracks = tracks.items.map((track) =>
-                mapTrackToPlaybackTrack(track.track)
-            );
-            const trackWindow: PlaybackTrackWindow = {
-                currentTrack: playbackTracks[index],
-                previousTracks: playbackTracks.slice(0, index),
-                nextTracks: playbackTracks.slice(index + 1),
-            };
-            player.setPlaybackTracks(trackWindow);
-            player.resume();
-        },
-        [tracks, player]
-    );
+export const TrackList = ({ tracks, ...type }: TrackListProps) => {
+    const onPlayButtonClick = usePlayTrackListCallback(tracks, type);
     return (
         <div>
-            {tracks.items.map((track, index) => (
+            {tracks.map((track, index) => (
                 <TrackListItem
-                    key={track.track.id}
+                    key={track.id}
                     index={index}
-                    track={track.track}
+                    track={track}
                     onPlayButtonClick={onPlayButtonClick}
                 />
             ))}
@@ -72,11 +57,16 @@ const TrackListItem = ({ track, index, onPlayButtonClick }: TrackListItemProps) 
                 />
             </div>
             <AlbumImage images={track.album.images} alt={track.album.name} size={56} />
-            <div className="mask-gradient flex-1 flex-grow-[3] overflow-hidden whitespace-nowrap ">
-                <div>{track.name}</div>
-                <span className="text-sm text-white opacity-65">
-                    {track.artists.map((a) => a.name).join(', ')}
-                </span>
+            <div className="mask-gradient text-shadow-md flex-1 flex-grow-[3] overflow-hidden whitespace-nowrap">
+                <NavLink to={`/track/${track.id}`} className={`hover:underline`}>
+                    {track.name}
+                </NavLink>
+                <div className="">
+                    <ArtistLinkList
+                        artists={track.artists}
+                        className="group-hover:text-opacity-100"
+                    />
+                </div>
             </div>
             <span className="mask-gradient flex-1 flex-grow-[2] overflow-hidden whitespace-nowrap text-sm">
                 {track.album.name}

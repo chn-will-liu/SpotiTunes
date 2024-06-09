@@ -12,6 +12,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
         repeatMode: RepeatMode.Context,
         isShuffled: false,
         trackWindow: {
+            trackListType: null,
             currentTrack: null,
             previousTracks: [],
             nextTracks: [],
@@ -30,6 +31,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             set((state) => ({
                 ...state,
                 trackWindow: {
+                    trackListType: state.trackWindow.trackListType,
                     currentTrack: state.trackWindow.nextTracks[0],
                     previousTracks: [
                         ...state.trackWindow.previousTracks,
@@ -42,6 +44,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             set((state) => ({
                 ...state,
                 trackWindow: {
+                    trackListType: state.trackWindow.trackListType,
                     currentTrack:
                         state.trackWindow.previousTracks[
                             state.trackWindow.previousTracks.length - 1

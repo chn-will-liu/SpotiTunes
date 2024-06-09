@@ -8,7 +8,7 @@ export const mapTrackToPlaybackTrack = (track: Track): PlaybackTrack => {
         type: track.type,
         name: track.name,
         resouceUrl: track.preview_url,
-        artists: track.artists.map((a) => ({ name: a.name, uri: a.uri })),
+        artists: track.artists.map((a) => ({ name: a.name, id: a.id })),
         album: { uri: track.album.uri, name: track.album.name, images: track.album.images },
     };
 };

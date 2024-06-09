@@ -36,7 +36,9 @@ export class WebPlayer {
             (state) => state.trackWindow.currentTrack,
             (current, prev) => {
                 if (prev?.uri === current?.uri) return;
-                this.audioEl.src = current?.resouceUrl ?? EMPTY_AUDIO_URL;
+                if (current) {
+                    this.audioEl.src = current.resouceUrl ?? EMPTY_AUDIO_URL;
+                }
                 this.playerActions.setTotalDuration(0);
                 this.seek(0);
             }
@@ -55,7 +57,7 @@ export class WebPlayer {
     }
 
     public resume() {
-        if (!this.audioEl.src || this.audioEl.src === EMPTY_AUDIO_URL) return;
+        if (usePlayerStore.getState().trackWindow.currentTrack == null) return;
         this.audioEl.play();
         this.playerActions.setPaused(false);
     }

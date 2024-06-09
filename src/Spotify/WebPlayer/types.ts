@@ -12,7 +12,7 @@ export interface PlaybackTrack {
         images: Image[];
     };
     artists: {
-        uri: string;
+        id: string;
         name: string;
     }[];
 }
@@ -64,7 +64,13 @@ export interface PlayerActions {
 //     playerStateChanged: ((state: PlayerCurrentState) => void)[];
 // }
 
+export type TrackListType = {
+    type: 'savedTracks' | 'playlist' | 'album' | 'artistPopularTracks';
+    entityId?: string | undefined;
+};
+
 export interface PlaybackTrackWindow {
+    trackListType: TrackListType | null;
     currentTrack: PlaybackTrack | null;
     previousTracks: PlaybackTrack[];
     nextTracks: PlaybackTrack[];

@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { BiVolumeFull, BiVolumeLow, BiVolumeMute } from 'react-icons/bi';
 import { TbPlaylist } from 'react-icons/tb';
+import { NavLink } from 'react-router-dom';
 import discImg from '../assets/disc.png';
 import stylus from '../assets/stylus.png';
 import { usePlayer, usePlayerState } from '../Spotify/usePlayer';
+import { ArtistLinkList } from './ArtistLinkList';
 import { IconButton } from './IconButton';
 import { ProgressBar } from './ProgressBar';
 
@@ -38,13 +40,14 @@ const VolumeBar = () => {
 const MuteButton = () => {
     const [isMuted, setIsMuted] = useState(false);
     const player = usePlayer();
-    const originalVolume = useRef(0);
+    const originalVolume = useRef(1);
     const currentVolume = usePlayerState((state) => state.volume);
     const volumeIcon = isMuted ? BiVolumeMute : currentVolume > 0.5 ? BiVolumeFull : BiVolumeLow;
 
     useEffect(() => {
         if (currentVolume > 0) {
             setIsMuted(false);
+            originalVolume.current = currentVolume;
         } else {
             setIsMuted(true);
         }
@@ -58,7 +61,6 @@ const MuteButton = () => {
                 if (isMuted) {
                     player.setVolume(originalVolume.current);
                 } else {
-                    originalVolume.current = currentVolume;
                     player.setVolume(0);
                 }
                 setIsMuted((m) => !m);
@@ -86,9 +88,17 @@ const CurrentTrack = () => {
                 />
             </div>
             <div>
-                <div className="line-clamp-2 text-lg">{currentTrack?.name ?? ''}</div>
+                <div className="line-clamp-2 text-lg">
+                    {currentTrack ? (
+                        <NavLink to={`/track/${currentTrack.id}`} className="hover:underline">
+                            {currentTrack.name}
+                        </NavLink>
+                    ) : (
+                        ''
+                    )}
+                </div>
                 <div className="text-sm font-light">
-                    {currentTrack?.artists.map((a) => a.name) ?? ''}
+                    <ArtistLinkList artists={currentTrack?.artists ?? []} />
                 </div>
             </div>
         </div>

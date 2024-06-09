@@ -12,8 +12,9 @@ import { ProgressBar } from './ProgressBar';
 
 export const Player = () => {
     return (
-        <div className="box-content flex px-14 py-8">
-            <div className="mr-16 flex-1">
+        <div className="box-content flex gap-8 py-8 pl-8 pr-14">
+            <AlbumOfCurrentTrack />
+            <div className="flex-1">
                 <div className="mb-6 flex items-center gap-6">
                     <IconButton icon={GrFavorite} size="xl" hoverEffect="opacity" />
                     <IconButton
@@ -35,7 +36,6 @@ export const Player = () => {
                 </div>
                 <TimelineBar />
             </div>
-            <AlbumOfCurrentTrack />
         </div>
     );
 };
@@ -94,7 +94,7 @@ const TimelineBar = () => {
 
     return (
         <div className="flex items-center gap-2">
-            <div className="font-mono w-8 text-right text-sm text-white text-opacity-65">
+            <div className="w-8 text-right font-mono text-sm text-white text-opacity-65">
                 {currentTime}
             </div>
             <div className="flex-1">
@@ -116,7 +116,7 @@ const TimelineBar = () => {
                     }}
                 />
             </div>
-            <div className="font-mono w-8 text-left text-sm text-white text-opacity-65">
+            <div className="w-8 text-left font-mono text-sm text-white text-opacity-65">
                 {totalDurationStr}
             </div>
         </div>

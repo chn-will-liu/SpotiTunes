@@ -1,32 +1,25 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useContext } from 'react';
 import { SdkContext } from './SpotifySdk';
 
-type ApiCall<T> = (api: SpotifyApi) => Promise<T>;
+type ApiCall<R> = (api: SpotifyApi) => Promise<R>;
 
-export function useSpotify<T>(apiCall: ApiCall<T>) {
+type QueryOptions = {
+    queryKey: (string | number | boolean | undefined)[];
+    staleTime?: number;
+    enabled?: boolean;
+};
+
+export function useSpotify<R>(apiCall: ApiCall<R>, options?: QueryOptions) {
     const sdk = useContext(SdkContext);
-    const [result, setResult] = useState<T | null>(null);
-    const [error, setError] = useState<Error | null>(null);
-    const [loading, setLoading] = useState(false);
-    //  eslint-disable-next-line react-hooks/exhaustive-deps
-    const callApiWithSdk = useCallback(apiCall, []);
-
-    useEffect(() => {
-        const abortController = new AbortController();
-        sdk.setAbortSignalOnceForApi(abortController.signal);
-        callApiWithSdk(sdk.api)
-            .then((result) => {
-                setResult(result);
-                setLoading(false);
-            })
-            .catch((e) => {
-                setError(e);
-                setLoading(false);
-            });
-
-        return () => abortController.abort();
-    }, [callApiWithSdk, setResult, sdk, setLoading, setError]);
-
-    return [result, loading, error] as const;
+    return useQuery({
+        ...options,
+        staleTime: 1000 * 60 * 30,
+        queryKey: ['spotify', apiCall.toString(), ...(options?.queryKey ?? [])],
+        queryFn: ({ signal }) => {
+            sdk.setAbortSignalOnceForApi(signal);
+            return apiCall(sdk.api);
+        },
+    });
 }
