@@ -17,14 +17,14 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             previousTracks: [],
             nextTracks: [],
         },
-        subscribeWithSelector: () => ({}),
         setVolume: (volume: number) => set((state) => ({ ...state, volume })),
         setPaused: (paused: boolean) => set((state) => ({ ...state, paused })),
         setPosition: (position: number) => set((state) => ({ ...state, position })),
         setTotalDuration: (totalDuration: number) => set((state) => ({ ...state, totalDuration })),
         setCurrentTime: (currentTime: number) => set((state) => ({ ...state, currentTime })),
         setRepeatMode: (repeatMode: RepeatMode) => set((state) => ({ ...state, repeatMode })),
-        toggleShuffled: () => set((state) => ({ ...state, isShuffled: !state.isShuffled })),
+        toggleShuffled: (isShuffled?: boolean) =>
+            set((state) => ({ ...state, isShuffled: isShuffled ?? !state.isShuffled })),
         setTrackWindow: (trackWindow: PlaybackTrackWindow) =>
             set((state) => ({ ...state, trackWindow })),
         skipToNext: () =>

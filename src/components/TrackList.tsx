@@ -1,10 +1,11 @@
 import { Track } from '@spotify/web-api-ts-sdk';
 import { useMemo } from 'react';
+import { BsSoundwave } from 'react-icons/bs';
 import { FaPlay } from 'react-icons/fa';
 import { GrFavorite } from 'react-icons/gr';
 import { IoMdTime } from 'react-icons/io';
 import { MdMoreHoriz } from 'react-icons/md';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { usePlayTrackListCallback } from '../hooks/usePlayTrackListCallback';
 import { TrackListType } from '../Spotify/WebPlayer/types';
 import { formatDurationMs } from '../utils';
@@ -58,9 +59,14 @@ const TrackListItem = ({ track, index, onPlayButtonClick }: TrackListItemProps) 
             </div>
             <AlbumImage images={track.album.images} alt={track.album.name} size={56} />
             <div className="mask-gradient text-shadow-md flex-1 flex-grow-[3] overflow-hidden whitespace-nowrap">
-                <NavLink to={`/track/${track.id}`} className={`hover:underline`}>
-                    {track.name}
-                </NavLink>
+                <Link to={`/track/${track.id}`} className="group/link">
+                    {track.preview_url && (
+                        <BsSoundwave className="mr-1 inline-block align-middle" />
+                    )}
+                    <span className="inline-block align-middle group-hover/link:underline">
+                        {track.name}
+                    </span>
+                </Link>
                 <div className="">
                     <ArtistLinkList
                         artists={track.artists}

@@ -4,14 +4,18 @@ import { GrFavorite } from 'react-icons/gr';
 import { MdLightMode } from 'react-icons/md';
 import { TbSettings2 } from 'react-icons/tb';
 import { NavLink } from 'react-router-dom';
-import { useSpotify } from '../Spotify/useSpotify';
+import { useSpotify } from '../hooks/useSpotify';
 import { IconButton } from './IconButton';
 
 export const AppSideBar = () => {
     return (
         <div className="flex w-[98px] flex-shrink-0 flex-col items-center gap-8 border-l border-white border-opacity-25 py-8">
-            <NavLink to="/my/favorite" className="block">
-                <IconButton icon={GrFavorite} size="xl" />
+            <NavLink to="/my/favorite" className="group/link block">
+                <IconButton
+                    icon={GrFavorite}
+                    size="xl"
+                    className="group-[.active]/link:text-spotiGreen"
+                />
             </NavLink>
             <IconButton icon={MdLightMode} size="xl" className="mt-auto" />
             <IconButton icon={TbSettings2} size="xl" />

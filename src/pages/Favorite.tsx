@@ -2,7 +2,7 @@ import likedSongsImageUrl from '../assets/liked-songs.png';
 import { PageHeader } from '../components/PageHeader';
 import { TrackList } from '../components/TrackList';
 import { TrackListPlayButton } from '../components/TrackListPlayButton';
-import { useSpotify } from '../Spotify/useSpotify';
+import { useSpotify } from '../hooks/useSpotify';
 
 const likedSongsImage = [{ url: likedSongsImageUrl, width: 300, height: 300 }];
 

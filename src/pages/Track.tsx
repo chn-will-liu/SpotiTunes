@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { PageHeader } from '../components/PageHeader';
-import { useSpotify } from '../Spotify/useSpotify';
+import { useSpotify } from '../hooks/useSpotify';
 
 export const PageTrack = () => {
     const { trackId } = useParams<{ trackId: string }>();

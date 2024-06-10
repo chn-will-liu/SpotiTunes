@@ -31,7 +31,7 @@ export enum RepeatMode {
 //     togglingShuffle: boolean;
 // }
 
-export interface PlayerState {
+export interface PlayerState extends PersistablePlayerState {
     // disallows: Disallows;
     paused: boolean;
     /**
@@ -42,6 +42,9 @@ export interface PlayerState {
      * The total duration of the track in seconds.
      */
     totalDuration: number;
+}
+
+export interface PersistablePlayerState {
     repeatMode: RepeatMode;
     isShuffled: boolean;
     trackWindow: PlaybackTrackWindow;
@@ -54,7 +57,7 @@ export interface PlayerActions {
     setPosition: (position: number) => void;
     setTotalDuration: (totalDuration: number) => void;
     setRepeatMode: (repeatMode: RepeatMode) => void;
-    toggleShuffled: () => void;
+    toggleShuffled: (isShuffled?: boolean) => void;
     setTrackWindow: (trackWindow: PlaybackTrackWindow) => void;
     skipToNext: () => void;
     skipToPrevious: () => void;

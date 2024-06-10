@@ -1,7 +1,7 @@
 import { Track } from '@spotify/web-api-ts-sdk';
 import { FaPause, FaPlay } from 'react-icons/fa';
+import { usePlayer, usePlayerState } from '../hooks/usePlayer';
 import { usePlayTrackListCallback } from '../hooks/usePlayTrackListCallback';
-import { usePlayer, usePlayerState } from '../Spotify/usePlayer';
 import { TrackListType } from '../Spotify/WebPlayer/types';
 
 export type TrackListPlayButtonProps = TrackListType & {

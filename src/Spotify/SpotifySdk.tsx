@@ -11,7 +11,6 @@ import { WebPlayer } from './WebPlayer/WebPlayer';
 export type SpotifySdk = {
     api: SpotifyApi;
     player: WebPlayer;
-    queryClient: QueryClient;
     setAbortSignalOnceForApi: (signal: AbortSignal) => void;
 };
 
@@ -27,14 +26,13 @@ const createSpofitySdk = (auth: IAuthStrategy): SpotifySdk => {
     return {
         api,
         player: new WebPlayer(),
-        queryClient: new QueryClient(),
         setAbortSignalOnceForApi: (newSignal) => {
             signal = newSignal;
         },
     };
 };
 
-export const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
 export const SdkContext = createContext<SpotifySdk>({} as SpotifySdk);
 

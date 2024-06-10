@@ -1,6 +1,6 @@
 import EMPTY_AUDIO_URL from './../../assets/10-seconds-of-silence.mp3';
 import { usePlayerStore } from './playerStore';
-import { PlaybackTrackWindow, PlayerActions, RepeatMode } from './types';
+import { PersistablePlayerState, PlaybackTrackWindow, PlayerActions, RepeatMode } from './types';
 
 export class WebPlayer {
     private audioEl = document.createElement('audio');
@@ -43,6 +43,24 @@ export class WebPlayer {
                 this.seek(0);
             }
         );
+
+        usePlayerStore.subscribe(
+            (state): PersistablePlayerState => ({
+                volume: state.volume,
+                trackWindow: state.trackWindow,
+                isShuffled: state.isShuffled,
+                repeatMode: state.repeatMode,
+            }),
+            (state) => {
+                window.localStorage.setItem('playerState', JSON.stringify(state));
+            }
+        );
+
+        const persistedState = JSON.parse(window.localStorage.getItem('playerState') || '{}');
+        this.setVolume(persistedState.volume);
+        this.setRepeatMode(persistedState.repeatMode);
+        this.toggleShuffle(persistedState.isShuffled);
+        this.setPlaybackTracks(persistedState.trackWindow);
     }
 
     public setVolume(volumn: number) {
@@ -74,8 +92,8 @@ export class WebPlayer {
         this.playerActions.setRepeatMode(mode);
     }
 
-    public toggleShuffle() {
-        this.playerActions.toggleShuffled();
+    public toggleShuffle(isShuffled?: boolean) {
+        this.playerActions.toggleShuffled(isShuffled);
     }
 
     public seek(position: number) {

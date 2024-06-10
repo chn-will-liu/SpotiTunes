@@ -1,8 +1,8 @@
 import { Track } from '@spotify/web-api-ts-sdk';
 import { useCallback, useRef } from 'react';
-import { usePlayer } from '../Spotify/usePlayer';
 import { mapTrackToPlaybackTrack } from '../Spotify/WebPlayer/mappers';
 import { PlaybackTrackWindow, TrackListType } from '../Spotify/WebPlayer/types';
+import { usePlayer } from './usePlayer';
 
 export const usePlayTrackListCallback = (
     tracks: Track[] | undefined,

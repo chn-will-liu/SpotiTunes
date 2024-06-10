@@ -4,7 +4,7 @@ import { FaPause, FaPlay } from 'react-icons/fa6';
 import { GrFavorite } from 'react-icons/gr';
 import { LuShuffle } from 'react-icons/lu';
 import { TbPlayerSkipBackFilled, TbPlayerSkipForwardFilled } from 'react-icons/tb';
-import { usePlayer, usePlayerState } from '../Spotify/usePlayer';
+import { usePlayer, usePlayerState } from '../hooks/usePlayer';
 import { formatDuration } from '../utils';
 import { AlbumImage } from './AlbumImage';
 import { IconButton } from './IconButton';

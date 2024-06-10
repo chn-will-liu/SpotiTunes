@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { BiVolumeFull, BiVolumeLow, BiVolumeMute } from 'react-icons/bi';
 import { TbPlaylist } from 'react-icons/tb';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import discImg from '../assets/disc.png';
 import stylus from '../assets/stylus.png';
-import { usePlayer, usePlayerState } from '../Spotify/usePlayer';
+import { usePlayer, usePlayerState } from '../hooks/usePlayer';
 import { ArtistLinkList } from './ArtistLinkList';
 import { IconButton } from './IconButton';
 import { ProgressBar } from './ProgressBar';
@@ -90,9 +90,9 @@ const CurrentTrack = () => {
             <div>
                 <div className="line-clamp-2 text-lg">
                     {currentTrack ? (
-                        <NavLink to={`/track/${currentTrack.id}`} className="hover:underline">
+                        <Link to={`/track/${currentTrack.id}`} className="hover:underline">
                             {currentTrack.name}
-                        </NavLink>
+                        </Link>
                     ) : (
                         ''
                     )}
