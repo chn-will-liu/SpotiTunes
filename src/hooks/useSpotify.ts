@@ -16,6 +16,7 @@ export function useSpotify<R>(apiCall: ApiCall<R>, options?: QueryOptions) {
     return useQuery({
         ...options,
         staleTime: 1000 * 60 * 30,
+        retry: 0,
         queryKey: ['spotify', apiCall.toString(), ...(options?.queryKey ?? [])],
         queryFn: ({ signal }) => {
             sdk.setAbortSignalOnceForApi(signal);

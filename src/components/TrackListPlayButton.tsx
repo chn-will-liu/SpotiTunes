@@ -1,8 +1,8 @@
 import { Track } from '@spotify/web-api-ts-sdk';
-import { FaPause, FaPlay } from 'react-icons/fa';
 import { usePlayer, usePlayerState } from '../hooks/usePlayer';
 import { usePlayTrackListCallback } from '../hooks/usePlayTrackListCallback';
 import { TrackListType } from '../Spotify/WebPlayer/types';
+import { SpotiGreenButton } from './SpotiGreenButton';
 
 export type TrackListPlayButtonProps = TrackListType & {
     tracks: Track[];
@@ -24,19 +24,7 @@ export const TrackListPlayButton = ({ tracks, ...type }: TrackListPlayButtonProp
         }
     };
 
-    return (
-        <button
-            className="flex size-12 transform items-center justify-center rounded-full
-            bg-spotiGreen shadow-md hover:scale-105 active:scale-100 active:opacity-75"
-            onClick={onButtonClick}
-        >
-            {isPlaying ? (
-                <FaPause className="size-4 text-black" />
-            ) : (
-                <FaPlay className="ml-1 size-4 text-black" />
-            )}
-        </button>
-    );
+    return <SpotiGreenButton type={isPlaying ? 'pause' : 'play'} onButtonClick={onButtonClick} />;
 };
 
 const isTrackListTypeEqual = (a: TrackListType | null, b: TrackListType | null) => {

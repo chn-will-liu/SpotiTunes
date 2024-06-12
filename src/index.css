@@ -36,25 +36,9 @@
 }
 
 @layer utilities {
-    .mask-gradient {
-        mask-image: linear-gradient(90deg, black, black 80%, transparent);
-    }
-
-    .mask-gradient-vertical {
-        mask-image: linear-gradient(180deg, black, black 80%, transparent);
-    }
-
     .dust-bg {
         background: url(./assets/dust.png) repeat;
         background-color: #ffffff05;
         background-size: 110px 110px;
-    }
-
-    .text-shadow-lg {
-        text-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    }
-
-    .text-shadow-md {
-        text-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
     }
 }

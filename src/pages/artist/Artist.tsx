@@ -16,15 +16,11 @@ export const PageArtist = () => {
     const links = [
         {
             label: 'Popular',
-            to: './popular',
+            to: '',
         },
         {
             label: 'Albums',
             to: './albums',
-        },
-        {
-            label: 'Songs',
-            to: './songs',
         },
         {
             label: 'Fans also like',
@@ -38,10 +34,11 @@ export const PageArtist = () => {
                 <div>{formatter.formatNumber(artist.followers.total)} followers</div>
             </PageHeader>
             <nav className="flex h-20 items-center gap-5 bg-black bg-opacity-35 px-6">
-                <ul className="flex gap-5 ">
+                <ul className="mr-12 flex gap-5">
                     {links.map((link) => (
                         <li key={link.to}>
                             <NavLink
+                                end
                                 to={link.to}
                                 className={({ isActive }) =>
                                     `text-lg text-white hover:text-opacity-100 ${isActive ? 'text-opacity-100' : 'text-opacity-65'}`

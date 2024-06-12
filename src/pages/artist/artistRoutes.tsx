@@ -6,12 +6,12 @@ export const artistRoutes: RouteObject[] = [
         lazy: () => import('./Artist'),
         children: [
             {
-                path: '',
+                index: true,
                 lazy: () => import('./ArtistPopular'),
             },
             {
-                path: 'popular',
-                element: <div>Popular</div>,
+                path: 'albums',
+                lazy: () => import('./ArtistAlbums'),
             },
         ],
     },
