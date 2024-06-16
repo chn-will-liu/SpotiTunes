@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'react';
 import { mapTrackListToPlaybackTracks } from '../models/mappings';
 import { TrackListModel } from '../models/TrackListModel';
-import { PlaybackTrackWindow } from '../Spotify/WebPlayer/types';
+import { PlaybackTrackWindow } from '../spotify/webPlayer/types';
 import { usePlayer } from './usePlayer';
 
 export const useTrackListPlay = (trackList: TrackListModel) => {

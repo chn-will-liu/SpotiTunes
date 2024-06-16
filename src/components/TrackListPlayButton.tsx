@@ -2,7 +2,7 @@ import { SimplifiedAlbum, SimplifiedTrack } from '@spotify/web-api-ts-sdk';
 import { usePlayer, usePlayerState } from '../hooks/usePlayer';
 import { useTrackListPlay } from '../hooks/useTrackListPlay';
 import { TrackListModel } from '../models/TrackListModel';
-import { PlaybackTrackListType } from '../Spotify/WebPlayer/types';
+import { PlaybackTrackListType } from '../spotify/webPlayer/types';
 import { SpotiGreenButton } from './SpotiGreenButton';
 
 export type TrackListPlayButtonProps = PlaybackTrackListType & {

@@ -3,7 +3,7 @@ import { FaPause, FaPlay } from 'react-icons/fa6';
 import { PiHeart, PiHeartFill } from 'react-icons/pi';
 import { useIsTrackLiked } from '../../hooks/useIsTrackLiked';
 import { usePlayer, usePlayerState } from '../../hooks/usePlayer';
-import { RepeatMode } from '../../Spotify/WebPlayer/types';
+import { RepeatMode } from '../../spotify/webPlayer/types';
 import { IconButton } from '../IconButton';
 
 export const LikeButton = () => {

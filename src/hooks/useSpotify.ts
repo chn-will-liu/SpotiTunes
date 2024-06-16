@@ -1,7 +1,7 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { SdkContext } from '../Spotify/SdkContext';
+import { SdkContext } from '../spotify/SdkContext';
 
 type ApiCall<R> = (api: SpotifyApi) => Promise<R>;
 

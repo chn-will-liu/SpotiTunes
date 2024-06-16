@@ -7,7 +7,7 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { SdkContext } from './SdkContext';
-import { WebPlayer } from './WebPlayer/WebPlayer';
+import { WebPlayer } from './webPlayer/WebPlayer';
 
 const createSpofitySdk = (auth: IAuthStrategy): SpotifySdk => {
     let signal: AbortSignal | null = null;

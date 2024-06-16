@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { SdkContext } from '../Spotify/SdkContext';
-import { usePlayerStore } from '../Spotify/WebPlayer/playerStore';
-import { PlayerState } from '../Spotify/WebPlayer/types';
+import { SdkContext } from '../spotify/SdkContext';
+import { usePlayerStore } from '../spotify/webPlayer/playerStore';
+import { PlayerState } from '../spotify/webPlayer/types';
 
 export const usePlayer = () => {
     const { player } = useContext(SdkContext);

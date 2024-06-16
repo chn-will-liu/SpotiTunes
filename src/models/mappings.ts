@@ -1,5 +1,5 @@
 import { SimplifiedAlbum, SimplifiedTrack } from '@spotify/web-api-ts-sdk';
-import { PlaybackTrack } from '../Spotify/WebPlayer/types';
+import { PlaybackTrack } from '../spotify/webPlayer/types';
 import { SimplifiedTrackWithAlbum, TrackListModel } from './TrackListModel';
 
 export const mapSimplifiedTrackToPlaybackTrack = (
