@@ -1,20 +1,22 @@
-import { Track } from '@spotify/web-api-ts-sdk';
+import { SimplifiedAlbum, SimplifiedTrack } from '@spotify/web-api-ts-sdk';
 import { usePlayer, usePlayerState } from '../hooks/usePlayer';
-import { usePlayTrackListCallback } from '../hooks/usePlayTrackListCallback';
-import { TrackListType } from '../Spotify/WebPlayer/types';
+import { useTrackListPlay } from '../hooks/useTrackListPlay';
+import { TrackListModel } from '../models/TrackListModel';
+import { PlaybackTrackListType } from '../Spotify/WebPlayer/types';
 import { SpotiGreenButton } from './SpotiGreenButton';
 
-export type TrackListPlayButtonProps = TrackListType & {
-    tracks: Track[];
+export type TrackListPlayButtonProps = PlaybackTrackListType & {
+    tracks: SimplifiedTrack[];
+    album: SimplifiedAlbum;
 };
 
-export const TrackListPlayButton = ({ tracks, ...type }: TrackListPlayButtonProps) => {
+export const TrackListPlayButton = (trackList: TrackListModel) => {
     const trackListType = usePlayerState((state) => state.trackWindow.trackListType);
     const isPaused = usePlayerState((state) => state.paused);
-    const isCurrentTrackListInPlayer = isTrackListTypeEqual(trackListType, type);
+    const isCurrentTrackListInPlayer = isTrackListTypeEqual(trackListType, trackList);
     const isPlaying = isCurrentTrackListInPlayer && !isPaused;
     const player = usePlayer();
-    const playTrackList = usePlayTrackListCallback(tracks, type);
+    const playTrackList = useTrackListPlay(trackList);
 
     const onButtonClick = () => {
         if (isCurrentTrackListInPlayer) {
@@ -27,6 +29,6 @@ export const TrackListPlayButton = ({ tracks, ...type }: TrackListPlayButtonProp
     return <SpotiGreenButton type={isPlaying ? 'pause' : 'play'} onButtonClick={onButtonClick} />;
 };
 
-const isTrackListTypeEqual = (a: TrackListType | null, b: TrackListType | null) => {
-    return a?.type === b?.type && a?.entityId === b?.entityId;
+const isTrackListTypeEqual = (a: PlaybackTrackListType | null, b: TrackListModel | null) => {
+    return a?.type === b?.type && (b?.type === 'savedTracks' || a?.entityId === b?.entityId);
 };

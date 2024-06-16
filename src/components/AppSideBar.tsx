@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
-import { GrFavorite } from 'react-icons/gr';
 import { MdLightMode } from 'react-icons/md';
+import { PiHeart, PiHeartFill } from 'react-icons/pi';
 import { TbSettings2 } from 'react-icons/tb';
 import { NavLink } from 'react-router-dom';
 import { useSpotify } from '../hooks/useSpotify';
@@ -10,15 +10,11 @@ import { IconButton } from './IconButton';
 export const AppSideBar = () => {
     return (
         <div className="flex w-[98px] flex-shrink-0 flex-col items-center gap-8 border-l border-white border-opacity-25 py-8">
-            <NavLink to="/my/favorite" className="group/link block">
-                <IconButton
-                    icon={GrFavorite}
-                    size="xl"
-                    className="group-[.active]/link:text-spotiGreen"
-                />
+            <NavLink to="/my/favorite" className="block" title="My liked songs">
+                {({ isActive }) => <IconButton icon={isActive ? PiHeartFill : PiHeart} size="lg" />}
             </NavLink>
-            <IconButton icon={MdLightMode} size="xl" className="mt-auto" />
-            <IconButton icon={TbSettings2} size="xl" />
+            <IconButton icon={MdLightMode} size="lg" className="mt-auto" />
+            <IconButton icon={TbSettings2} size="lg" />
             <UserAvatar />
         </div>
     );

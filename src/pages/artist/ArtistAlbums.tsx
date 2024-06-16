@@ -1,5 +1,5 @@
-import { NavLink, useParams } from 'react-router-dom';
-import { AlbumImage } from '../../components/AlbumImage';
+import { useParams } from 'react-router-dom';
+import { AlbumCard } from '../../components/AlbumCard';
 import { useSpotify } from '../../hooks/useSpotify';
 
 export const ArtistAlbums = () => {
@@ -13,23 +13,9 @@ export const ArtistAlbums = () => {
     if (isLoading) return <div>Loading...</div>;
     if (!albums) return <div>No albums found</div>;
     return (
-        <div className="auto-fit-[180px] grid gap-5 p-8">
+        <div className="grid px-4 py-8 auto-fit-[180px] ">
             {albums.items.map((album) => (
-                <NavLink key={album.id} title={album.name} to={'/ablum/' + album.id}>
-                    <AlbumImage
-                        images={album.images}
-                        alt={album.name}
-                        size={180}
-                        displaySize="full"
-                        className="mb-2"
-                    />
-                    <div className="line-clamp-1" title={album.name}>
-                        {album.name}
-                    </div>
-                    <div className="text-sm text-white text-opacity-65">
-                        {album.release_date} • {album.album_type}
-                    </div>
-                </NavLink>
+                <AlbumCard album={album} />
             ))}
         </div>
     );

@@ -3,7 +3,7 @@ import { IconType } from 'react-icons';
 
 export type IconButtonProps = PropsWithChildren<{
     icon: IconType;
-    size?: 'sm' | 'md' | 'lg' | 'xl' | 'max' | undefined;
+    size?: 'sm' | 'md' | 'lg' | 'max' | undefined;
     className?: string | undefined;
     hoverEffect?: 'opacity' | 'scale';
     onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -11,10 +11,9 @@ export type IconButtonProps = PropsWithChildren<{
 
 export const IconButton = (props: IconButtonProps) => {
     const sizeMap = {
-        sm: 'size-4',
-        md: 'size-5',
-        lg: 'size-6',
-        xl: 'size-8',
+        sm: 'size-5',
+        md: 'size-6',
+        lg: 'size-8',
         max: 'size-12',
     };
 
@@ -22,7 +21,7 @@ export const IconButton = (props: IconButtonProps) => {
 
     let hoverEffect = '';
     if (props.hoverEffect === 'opacity') {
-        hoverEffect = 'text-opacity-65 hover:text-opacity-100 active:scale-90';
+        hoverEffect = 'opacity-65 hover:opacity-100 active:scale-90';
     } else {
         hoverEffect = 'hover:scale-110 active:scale-100 ';
     }
@@ -30,7 +29,7 @@ export const IconButton = (props: IconButtonProps) => {
     return (
         <button
             type="button"
-            className={`translation-transform transform bg-transparent text-white ${hoverEffect} ${props.className ?? ''}`}
+            className={`translation-transform transform bg-transparent ${hoverEffect} ${props.className ?? ''}`}
             onClick={props.onClick}
         >
             <Icon className={`${sizeMap[props.size ?? 'md']}`} />

@@ -5,14 +5,9 @@ import {
     SpotifyApi,
 } from '@spotify/web-api-ts-sdk';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { createContext, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { SdkContext } from './SdkContext';
 import { WebPlayer } from './WebPlayer/WebPlayer';
-
-export type SpotifySdk = {
-    api: SpotifyApi;
-    player: WebPlayer;
-    setAbortSignalOnceForApi: (signal: AbortSignal) => void;
-};
 
 const createSpofitySdk = (auth: IAuthStrategy): SpotifySdk => {
     let signal: AbortSignal | null = null;
@@ -32,9 +27,12 @@ const createSpofitySdk = (auth: IAuthStrategy): SpotifySdk => {
     };
 };
 
+export type SpotifySdk = {
+    api: SpotifyApi;
+    player: WebPlayer;
+    setAbortSignalOnceForApi: (signal: AbortSignal) => void;
+};
 const queryClient = new QueryClient();
-
-export const SdkContext = createContext<SpotifySdk>({} as SpotifySdk);
 
 export const SpotifySdk = ({ children }: PropsWithChildren) => {
     const sdkinitialized = useRef(false);

@@ -7,7 +7,7 @@ export const SidePlaylists = () => {
         <div className="mb-6">
             <div className="mb-8 flex items-center justify-between font-light text-white text-opacity-65">
                 <span>PLAYLISTS</span>
-                <IconButton icon={FaPlus} size="md" />
+                <IconButton icon={FaPlus} size="sm" />
             </div>
             <ul>
                 <PlaylistItem title="Top Hit 2021-USA" />
@@ -23,8 +23,8 @@ const PlaylistItem = ({ title }: PlaylistItemProps) => {
     return (
         <li className="group flex cursor-pointer gap-3 py-4 text-white text-opacity-65 hover:text-opacity-100">
             <TbPlaylist className="size-6 transform group-hover:scale-110" />
-            <span className="mask-gradient flex-1 overflow-hidden whitespace-nowrap">{title}</span>
-            <IconButton icon={FaRegTrashCan} size="lg" hoverEffect="opacity" />
+            <span className="flex-1 overflow-hidden whitespace-nowrap mask-gradient">{title}</span>
+            <IconButton icon={FaRegTrashCan} size="md" hoverEffect="opacity" />
         </li>
     );
 };

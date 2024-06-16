@@ -22,15 +22,7 @@ export class WebPlayer {
         this.audioEl.addEventListener('play', () => {
             this.playerActions.setPaused(false);
         });
-        this.audioEl.addEventListener('ended', () => {
-            const { repeatMode } = usePlayerStore.getState();
-            if (repeatMode === RepeatMode.Track) {
-                this.seek(0);
-                this.resume();
-            } else if (repeatMode === RepeatMode.Context) {
-                this.skipToNext();
-            }
-        });
+        this.audioEl.addEventListener('ended', () => this.handleTrackEnd());
 
         usePlayerStore.subscribe(
             (state) => state.trackWindow.currentTrack,
@@ -56,11 +48,15 @@ export class WebPlayer {
             }
         );
 
-        const persistedState = JSON.parse(window.localStorage.getItem('playerState') || '{}');
-        this.setVolume(persistedState.volume);
-        this.setRepeatMode(persistedState.repeatMode);
-        this.toggleShuffle(persistedState.isShuffled);
-        this.setPlaybackTracks(persistedState.trackWindow);
+        const persistedState: PersistablePlayerState = JSON.parse(
+            window.localStorage.getItem('playerState') || '{}'
+        );
+        this.setVolume(persistedState.volume ?? 0.5);
+        this.setRepeatMode(persistedState.repeatMode ?? RepeatMode.Context);
+        this.toggleShuffle(persistedState.isShuffled ?? false);
+        this.setPlaybackTracks(
+            persistedState.trackWindow ?? { currentTrack: null, nextTracks: [], previousTracks: [] }
+        );
     }
 
     public setVolume(volumn: number) {
@@ -105,7 +101,10 @@ export class WebPlayer {
 
     public skipToNext() {
         this.playerActions.skipToNext();
-        this.resume();
+        const { currentTrack } = usePlayerStore.getState().trackWindow;
+        if (currentTrack) {
+            this.resume();
+        }
     }
 
     public skipToPrevious() {
@@ -115,5 +114,31 @@ export class WebPlayer {
 
     public setPlaybackTracks(trackWindow: PlaybackTrackWindow) {
         this.playerActions.setTrackWindow(trackWindow);
+    }
+
+    private handleTrackEnd() {
+        const { repeatMode, trackWindow } = usePlayerStore.getState();
+
+        if (repeatMode === RepeatMode.Track) {
+            this.seek(0);
+            this.resume();
+            return;
+        }
+
+        if (trackWindow.nextTracks.length > 0) {
+            this.skipToNext();
+            return;
+        }
+
+        if (repeatMode === RepeatMode.Context) {
+            this.setPlaybackTracks({
+                ...trackWindow,
+                currentTrack: trackWindow.previousTracks[0],
+                previousTracks: [],
+                nextTracks: trackWindow.previousTracks.slice(1),
+            });
+            this.seek(0);
+            this.resume();
+        }
     }
 }

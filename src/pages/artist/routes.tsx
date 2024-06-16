@@ -13,6 +13,10 @@ export const artistRoutes: RouteObject[] = [
                 path: 'albums',
                 lazy: () => import('./ArtistAlbums'),
             },
+            {
+                path: 'related',
+                lazy: () => import('./ArtistRelated'),
+            },
         ],
     },
 ];

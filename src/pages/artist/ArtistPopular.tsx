@@ -7,11 +7,13 @@ export const ArtistPopular = () => {
     const { topTracks, artist, isLoading } = useArtistTopTracks(artistId!);
 
     if (isLoading) return <div>Loading...</div>;
+    if (!artist || !topTracks) return <div>No artist found!</div>;
+
     return (
         <TrackList
-            tracks={topTracks?.tracks ?? []}
+            tracks={topTracks.tracks ?? []}
             type="artistPopularTracks"
-            entityId={artist?.id}
+            entityId={artist.id}
         />
     );
 };

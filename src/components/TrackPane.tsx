@@ -17,7 +17,7 @@ export const TrackPane = () => {
             <div className="flex items-center gap-4">
                 <MuteButton />
                 <VolumeBar />
-                <IconButton icon={TbPlaylist} size="xl" />
+                <IconButton icon={TbPlaylist} size="lg" />
             </div>
         </div>
     );
@@ -56,7 +56,7 @@ const MuteButton = () => {
     return (
         <IconButton
             icon={volumeIcon}
-            size="xl"
+            size="lg"
             onClick={() => {
                 if (isMuted) {
                     player.setVolume(originalVolume.current);
@@ -97,7 +97,7 @@ const CurrentTrack = () => {
                         ''
                     )}
                 </div>
-                <div className="text-sm font-light">
+                <div className="line-clamp-2 text-sm font-light">
                     <ArtistLinkList artists={currentTrack?.artists ?? []} />
                 </div>
             </div>

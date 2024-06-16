@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { SdkContext } from '../Spotify/SpotifySdk';
+import { SdkContext } from '../Spotify/SdkContext';
 import { usePlayerStore } from '../Spotify/WebPlayer/playerStore';
 import { PlayerState } from '../Spotify/WebPlayer/types';
 

@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
-import { artistRoutes } from './pages/artist/artistRoutes';
+import { artistRoutes } from './pages/artist/routes';
 import { PageFavorite } from './pages/Favorite';
 import { PageTrack } from './pages/Track';
 
@@ -48,6 +48,10 @@ export const router = createBrowserRouter([
             {
                 path: 'artist',
                 children: [...artistRoutes],
+            },
+            {
+                path: 'album/:albumId',
+                lazy: () => import('./pages/album/Album'),
             },
         ],
     },

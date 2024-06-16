@@ -1,12 +1,12 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { SdkContext } from '../Spotify/SpotifySdk';
+import { SdkContext } from '../Spotify/SdkContext';
 
 type ApiCall<R> = (api: SpotifyApi) => Promise<R>;
 
 type QueryOptions = {
-    queryKey: (string | number | boolean | undefined)[];
+    queryKey?: (string | number | boolean | undefined)[];
     staleTime?: number;
     enabled?: boolean;
 };
