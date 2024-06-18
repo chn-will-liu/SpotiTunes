@@ -26,7 +26,7 @@ export const NavList = ({ links }: NavListProps) => {
 
     return (
         <>
-            <ul className="mr-12 flex h-full gap-5" ref={navRef}>
+            <ul className="mr-12 flex h-full gap-10" ref={navRef}>
                 {links.map((link) => (
                     <li key={link.to} className="">
                         <NavLink
@@ -50,7 +50,10 @@ const NavIndicator = ({ left, width }: { left: number; width: number }) => {
     return (
         <div
             className="absolute left-6 top-[100%] h-[5px] w-6 rounded-sm bg-white shadow-[0px_-5px_12px_1px_white] transition-all duration-200"
-            style={{ transform: `translateX(calc(-50% + ${left}px))`, width: `${width / 2}px` }}
+            style={{
+                transform: `translateX(calc(-50% + ${left}px))`,
+                width: `${Math.min(30, width / 2)}px`,
+            }}
         />
     );
 };

@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { AlbumCard } from '../../components/AlbumCard';
+import { AlbumCard } from '../../components/album/AlbumCard';
 import { useSpotify } from '../../hooks/useSpotify';
 
 export const ArtistAlbums = () => {
@@ -13,7 +13,7 @@ export const ArtistAlbums = () => {
     if (isLoading) return <div>Loading...</div>;
     if (!albums) return <div>No albums found</div>;
     return (
-        <div className="grid px-4 py-8 auto-fit-[180px] ">
+        <div className="grid p-4 auto-fit-[180px] ">
             {albums.items.map((album) => (
                 <AlbumCard album={album} />
             ))}

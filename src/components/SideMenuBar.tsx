@@ -17,7 +17,7 @@ export const SideMenuBar = () => {
                 <span className="ml-3 text-2xl font-bold">SpotiTunes</span>
             </div>
             <SearchBox />
-            <div className="mask-gradient-vertical flex-shrink-1 flex-1 overflow-auto px-6">
+            <div className="flex-shrink-1 flex-1 overflow-auto px-6 mask-gradient-vertical">
                 <SideNav />
                 {/* <SidePlaylists /> */}
             </div>

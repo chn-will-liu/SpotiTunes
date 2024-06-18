@@ -18,14 +18,14 @@ export const PageFavorite = () => {
     return (
         <div>
             <PageHeader type="Playlist" header="Liked Songs" images={likedSongsImage}>
-                <div>
+                <div className="mb-2">
                     {userProfile?.display_name} • {favorite.items.length} songs
                 </div>
-            </PageHeader>
-            <div className="flex h-20 items-center bg-black bg-opacity-35 px-6">
                 <TrackListPlayButton tracks={tracks} type="savedTracks" />
+            </PageHeader>
+            <div className="bg-gradient-to-b from-[#00000065] to-transparent to-50%">
+                <TrackList tracks={tracks} type="savedTracks" />
             </div>
-            <TrackList tracks={tracks} type="savedTracks" />
         </div>
     );
 };

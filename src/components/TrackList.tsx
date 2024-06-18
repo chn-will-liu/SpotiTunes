@@ -5,10 +5,10 @@ import { IoMdTime } from 'react-icons/io';
 import { MdMoreHoriz } from 'react-icons/md';
 import { PiHeart, PiHeartFill, PiPlayFill } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
+import { useFormatter } from '../hooks/useFormatter';
 import { useIsTrackLiked } from '../hooks/useIsTrackLiked';
 import { useTrackListPlay } from '../hooks/useTrackListPlay';
 import { TrackListModel } from '../models/TrackListModel';
-import { formatDurationMs } from '../utils';
 import { ArtistLinkList } from './ArtistLinkList';
 import { IconButton } from './IconButton';
 import { SpotiImage } from './SpotiImage';
@@ -47,7 +47,11 @@ const TrackListItem = ({
     showAlbum,
     onPlayButtonClick,
 }: TrackListItemProps) => {
-    const duration = useMemo(() => formatDurationMs(track.duration_ms), [track]);
+    const formatter = useFormatter();
+    const duration = useMemo(
+        () => formatter.formatDurationMs(track.duration_ms),
+        [track, formatter]
+    );
     const isTrackLiked = useIsTrackLiked(track.id);
 
     return (

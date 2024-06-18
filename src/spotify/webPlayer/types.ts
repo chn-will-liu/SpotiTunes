@@ -68,7 +68,7 @@ export interface PlayerActions {
 // }
 
 export type PlaybackTrackListType = {
-    type: 'savedTracks' | 'playlist' | 'album' | 'artistPopularTracks';
+    type: 'savedTracks' | 'playlist' | 'album' | 'artistPopularTracks' | 'trackAndRecommendations';
     entityId?: string | undefined;
 };
 

@@ -32,15 +32,17 @@ export const PageArtist = () => {
     return (
         <div>
             <PageHeader type="Artist" header={artist.name} images={artist.images}>
-                <div>{formatter.formatNumber(artist.followers.total)} followers</div>
-            </PageHeader>
-            <nav className="relative flex h-20 items-center gap-5 bg-black bg-opacity-35 px-6">
-                <NavList links={links} />
+                <div className="mb-2">
+                    {formatter.formatNumber(artist.followers.total)} followers
+                </div>
                 <TrackListPlayButton
                     tracks={topTracks?.tracks ?? []}
                     type="artistPopularTracks"
                     entityId={artist?.id}
                 />
+            </PageHeader>
+            <nav className="relative flex h-20 items-center gap-5 bg-black bg-opacity-35 px-6">
+                <NavList links={links} />
             </nav>
             <Outlet />
         </div>

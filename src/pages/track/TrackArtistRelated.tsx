@@ -1,10 +1,9 @@
 import { useParams } from 'react-router-dom';
-import { PageHeader } from '../components/PageHeader';
-import { useSpotify } from '../hooks/useSpotify';
+import { RelatedArtists } from '../../components/RelatedArtist';
+import { useSpotify } from '../../hooks/useSpotify';
 
-export const PageTrack = () => {
+export const TrackArtistRelated = () => {
     const { trackId } = useParams<{ trackId: string }>();
-
     const { data: track, isLoading } = useSpotify((api) => api.tracks.get(trackId!), {
         enabled: !!trackId,
         queryKey: [trackId],
@@ -13,9 +12,7 @@ export const PageTrack = () => {
     if (isLoading) return <div>Loading...</div>;
     if (!track) return <div>Track not found</div>;
 
-    return (
-        <div>
-            <PageHeader type="Song" header={track.name} images={track.album.images} />
-        </div>
-    );
+    return <RelatedArtists artistId={track.artists[0].id} />;
 };
+
+export const Component = TrackArtistRelated;

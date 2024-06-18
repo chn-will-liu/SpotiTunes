@@ -1,7 +1,8 @@
 import { Image } from '@spotify/web-api-ts-sdk';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useContext, useEffect } from 'react';
 import { usePromoninentColor } from '../hooks/useProminentColor';
 import { pickImage } from '../utils';
+import { ThemeColorContext } from './AppThemeColor';
 import { SpotiImage } from './SpotiImage';
 
 declare module 'react' {
@@ -21,14 +22,21 @@ export const PageHeader = (props: PageHeaderProps) => {
     const bgColor = usePromoninentColor(image);
     const isArtist = props.type === 'Artist';
 
+    const { setColor } = useContext(ThemeColorContext);
+
+    useEffect(() => {
+        if (bgColor) {
+            setColor(bgColor);
+        }
+    }, [bgColor, setColor]);
+
     return (
-        <header className="flex items-end gap-5 p-6">
+        <header className="flex items-end gap-5 px-6 py-8">
             <div
                 className="absolute inset-0 top-0 z-[-1] h-[700px] w-full bg-gradient-to-t from-transparent via-[var(--page-header-bg-from)]  via-10% to-[var(--page-header-bg-to)]"
                 style={{
                     '--page-header-bg-to': bgColor,
-                    '--page-header-bg-from':
-                        'hsl(from var(--page-header-bg-to) h calc(s - 100) 0 / 0.5)',
+                    '--page-header-bg-from': 'hsl(from var(--page-header-bg-to) h s l / 0)',
                 }}
             ></div>
             <SpotiImage

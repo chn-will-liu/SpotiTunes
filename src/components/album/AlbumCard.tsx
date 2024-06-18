@@ -1,7 +1,7 @@
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 import { Link } from 'react-router-dom';
-import { SpotiGreenButton } from './SpotiGreenButton';
-import { SpotiImage } from './SpotiImage';
+import { SpotiGreenButton } from '../SpotiGreenButton';
+import { SpotiImage } from '../SpotiImage';
 
 export const AlbumCard = ({ album }: { album: SimplifiedAlbum }) => {
     return (

@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import { artistRoutes } from './pages/artist/routes';
 import { PageFavorite } from './pages/Favorite';
-import { PageTrack } from './pages/Track';
+import { trackRoutes } from './pages/track/routes';
 
 export const router = createBrowserRouter([
     {
@@ -42,8 +42,8 @@ export const router = createBrowserRouter([
                 Component: PageFavorite,
             },
             {
-                path: 'track/:trackId',
-                Component: PageTrack,
+                path: 'track',
+                children: [...trackRoutes],
             },
             {
                 path: 'artist',

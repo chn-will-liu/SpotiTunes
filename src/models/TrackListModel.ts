@@ -6,7 +6,7 @@ export type SimplifiedTrackWithAlbum = SimplifiedTrack & {
 
 export type TrackListModel =
     | {
-          type: 'savedTracks' | 'album' | 'artistPopularTracks';
+          type: 'savedTracks' | 'album' | 'artistPopularTracks' | 'trackRecommendations';
           tracks: SimplifiedTrackWithAlbum[];
           entityId: string;
       }

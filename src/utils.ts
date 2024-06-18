@@ -9,13 +9,3 @@ export const pickImage = (images: Image[], size: number): Image | null => {
     }
     return images[images.length - 1];
 };
-
-export const formatDurationMs = (durationMs: number): string => {
-    return formatDuration(durationMs / 1000);
-};
-
-export const formatDuration = (durationMs: number): string => {
-    const minutes = Math.round(durationMs / 60);
-    const seconds = Math.round(durationMs % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-};

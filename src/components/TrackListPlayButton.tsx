@@ -30,5 +30,13 @@ export const TrackListPlayButton = (trackList: TrackListModel) => {
 };
 
 const isTrackListTypeEqual = (a: PlaybackTrackListType | null, b: TrackListModel | null) => {
-    return a?.type === b?.type && (b?.type === 'savedTracks' || a?.entityId === b?.entityId);
+    if (a?.type !== b?.type) {
+        return false;
+    }
+
+    if (b?.type === 'savedTracks') {
+        return true;
+    }
+
+    return a?.entityId === b?.entityId;
 };

@@ -1,17 +1,16 @@
 import { Link, useParams } from 'react-router-dom';
-import { AlbumCard } from '../../components/AlbumCard';
+import { AlbumCard } from '../../components/album/AlbumCard';
+import { AlbumCopyrights } from '../../components/album/AlbumCopyrights';
 import { ArtistLinkList } from '../../components/ArtistLinkList';
 import { PageHeader } from '../../components/PageHeader';
 import { TrackList } from '../../components/TrackList';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';
 import { useAlbumTracks } from '../../hooks/useAlbumTracks';
-import { useFormatter } from '../../hooks/useFormatter';
 import { useSpotify } from '../../hooks/useSpotify';
 
 export const PageAlbum = () => {
-    const formatter = useFormatter();
     const { albumId } = useParams<{ albumId: string }>();
-    const { album, tracks, isLoading } = useAlbumTracks(albumId!);
+    const { album, tracks, isLoading } = useAlbumTracks(albumId);
 
     if (isLoading) return <div>Loading...</div>;
     if (!album) return <div>No album found!</div>;
@@ -30,20 +29,7 @@ export const PageAlbum = () => {
                 <TrackListPlayButton tracks={tracks} type="album" entityId={album.id} />
             </div>
             <TrackList tracks={tracks} type="album" entityId={album.id} />
-            <div className="p-8 text-white text-opacity-65">
-                <div>
-                    {formatter.formatDate(new Date(album.release_date), {
-                        month: 'long',
-                        day: 'numeric',
-                        year: 'numeric',
-                    })}
-                </div>
-                <div className="text-sm">
-                    {album.copyrights.map((copyright) => (
-                        <span>{copyright.text}</span>
-                    ))}
-                </div>
-            </div>
+            <AlbumCopyrights className="p-8" album={album} />
             <MoreByArtist artistId={artist.id} name={artist.name} />
         </div>
     );
@@ -69,7 +55,7 @@ export const MoreByArtist = ({ artistId, name }: { artistId: string; name: strin
             >
                 More by {name}
             </Link>
-            <div className="grid px-5 py-8 auto-fill-[180px] ">
+            <div className="grid px-5 py-2 auto-fill-[180px] ">
                 {albums.items.map((album) => (
                     <AlbumCard album={album} />
                 ))}
