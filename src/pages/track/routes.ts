@@ -10,12 +10,16 @@ export const trackRoutes: RouteObject[] = [
                 lazy: () => import('./TrackRecommended'),
             },
             {
-                path: 'related',
+                path: 'related-artists',
                 lazy: () => import('./TrackArtistRelated'),
             },
             {
-                path: 'album',
+                path: 'album-tracks',
                 lazy: () => import('./TrackAlbum'),
+            },
+            {
+                path: 'artist-tracks',
+                lazy: () => import('./TrackArtistPopularTracks'),
             },
         ],
     },

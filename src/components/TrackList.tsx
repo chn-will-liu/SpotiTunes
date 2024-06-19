@@ -16,20 +16,16 @@ import { SpotiImage } from './SpotiImage';
 export const TrackList = (trackList: TrackListModel) => {
     const onPlayButtonClick = useTrackListPlay(trackList);
 
-    return (
-        <div>
-            {trackList.tracks.map((track, index) => (
-                <TrackListItem
-                    key={track.id}
-                    index={index}
-                    track={track}
-                    album={track.album}
-                    showAlbum={trackList.type !== 'album'}
-                    onPlayButtonClick={onPlayButtonClick}
-                />
-            ))}
-        </div>
-    );
+    return trackList.tracks.map((track, index) => (
+        <TrackListItem
+            key={track.id}
+            index={index}
+            track={track}
+            album={track.album}
+            showAlbum={trackList.type !== 'album'}
+            onPlayButtonClick={onPlayButtonClick}
+        />
+    ));
 };
 
 type TrackListItemProps = {

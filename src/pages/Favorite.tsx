@@ -1,4 +1,5 @@
 import likedSongsImageUrl from '../assets/liked-songs.png';
+import { PageContent } from '../components/PageContent';
 import { PageHeader } from '../components/PageHeader';
 import { TrackList } from '../components/TrackList';
 import { TrackListPlayButton } from '../components/TrackListPlayButton';
@@ -16,16 +17,16 @@ export const PageFavorite = () => {
     const tracks = favorite.items.map((item) => item.track);
 
     return (
-        <div>
+        <>
             <PageHeader type="Playlist" header="Liked Songs" images={likedSongsImage}>
                 <div className="mb-2">
                     {userProfile?.display_name} • {favorite.items.length} songs
                 </div>
                 <TrackListPlayButton tracks={tracks} type="savedTracks" />
             </PageHeader>
-            <div className="bg-gradient-to-b from-[#00000065] to-transparent to-50%">
+            <PageContent>
                 <TrackList tracks={tracks} type="savedTracks" />
-            </div>
-        </div>
+            </PageContent>
+        </>
     );
 };

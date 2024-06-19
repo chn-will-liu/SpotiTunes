@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { AlbumCard } from '../../components/album/AlbumCard';
 import { AlbumCopyrights } from '../../components/album/AlbumCopyrights';
 import { ArtistLinkList } from '../../components/ArtistLinkList';
+import { PageContent } from '../../components/PageContent';
 import { PageHeader } from '../../components/PageHeader';
 import { TrackList } from '../../components/TrackList';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';
@@ -20,17 +21,17 @@ export const PageAlbum = () => {
     return (
         <div>
             <PageHeader type="Album" header={album.name} images={album.images}>
-                <div>
+                <span className="mr-4 text-sm">
                     <ArtistLinkList artists={album.artists} /> • {album.release_date} •{' '}
-                    {album.tracks.items.length} songs
-                </div>
-            </PageHeader>
-            <div className="relative flex h-20 items-center gap-5 bg-black bg-opacity-35 px-6">
+                    <span>{album.tracks.items.length} songs</span>
+                </span>
                 <TrackListPlayButton tracks={tracks} type="album" entityId={album.id} />
-            </div>
-            <TrackList tracks={tracks} type="album" entityId={album.id} />
-            <AlbumCopyrights className="p-8" album={album} />
-            <MoreByArtist artistId={artist.id} name={artist.name} />
+            </PageHeader>
+            <PageContent>
+                <TrackList tracks={tracks} type="album" entityId={album.id} />
+                <AlbumCopyrights className="p-8" album={album} />
+                <MoreByArtist artistId={artist.id} name={artist.name} />
+            </PageContent>
         </div>
     );
 };
@@ -44,8 +45,7 @@ export const MoreByArtist = ({ artistId, name }: { artistId: string; name: strin
         }
     );
 
-    if (isLoading) return <div>Loading...</div>;
-    if (!albums) return <div>No albums found</div>;
+    if (isLoading || !albums || !albums.items.length) return null;
 
     return (
         <>

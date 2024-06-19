@@ -1,8 +1,8 @@
 import { Track } from '@spotify/web-api-ts-sdk';
 import { useMemo } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ArtistLinkList } from '../../components/ArtistLinkList';
-import { NavList } from '../../components/NavList';
+import { PageContent } from '../../components/PageContent';
 import { PageHeader } from '../../components/PageHeader';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';
 import { useFormatter } from '../../hooks/useFormatter';
@@ -15,12 +15,16 @@ const links = [
         to: '',
     },
     {
+        label: 'Artist Popular',
+        to: './artist-tracks',
+    },
+    {
         label: 'From the ablum',
-        to: './album',
+        to: './album-tracks',
     },
     {
         label: 'Fans also like',
-        to: './related',
+        to: './related-artists',
     },
 ];
 
@@ -47,10 +51,7 @@ export const PageTrack = () => {
                     entityId={trackId!}
                 />
             </PageHeader>
-            <nav className="relative flex h-20 items-center gap-5 bg-black bg-opacity-35 px-6">
-                <NavList links={links} />
-            </nav>
-            <Outlet />
+            <PageContent links={links} />
         </div>
     );
 };
@@ -67,7 +68,7 @@ const TrackMetadata = ({ track }: { track: Track }) => {
     );
 
     return (
-        <div className="mb-2 text-sm">
+        <span className="mr-4 text-sm">
             <ArtistLinkList artists={track.artists} className="font-bold" usePrimaryColor />
             <span> • </span>
             <Link to={'/album/' + track.album.id} className="hover:underline">
@@ -77,7 +78,7 @@ const TrackMetadata = ({ track }: { track: Track }) => {
             <span>{year}</span>
             <span> • </span>
             <span>{duration}</span>
-        </div>
+        </span>
     );
 };
 

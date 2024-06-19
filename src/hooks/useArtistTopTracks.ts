@@ -1,7 +1,7 @@
 import { Market } from '@spotify/web-api-ts-sdk';
 import { useSpotify } from './useSpotify';
 
-export const useArtistTopTracks = (artistId: string) => {
+export const useArtistTopTracks = (artistId?: string) => {
     const { data: artist, isLoading: loadingArtist } = useSpotify(
         (api) => api.artists.get(artistId!),
         {

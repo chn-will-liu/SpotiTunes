@@ -8,7 +8,7 @@
     button,
     select,
     textarea {
-        @apply bg-black font-sans text-white;
+        @apply bg-black font-sans font-extralight text-white;
     }
 
     :root {

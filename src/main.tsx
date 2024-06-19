@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
-import { ThemeColor } from './components/AppThemeColor.tsx';
+import { AppBg } from './components/AppBgColor.tsx';
 import './index.css';
 import { router } from './routes.tsx';
 import { SpotifySdk } from './spotify/SpotifySdk.tsx';
@@ -9,9 +9,9 @@ import { SpotifySdk } from './spotify/SpotifySdk.tsx';
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <SpotifySdk>
-            <ThemeColor color="transparent">
+            <AppBg color="transparent">
                 <RouterProvider router={router} />
-            </ThemeColor>
+            </AppBg>
         </SpotifySdk>
     </React.StrictMode>
 );

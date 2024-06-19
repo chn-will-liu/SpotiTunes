@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
+import { AppBgContext } from './components/AppBgColor';
 import { AppSideBar } from './components/AppSideBar';
-import { ThemeColorContext } from './components/AppThemeColor';
 import { Player } from './components/player/Player';
 import { SideMenuBar } from './components/SideMenuBar';
 
@@ -21,12 +21,12 @@ const App = () => {
 };
 
 const AppBg = (props: React.PropsWithChildren) => {
-    const { color } = useContext(ThemeColorContext);
+    const { bg } = useContext(AppBgContext);
     return (
         <div
             className="flex h-screen w-screen flex-row overflow-clip transition-[background-color] duration-200"
             style={{
-                backgroundColor: `rgb(from ${color} r g b / 10%)`,
+                backgroundColor: `rgb(from ${bg.color} r g b / 10%)`,
             }}
         >
             {props.children}
