@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import discImg from '../assets/disc.png';
 import stylus from '../assets/stylus.png';
 import { usePlayer, usePlayerState } from '../hooks/usePlayer';
-import { ArtistLinkList } from './ArtistLinkList';
+import { ArtistLinkList } from './artist/ArtistLinkList';
 import { IconButton } from './IconButton';
 import { ProgressBar } from './ProgressBar';
 

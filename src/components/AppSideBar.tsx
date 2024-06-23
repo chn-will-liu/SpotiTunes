@@ -10,7 +10,7 @@ import { IconButton } from './IconButton';
 export const AppSideBar = () => {
     return (
         <div className="flex w-[98px] flex-shrink-0 flex-col items-center gap-8 border-l border-white border-opacity-25 py-8">
-            <NavLink to="/my/favorite" className="block" title="My liked songs">
+            <NavLink to="/my/favorite" className="block" title="My liked songs" tabIndex={-1}>
                 {({ isActive }) => <IconButton icon={isActive ? PiHeartFill : PiHeart} size="lg" />}
             </NavLink>
             <IconButton icon={MdLightMode} size="lg" className="mt-auto" />

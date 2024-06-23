@@ -13,11 +13,14 @@ type QueryOptions = {
 
 export function useSpotify<R>(apiCall: ApiCall<R>, options?: QueryOptions) {
     const sdk = useContext(SdkContext);
+    const apiName =
+        apiCall.toString().match(/(?<=>\s?\w+)(\.\w+)+(?=\()/)?.[0] ?? apiCall.toString();
+
     return useQuery({
         ...options,
         staleTime: 1000 * 60 * 30,
         retry: 0,
-        queryKey: ['spotify', apiCall.toString(), ...(options?.queryKey ?? [])],
+        queryKey: ['spotify', 'api', apiName, ...(options?.queryKey ?? [])],
         queryFn: ({ signal }) => {
             sdk.setAbortSignalOnceForApi(signal);
             return apiCall(sdk.api);

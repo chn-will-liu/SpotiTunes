@@ -18,7 +18,7 @@ export const AlbumCopyrights = ({ album, className }: AlbumCopyrightsProps) => {
             </div>
             <div className="text-xs">
                 {album.copyrights.map((copyright) => (
-                    <p>{copyright.text}</p>
+                    <p key={copyright.text}>{copyright.text}</p>
                 ))}
             </div>
         </div>

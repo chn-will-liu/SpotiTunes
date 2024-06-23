@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { AlbumCard } from '../../components/album/AlbumCard';
 import { AlbumCopyrights } from '../../components/album/AlbumCopyrights';
-import { ArtistLinkList } from '../../components/ArtistLinkList';
+import { ArtistLinkList } from '../../components/artist/ArtistLinkList';
 import { PageContent } from '../../components/PageContent';
 import { PageHeader } from '../../components/PageHeader';
 import { TrackList } from '../../components/TrackList';
@@ -57,7 +57,7 @@ export const MoreByArtist = ({ artistId, name }: { artistId: string; name: strin
             </Link>
             <div className="grid px-5 py-2 auto-fill-[180px] ">
                 {albums.items.map((album) => (
-                    <AlbumCard album={album} />
+                    <AlbumCard album={album} key={album.id} />
                 ))}
             </div>
         </>

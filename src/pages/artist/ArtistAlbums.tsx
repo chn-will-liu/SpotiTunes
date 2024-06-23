@@ -13,9 +13,9 @@ export const ArtistAlbums = () => {
     if (isLoading) return <div>Loading...</div>;
     if (!albums) return <div>No albums found</div>;
     return (
-        <div className="grid p-4 auto-fit-[180px] ">
+        <div className="grid p-4 auto-fit-[180px]">
             {albums.items.map((album) => (
-                <AlbumCard album={album} />
+                <AlbumCard album={album} key={album.id} />
             ))}
         </div>
     );

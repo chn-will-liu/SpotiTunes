@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { RelatedArtists } from '../../components/RelatedArtist';
+import { RelatedArtists } from '../../components/artist/RelatedArtist';
 import { useSpotify } from '../../hooks/useSpotify';
 
 export const TrackArtistRelated = () => {

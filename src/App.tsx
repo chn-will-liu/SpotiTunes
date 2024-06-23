@@ -9,7 +9,7 @@ const App = () => {
     return (
         <AppBg>
             <SideMenuBar />
-            <div className="flex min-w-0 flex-1 flex-col">
+            <div className="flex min-w-[600px] flex-1 flex-col">
                 <div className="relative flex-1 overflow-auto pb-20 mask-gradient-vertical">
                     <Outlet />
                 </div>

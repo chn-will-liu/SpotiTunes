@@ -1,7 +1,7 @@
 import { Track } from '@spotify/web-api-ts-sdk';
 import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArtistLinkList } from '../../components/ArtistLinkList';
+import { ArtistLinkList } from '../../components/artist/ArtistLinkList';
 import { PageContent } from '../../components/PageContent';
 import { PageHeader } from '../../components/PageHeader';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';

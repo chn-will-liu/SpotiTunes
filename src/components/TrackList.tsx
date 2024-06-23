@@ -9,7 +9,7 @@ import { useFormatter } from '../hooks/useFormatter';
 import { useIsTrackLiked } from '../hooks/useIsTrackLiked';
 import { useTrackListPlay } from '../hooks/useTrackListPlay';
 import { TrackListModel } from '../models/TrackListModel';
-import { ArtistLinkList } from './ArtistLinkList';
+import { ArtistLinkList } from './artist/ArtistLinkList';
 import { IconButton } from './IconButton';
 import { SpotiImage } from './SpotiImage';
 
