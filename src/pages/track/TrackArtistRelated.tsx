@@ -4,9 +4,10 @@ import { useSpotify } from '../../hooks/useSpotify';
 
 export const TrackArtistRelated = () => {
     const { trackId } = useParams<{ trackId: string }>();
-    const { data: track, isLoading } = useSpotify((api) => api.tracks.get(trackId!), {
+    const { data: [track] = [], isLoading } = useSpotify({
         enabled: !!trackId,
-        queryKey: [trackId],
+        api: ['tracks', 'get'],
+        queryKey: [[trackId!]],
     });
 
     if (isLoading) return <div>Loading...</div>;

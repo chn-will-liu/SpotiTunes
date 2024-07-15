@@ -8,8 +8,14 @@ import { useSpotify } from '../hooks/useSpotify';
 const likedSongsImage = [{ url: likedSongsImageUrl, width: 300, height: 300 }];
 
 export const PageFavorite = () => {
-    const { data: userProfile } = useSpotify((api) => api.currentUser.profile());
-    const { data: favorite, isLoading } = useSpotify((api) => api.currentUser.tracks.savedTracks());
+    const { data: userProfile } = useSpotify({
+        api: ['currentUser', 'profile'],
+        queryKey: [],
+    });
+    const { data: favorite, isLoading } = useSpotify({
+        api: ['currentUser', 'tracks', 'savedTracks'],
+        queryKey: [],
+    });
 
     if (isLoading) return <div>Loading...</div>;
     if (!favorite) return <div>Error occured</div>;
@@ -30,3 +36,5 @@ export const PageFavorite = () => {
         </>
     );
 };
+
+export const Component = PageFavorite;

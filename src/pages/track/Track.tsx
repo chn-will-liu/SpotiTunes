@@ -31,9 +31,10 @@ const links = [
 export const PageTrack = () => {
     const { trackId } = useParams<{ trackId: string }>();
 
-    const { data: track, isLoading } = useSpotify((api) => api.tracks.get(trackId!), {
+    const { data: [track] = [], isLoading } = useSpotify({
         enabled: !!trackId,
-        queryKey: [trackId],
+        api: ['tracks', 'get'],
+        queryKey: [[trackId!]],
     });
     const { tracks: recommendedTracks, isLoading: isRecomendationLoading } =
         useTrackRecommendations(trackId);

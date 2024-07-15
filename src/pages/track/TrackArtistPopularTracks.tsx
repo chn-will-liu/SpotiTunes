@@ -6,13 +6,11 @@ import { useSpotify } from '../../hooks/useSpotify';
 export const Component = () => {
     const { trackId } = useParams<{ trackId: string }>();
 
-    const { data: track, isLoading: isLoadingTrack } = useSpotify(
-        (api) => api.tracks.get(trackId!),
-        {
-            enabled: !!trackId,
-            queryKey: [trackId],
-        }
-    );
+    const { data: [track] = [], isLoading: isLoadingTrack } = useSpotify({
+        enabled: !!trackId,
+        api: ['tracks', 'get'],
+        queryKey: [[trackId!]],
+    });
 
     const {
         topTracks,

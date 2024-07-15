@@ -5,8 +5,9 @@ import { useSpotify } from '../../hooks/useSpotify';
 export const ArtistAlbums = () => {
     const { artistId } = useParams<{ artistId: string }>();
 
-    const { data: albums, isLoading } = useSpotify((api) => api.artists.albums(artistId!), {
-        queryKey: [artistId],
+    const { data: albums, isLoading } = useSpotify({
+        api: ['artists', 'albums'],
+        queryKey: [artistId!],
         enabled: !!artistId,
     });
 

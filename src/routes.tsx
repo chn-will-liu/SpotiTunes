@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import { artistRoutes } from './pages/artist/routes';
-import { PageFavorite } from './pages/Favorite';
+import { playlistRoutes } from './pages/playlists/routes';
 import { trackRoutes } from './pages/track/routes';
 
 export const router = createBrowserRouter([
@@ -39,7 +39,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'my/favorite',
-                Component: PageFavorite,
+                lazy: () => import('./pages/Favorite'),
             },
             {
                 path: 'track',
@@ -50,8 +50,16 @@ export const router = createBrowserRouter([
                 children: [...artistRoutes],
             },
             {
+                path: 'playlist',
+                children: [...playlistRoutes],
+            },
+            {
                 path: 'album/:albumId',
                 lazy: () => import('./pages/album/Album'),
+            },
+            {
+                path: 'category/:categoryId',
+                lazy: () => import('./pages/category/Category'),
             },
         ],
     },

@@ -21,7 +21,7 @@ export const AppSideBar = () => {
 };
 
 const UserAvatar = () => {
-    const { data: user } = useSpotify((api) => api.currentUser.profile());
+    const { data: user } = useSpotify({ api: ['currentUser', 'profile'], queryKey: [] });
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
     useEffect(() => {

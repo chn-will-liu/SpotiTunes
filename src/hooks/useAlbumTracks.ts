@@ -2,8 +2,9 @@ import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 import { useSpotify } from './useSpotify';
 
 export const useAlbumTracks = (albumId?: string) => {
-    const { data: album, isLoading } = useSpotify((api) => api.albums.get(albumId!), {
-        queryKey: [albumId],
+    const { data: [album] = [], isLoading } = useSpotify({
+        api: ['albums', 'get'],
+        queryKey: [[albumId!]],
         enabled: !!albumId,
     });
 

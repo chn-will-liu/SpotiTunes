@@ -1,35 +1,21 @@
-import { PlaylistSection } from '../../components/playlist/PlaylistSection';
 import { useSpotify } from '../../hooks/useSpotify';
+import { CategoryTopPlaylists } from '../category/Category';
+import { TopPopularPlaylists } from '../playlists/PopularPlaylists';
 
 export const PageHome = () => {
     return (
         <div className="pt-5">
-            <PopularPlaylists />
+            <TopPopularPlaylists />
             <TopCategories />
         </div>
     );
 };
 
-const PopularPlaylists = () => {
-    const { data, isLoading } = useSpotify((api) =>
-        api.browse.getFeaturedPlaylists(undefined, undefined, undefined, 6)
-    );
-    if (isLoading) return <div>is loading...</div>;
-    if (!data) return <div>no data</div>;
-
-    return (
-        <PlaylistSection
-            title={data.message}
-            playlists={data.playlists.items}
-            link="/poppular-playlists"
-        />
-    );
-};
-
 const TopCategories = () => {
-    const { data, isLoading } = useSpotify((api) =>
-        api.browse.getCategories(undefined, undefined, 6)
-    );
+    const { data, isLoading } = useSpotify({
+        api: ['browse', 'getCategories'],
+        queryKey: [undefined, undefined, 6],
+    });
 
     if (isLoading) return <div>is loading...</div>;
     if (!data) return <div></div>;
@@ -43,26 +29,6 @@ const TopCategories = () => {
                 ></CategoryTopPlaylists>
             ))}
         </>
-    );
-};
-
-const CategoryTopPlaylists = ({ categoryId }: { categoryId: string }) => {
-    const { data, isLoading } = useSpotify(
-        (api) => api.browse.getPlaylistsForCategory(categoryId, undefined, 6),
-        {
-            queryKey: [categoryId],
-            enabled: !!categoryId,
-        }
-    );
-
-    if (isLoading) return <div>is loading...</div>;
-    if (!data) return <div></div>;
-    return (
-        <PlaylistSection
-            title={data.message}
-            playlists={data.playlists.items}
-            link={'/category/' + categoryId}
-        />
     );
 };
 

@@ -2,13 +2,11 @@ import { useSpotify } from '../../hooks/useSpotify';
 import { ArtistCard } from './ArtistCard';
 
 export const RelatedArtists = ({ artistId }: { artistId: string }) => {
-    const { data: related, isLoading } = useSpotify(
-        (api) => api.artists.relatedArtists(artistId!),
-        {
-            queryKey: [artistId],
-            enabled: !!artistId,
-        }
-    );
+    const { data: related, isLoading } = useSpotify({
+        api: ['artists', 'relatedArtists'],
+        queryKey: [artistId],
+        enabled: !!artistId,
+    });
     if (isLoading) return <div>Loading...</div>;
     if (!related) return <div>No related artists found</div>;
 

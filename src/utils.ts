@@ -1,4 +1,4 @@
-import { Image } from '@spotify/web-api-ts-sdk';
+import { Episode, Image, Track, TrackItem } from '@spotify/web-api-ts-sdk';
 
 export const pickImage = (images: Image[], size: number): Image | null => {
     if (!images || images.length === 0) return null;
@@ -8,4 +8,12 @@ export const pickImage = (images: Image[], size: number): Image | null => {
         }
     }
     return images[images.length - 1];
+};
+
+export const isTrack = (item: TrackItem): item is Track => {
+    return item.type === 'track';
+};
+
+export const isEpisode = (item: TrackItem): item is Episode => {
+    return item.type === 'episode';
 };

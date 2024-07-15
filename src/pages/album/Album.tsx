@@ -37,13 +37,11 @@ export const PageAlbum = () => {
 };
 
 export const MoreByArtist = ({ artistId, name }: { artistId: string; name: string }) => {
-    const { data: albums, isLoading } = useSpotify(
-        (api) => api.artists.albums(artistId, 'album', undefined, 6),
-        {
-            queryKey: [artistId, 'album', undefined, 4],
-            enabled: !!artistId,
-        }
-    );
+    const { data: albums, isLoading } = useSpotify({
+        api: ['artists', 'albums'],
+        queryKey: [artistId, 'album', undefined, 4],
+        enabled: !!artistId,
+    });
 
     if (isLoading || !albums || !albums.items.length) return null;
 
