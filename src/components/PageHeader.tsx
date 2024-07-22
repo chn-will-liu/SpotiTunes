@@ -2,7 +2,7 @@ import { Image } from '@spotify/web-api-ts-sdk';
 import { PropsWithChildren, useContext, useEffect } from 'react';
 import { usePromoninentColor } from '../hooks/useProminentColor';
 import { pickImage } from '../utils';
-import { AppBgContext } from './AppBgColor';
+import { AppBgContext } from './shell/AppBgColor';
 import { SpotiImage } from './SpotiImage';
 
 declare module 'react' {

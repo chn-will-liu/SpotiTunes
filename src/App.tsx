@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
-import { AppBgContext } from './components/AppBgColor';
-import { AppSideBar } from './components/AppSideBar';
 import { Player } from './components/player/Player';
-import { SideMenuBar } from './components/SideMenuBar';
+import { AppBgContext } from './components/shell/AppBgColor';
+import { AppSideBar } from './components/shell/AppSideBar';
+import { SideMenuBar } from './components/shell/SideMenuBar';
 
 const App = () => {
     return (

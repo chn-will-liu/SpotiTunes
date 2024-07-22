@@ -8,9 +8,9 @@ import { LuRadioTower } from 'react-icons/lu';
 import { PiMicrophoneStageFill } from 'react-icons/pi';
 import { RiHome6Fill } from 'react-icons/ri';
 import { NavLink, useLocation } from 'react-router-dom';
-import { NavigationButtons } from './NavigationButtons';
-import { SearchBox } from './SearchBox';
-import { TrackPane } from './TrackPane';
+import { NavigationButtons } from '../NavigationButtons';
+import { SearchBox } from '../SearchBox';
+import { TrackPane } from '../trackPane/TrackPane';
 
 export const SideMenuBar = () => {
     return (

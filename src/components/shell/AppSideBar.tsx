@@ -4,8 +4,8 @@ import { MdLightMode } from 'react-icons/md';
 import { PiHeart, PiHeartFill } from 'react-icons/pi';
 import { TbSettings2 } from 'react-icons/tb';
 import { NavLink } from 'react-router-dom';
-import { useSpotify } from '../hooks/useSpotify';
-import { IconButton } from './IconButton';
+import { useSpotify } from '../../hooks/useSpotify';
+import { IconButton } from './../IconButton';
 
 export const AppSideBar = () => {
     return (

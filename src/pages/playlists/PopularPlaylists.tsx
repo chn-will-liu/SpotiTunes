@@ -1,4 +1,4 @@
-import { PlaylistSection } from '../../components/playlist/PlaylistSection';
+import { PlaylistList } from '../../components/playlist/PlaylistList';
 import { useSpotify } from '../../hooks/useSpotify';
 
 const PopularPlaylists = ({ showTopItems }: { showTopItems: boolean }) => {
@@ -10,7 +10,7 @@ const PopularPlaylists = ({ showTopItems }: { showTopItems: boolean }) => {
     if (!data) return <div>no data</div>;
 
     return (
-        <PlaylistSection
+        <PlaylistList
             title={data.message}
             playlists={data.playlists.items}
             displayMode={showTopItems ? 'top-items' : 'all'}

@@ -14,6 +14,10 @@ export const router = createBrowserRouter([
                 lazy: () => import('./pages/home/Home'),
             },
             {
+                path: 'discover',
+                lazy: () => import('./pages/discover/Discover'),
+            },
+            {
                 path: 'search',
                 element: <div>Search</div>,
             },

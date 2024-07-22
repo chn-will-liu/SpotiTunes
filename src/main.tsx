@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
-import { AppBg } from './components/AppBgColor.tsx';
+import { AppBg } from './components/shell/AppBgColor.tsx';
 import './index.css';
 import { router } from './routes.tsx';
 import { SpotifySdk } from './spotify/SpotifySdk.tsx';
