@@ -14,7 +14,7 @@ export const PageHome = () => {
 const TopCategories = () => {
     const { data, isLoading } = useSpotify({
         api: ['browse', 'getCategories'],
-        queryKey: [undefined, undefined, 6],
+        queryKey: [undefined, undefined, 8],
     });
 
     if (isLoading) return <div>is loading...</div>;

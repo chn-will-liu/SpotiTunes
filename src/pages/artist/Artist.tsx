@@ -32,14 +32,14 @@ export const PageArtist = () => {
     return (
         <div>
             <PageHeader type="Artist" header={artist.name} images={artist.images}>
-                <span className="mr-4 text-sm">
-                    {formatter.formatNumber(artist.followers.total)} followers
-                </span>
                 <TrackListPlayButton
                     tracks={topTracks?.tracks ?? []}
                     type="artistPopularTracks"
                     entityId={artist?.id}
                 />
+                <span className="ml-4 text-sm">
+                    {formatter.formatNumber(artist.followers.total)} followers
+                </span>
             </PageHeader>
             <PageContent links={links} />
         </div>

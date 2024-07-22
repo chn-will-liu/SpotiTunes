@@ -28,7 +28,7 @@ export const PlaylistSection = ({
                     </Link>
                 </h1>
             ) : (
-                <h1 className="mb-5 mt-12 px-3 text-4xl font-semibold">{title}</h1>
+                <h1 className="my-5 px-3 text-4xl font-semibold">{title}</h1>
             )}
 
             <div className="grid py-2 auto-fill-[220px]">

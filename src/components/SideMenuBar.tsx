@@ -8,6 +8,7 @@ import { LuRadioTower } from 'react-icons/lu';
 import { PiMicrophoneStageFill } from 'react-icons/pi';
 import { RiHome6Fill } from 'react-icons/ri';
 import { NavLink, useLocation } from 'react-router-dom';
+import { NavigationButtons } from './NavigationButtons';
 import { SearchBox } from './SearchBox';
 import { TrackPane } from './TrackPane';
 
@@ -16,7 +17,8 @@ export const SideMenuBar = () => {
         <div className="dust-bg flex max-h-full max-w-[300px] flex-col">
             <div className="mx-6 mt-9 flex items-center">
                 <FaSpotify color="white" size="42" />
-                <span className="ml-3 text-2xl font-bold">SpotiTunes</span>
+                <span className="ml-3 text-xl font-bold">SpotiTunes</span>
+                <NavigationButtons />
             </div>
             <SearchBox />
             <div className="flex-shrink-1 flex-1 px-6">

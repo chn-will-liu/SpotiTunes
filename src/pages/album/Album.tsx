@@ -21,11 +21,11 @@ export const PageAlbum = () => {
     return (
         <div>
             <PageHeader type="Album" header={album.name} images={album.images}>
-                <span className="mr-4 text-sm">
+                <TrackListPlayButton tracks={tracks} type="album" entityId={album.id} />
+                <span className="ml-4 text-sm">
                     <ArtistLinkList artists={album.artists} /> • {album.release_date} •{' '}
                     <span>{album.tracks.items.length} songs</span>
                 </span>
-                <TrackListPlayButton tracks={tracks} type="album" entityId={album.id} />
             </PageHeader>
             <PageContent>
                 <TrackList tracks={tracks} type="album" entityId={album.id} />

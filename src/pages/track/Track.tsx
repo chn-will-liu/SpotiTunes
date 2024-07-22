@@ -45,12 +45,12 @@ export const PageTrack = () => {
     return (
         <div>
             <PageHeader type="Song" header={track.name} images={track.album.images}>
-                <TrackMetadata track={track} />
                 <TrackListPlayButton
                     tracks={[track, ...recommendedTracks]}
                     type="trackRecommendations"
                     entityId={trackId!}
                 />
+                <TrackMetadata track={track} />
             </PageHeader>
             <PageContent links={links} />
         </div>
@@ -69,7 +69,7 @@ const TrackMetadata = ({ track }: { track: Track }) => {
     );
 
     return (
-        <span className="mr-4 text-sm">
+        <span className="ml-4 text-sm">
             <ArtistLinkList artists={track.artists} className="font-bold" usePrimaryColor />
             <span> • </span>
             <Link to={'/album/' + track.album.id} className="hover:underline">

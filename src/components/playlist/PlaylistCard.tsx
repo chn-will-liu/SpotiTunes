@@ -2,6 +2,7 @@ import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk';
 import { Link } from 'react-router-dom';
 import { SpotiGreenButton } from '../SpotiGreenButton';
 import { SpotiImage } from '../SpotiImage';
+import { TextWithHref } from '../TextWithHref';
 
 export const PlaylistCard = ({ playlist }: { playlist: SimplifiedPlaylist }) => {
     return (
@@ -26,7 +27,7 @@ export const PlaylistCard = ({ playlist }: { playlist: SimplifiedPlaylist }) => 
                 {playlist.name}
             </div>
             <div className="line-clamp-2 text-sm text-white text-opacity-65">
-                {playlist.description}
+                <TextWithHref text={playlist.description} removeHref />
             </div>
         </Link>
     );

@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { PageContent } from '../../components/PageContent';
 import { PageHeader } from '../../components/PageHeader';
+import { TextWithHref } from '../../components/TextWithHref';
 import { TrackList } from '../../components/TrackList';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';
 import { useSpotify } from '../../hooks/useSpotify';
@@ -26,11 +27,16 @@ export const PagePlaylist = () => {
     return (
         <div>
             <PageHeader type="Playlist" header={playlist.name} images={playlist.images}>
-                <span className="mr-4 text-sm">
-                    {playlist.owner.display_name} • {playlist.followers.total} •{' '}
-                    <span>{playlist.tracks.items.length} songs </span>
-                </span>
-                <TrackListPlayButton tracks={tracks} type="playlist" entityId={playlist.id} />
+                <div className="flex items-center">
+                    <TrackListPlayButton tracks={tracks} type="playlist" entityId={playlist.id} />
+                    <div className="ml-4 shrink align-bottom text-sm">
+                        <TextWithHref text={playlist.description} />
+                        <div>
+                            {playlist.owner.display_name} • {playlist.followers.total} •{' '}
+                            <span>{playlist.tracks.items.length} songs </span>
+                        </div>
+                    </div>
+                </div>
             </PageHeader>
             <PageContent>
                 <TrackList tracks={tracks} type="album" entityId={playlist.id} />
