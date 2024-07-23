@@ -2,6 +2,14 @@ import { RouteObject } from 'react-router-dom';
 
 export const artistRoutes: RouteObject[] = [
     {
+        index: true,
+        lazy: () => import('./ArtistList'),
+    },
+    {
+        path: 'top',
+        lazy: () => import('./ArtistTopList'),
+    },
+    {
         path: ':artistId',
         lazy: () => import('./Artist'),
         children: [

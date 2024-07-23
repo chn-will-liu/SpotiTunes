@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
+import { albumRoutes } from './pages/album/routes';
 import { artistRoutes } from './pages/artist/routes';
 import { playlistRoutes } from './pages/playlists/routes';
 import { trackRoutes } from './pages/track/routes';
@@ -30,14 +31,6 @@ export const router = createBrowserRouter([
                 element: <div>Radio</div>,
             },
             {
-                path: 'artists',
-                element: <div>Artists</div>,
-            },
-            {
-                path: 'albums',
-                element: <div>Albums</div>,
-            },
-            {
                 path: 'podcasts',
                 element: <div>Podcasts</div>,
             },
@@ -58,12 +51,16 @@ export const router = createBrowserRouter([
                 children: [...playlistRoutes],
             },
             {
-                path: 'album/:albumId',
-                lazy: () => import('./pages/album/Album'),
+                path: 'album',
+                children: [...albumRoutes],
             },
             {
                 path: 'category/:categoryId',
                 lazy: () => import('./pages/category/Category'),
+            },
+            {
+                path: '*',
+                lazy: () => import('./pages/ErrorNotFound'),
             },
         ],
     },

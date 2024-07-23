@@ -14,7 +14,7 @@ export const PageDiscover = () => {
     return (
         <>
             <PageTextHeader className="px-5">Discover</PageTextHeader>
-            <div className="grid gap-5 p-5 auto-fill-[220px]">
+            <div className="grid gap-5 p-5 auto-fill-[160px]">
                 {categories.categories.items.map((category) => (
                     <Link
                         key={category.id}

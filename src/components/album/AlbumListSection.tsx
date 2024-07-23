@@ -1,23 +1,22 @@
-import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk';
+import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 import { Link } from 'react-router-dom';
 import { PageTextHeader } from '../PageTextHeader';
-import { PlaylistCard } from './PlaylistCard';
+import { AlbumCard } from './AlbumCard';
 
-export const PlaylistList = ({
-    playlists,
-    displayMode,
-    title,
-    link,
-}: {
-    playlists: SimplifiedPlaylist[];
+export type AlbumListSectionProps = {
+    albums: SimplifiedAlbum[];
     title: string;
     displayMode: 'all' | 'top-items';
     link: string;
-}) => {
+};
+
+export const AlbumListSection = ({ albums, displayMode, title, link }: AlbumListSectionProps) => {
+    if (albums.length === 0) return null;
+
     const items = (
         <div className="grid px-2 py-2 auto-fill-[220px]">
-            {playlists.map((playlist) => (
-                <PlaylistCard key={playlist.id} playlist={playlist} />
+            {albums.map((album) => (
+                <AlbumCard key={album.id} album={album} />
             ))}
         </div>
     );

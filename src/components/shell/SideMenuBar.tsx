@@ -54,10 +54,10 @@ const SideNav = () => {
             <ul>
                 <SideNavItem icon={RiHome6Fill} text="Home" to="/" />
                 <SideNavItem icon={FaCompass} text="Discover" to="/discover" />
-                <SideNavItem icon={BiLibrary} text="My Library" to={'/my'} />
+                <SideNavItem icon={BiLibrary} text="My Library" to="/my" />
                 <SideNavItem icon={LuRadioTower} text="Radio" to="/radio" />
-                <SideNavItem icon={PiMicrophoneStageFill} text="Artists" to="artists" />
-                <SideNavItem icon={BsCassetteFill} text="Albums" to="albums" />
+                <SideNavItem icon={PiMicrophoneStageFill} text="Artists" to="/artist" />
+                <SideNavItem icon={BsCassetteFill} text="Albums" to="/album" />
                 <SideNavItem icon={FaPodcast} text="Podcasts" to="podcasts" />
             </ul>
             <div

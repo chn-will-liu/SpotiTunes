@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { PlaylistList } from '../../components/playlist/PlaylistList';
+import { PlaylistSeciton } from '../../components/playlist/PlaylistSection';
 import { useSpotify } from '../../hooks/useSpotify';
 
 type CategoryPlaylistsProps = {
@@ -17,7 +17,7 @@ const CategoryPlaylists = ({ categoryId, showTopItems }: CategoryPlaylistsProps)
     if (isLoading) return <div>is loading...</div>;
     if (!data) return <div></div>;
     return (
-        <PlaylistList
+        <PlaylistSeciton
             title={data.message}
             playlists={data.playlists.items}
             displayMode={showTopItems ? 'top-items' : 'all'}
