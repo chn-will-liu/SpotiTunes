@@ -22,9 +22,9 @@ const TopCategories = () => {
 
     return (
         <>
-            {data.categories.items.map((category) => (
+            {data.categories.items.map((category, index) => (
                 <CategoryTopPlaylists
-                    key={category.id}
+                    key={index + category.id}
                     categoryId={category.id}
                 ></CategoryTopPlaylists>
             ))}

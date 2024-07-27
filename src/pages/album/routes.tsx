@@ -3,7 +3,7 @@ import { RouteObject } from 'react-router-dom';
 export const albumRoutes: RouteObject[] = [
     {
         index: true,
-        lazy: () => import('./AlbumList'),
+        lazy: () => import('./AlbumIndex'),
     },
     {
         path: 'new-releases',

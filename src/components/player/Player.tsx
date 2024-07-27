@@ -1,5 +1,4 @@
-import { BsDownload } from 'react-icons/bs';
-import { LuShuffle } from 'react-icons/lu';
+import { LuMonitorSpeaker, LuShuffle } from 'react-icons/lu';
 import { IconButton } from '../IconButton';
 import { AlbumOfCurrentTrack } from './AlbumOfCurrentTrack';
 import { LikeButton, RepeatButton } from './Buttons';
@@ -14,7 +13,8 @@ export const Player = () => {
                 <div className="mb-6 flex items-center gap-6">
                     <LikeButton />
                     <IconButton
-                        icon={BsDownload}
+                        icon={LuMonitorSpeaker}
+                        disabled
                         size="lg"
                         hoverEffect="opacity"
                         className="mr-auto"

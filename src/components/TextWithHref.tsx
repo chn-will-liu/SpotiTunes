@@ -44,7 +44,7 @@ export const TextWithHref = ({ text, removeHref }: TextWithHrefProps) => {
             {data.map((part, index) => {
                 if (part.type === 'link' && part.href) {
                     return (
-                        <Link key={index} to={part.href} className="font-semibold hover:underline">
+                        <Link key={index} to={part.href} className="font-normal hover:underline">
                             {part.text}
                         </Link>
                     );

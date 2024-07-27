@@ -1,11 +1,9 @@
-import likedSongsImageUrl from '../assets/liked-songs.png';
-import { PageContent } from '../components/PageContent';
-import { PageHeader } from '../components/PageHeader';
-import { TrackList } from '../components/TrackList';
-import { TrackListPlayButton } from '../components/TrackListPlayButton';
-import { useSpotify } from '../hooks/useSpotify';
-
-const likedSongsImage = [{ url: likedSongsImageUrl, width: 300, height: 300 }];
+import { PageContent } from '../../components/PageContent';
+import { PageHeader } from '../../components/PageHeader';
+import { TrackList } from '../../components/TrackList';
+import { TrackListPlayButton } from '../../components/TrackListPlayButton';
+import { useSpotify } from '../../hooks/useSpotify';
+import { likedSongsImage } from './linkedSongsImage';
 
 export const PageFavorite = () => {
     const { data: userProfile } = useSpotify({

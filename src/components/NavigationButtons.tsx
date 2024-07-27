@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MdOutlineChevronLeft, MdOutlineChevronRight } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from './IconButton';
@@ -17,6 +17,8 @@ declare global {
 export const NavigationButtons = () => {
     const navigate = useNavigate();
     const { canGoBack, canGoForward } = useNavigationAvailability();
+    const handleGoBack = useCallback(() => navigate(-1), [navigate]);
+    const handleGoForward = useCallback(() => navigate(1), [navigate]);
 
     return (
         <>
@@ -25,15 +27,16 @@ export const NavigationButtons = () => {
                 buttonStyle="rounded"
                 size="lg"
                 className="ml-4"
-                onClick={() => navigate(-1)}
+                onClick={handleGoBack}
                 disabled={!canGoBack}
             />
+
             <IconButton
                 icon={MdOutlineChevronRight}
                 buttonStyle="rounded"
                 size="lg"
                 className="ml-2"
-                onClick={() => navigate(1)}
+                onClick={handleGoForward}
                 disabled={!canGoForward}
             />
         </>
@@ -46,8 +49,8 @@ const useNavigationAvailability = () => {
 
     useEffect(() => {
         if (window.navigation) {
-            const onCurrentEntryChange = (e: Event) => {
-                const nav = e.target as Navigation;
+            const onCurrentEntryChange = (ev: Event) => {
+                const nav = ev.target as Navigation;
                 setCanGoBack(nav.canGoBack);
                 setCanGoForward(nav.canGoForward);
             };

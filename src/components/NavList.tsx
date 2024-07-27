@@ -28,7 +28,7 @@ export const NavList = ({ links }: NavListProps) => {
         <>
             <ul className="mr-12 flex h-full gap-10" ref={navRef}>
                 {links.map((link) => (
-                    <li key={link.to} className="">
+                    <li key={link.to}>
                         <NavLink
                             end
                             to={link.to}

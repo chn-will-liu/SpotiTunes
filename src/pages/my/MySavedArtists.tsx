@@ -1,20 +1,10 @@
 import { ArtistListSection } from '../../components/artist/ArtistListSection';
 import { useSpotify } from '../../hooks/useSpotify';
-import { UserTopArtistSection } from './ArtistTopList';
 
-const PageArtistList = () => {
-    return (
-        <div className="pt-5">
-            <UserFollowedArtistSection />
-            <UserTopArtistSection showTopItems />
-        </div>
-    );
-};
-
-const UserFollowedArtistSection = () => {
+export const MySavedArtists = ({ showTopItems }: { showTopItems: boolean }) => {
     const { data, isLoading } = useSpotify({
         api: ['currentUser', 'followedArtists'],
-        queryKey: [undefined, 6],
+        queryKey: [undefined, showTopItems ? 6 : undefined],
     });
     if (isLoading) return <div>is loading...</div>;
     if (!data) return <div>No data</div>;
@@ -22,11 +12,16 @@ const UserFollowedArtistSection = () => {
     return (
         <ArtistListSection
             artists={data.artists.items}
-            displayMode="top-items"
+            displayMode={showTopItems ? 'top-items' : 'all'}
             title="My followed artists"
             link="/my/artists"
         />
     );
 };
 
-export const Component = PageArtistList;
+const PageMySavedArtists = () => {
+    return <MySavedArtists showTopItems={false} />;
+};
+
+export const MySavedArtistsSection = () => <MySavedArtists showTopItems />;
+export const Component = PageMySavedArtists;

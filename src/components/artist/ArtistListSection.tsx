@@ -28,7 +28,7 @@ export const ArtistListSection = ({
 
     return displayMode === 'top-items' ? (
         <section className="py-5">
-            <h1 className="flex justify-between px-5 font-semibold">
+            <h1 className="flex justify-between px-5 font-normal">
                 <Link to={link} className="text-2xl hover:underline">
                     {title}
                 </Link>

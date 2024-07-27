@@ -13,15 +13,15 @@ export type PlaylistSecitonProps = {
 export const PlaylistSeciton = ({ playlists, displayMode, title, link }: PlaylistSecitonProps) => {
     const items = (
         <div className="grid px-2 py-2 auto-fill-[220px]">
-            {playlists.map((playlist) => (
-                <PlaylistCard key={playlist.id} playlist={playlist} />
+            {playlists.map((playlist, index) => (
+                <PlaylistCard key={`${index}--playlist.id`} playlist={playlist} />
             ))}
         </div>
     );
 
     return displayMode === 'top-items' ? (
         <section className="py-5">
-            <h1 className="flex justify-between px-5 font-semibold">
+            <h1 className="flex justify-between px-5 font-normal">
                 <Link to={link} className="text-2xl hover:underline">
                     {title}
                 </Link>

@@ -39,7 +39,7 @@ export const PagePlaylist = () => {
                 </div>
             </PageHeader>
             <PageContent>
-                <TrackList tracks={tracks} type="album" entityId={playlist.id} />
+                <TrackList tracks={tracks} type="playlist" entityId={playlist.id} />
             </PageContent>
         </div>
     );

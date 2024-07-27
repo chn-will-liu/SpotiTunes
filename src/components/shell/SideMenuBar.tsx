@@ -3,11 +3,9 @@ import { IconType } from 'react-icons';
 import { BiLibrary } from 'react-icons/bi';
 import { BsCassetteFill } from 'react-icons/bs';
 import { FaCompass, FaSpotify } from 'react-icons/fa';
-import { FaPodcast } from 'react-icons/fa6';
-import { LuRadioTower } from 'react-icons/lu';
 import { PiMicrophoneStageFill } from 'react-icons/pi';
 import { RiHome6Fill } from 'react-icons/ri';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { NavigationButtons } from '../NavigationButtons';
 import { SearchBox } from '../SearchBox';
 import { TrackPane } from '../trackPane/TrackPane';
@@ -16,8 +14,12 @@ export const SideMenuBar = () => {
     return (
         <div className="dust-bg flex max-h-full max-w-[300px] flex-col">
             <div className="mx-6 mt-9 flex items-center">
-                <FaSpotify color="white" size="42" />
-                <span className="ml-3 text-xl font-bold">SpotiTunes</span>
+                <Link to="/">
+                    <FaSpotify color="white" size="42" />
+                </Link>
+                <Link to="/" className="ml-3 text-xl font-bold">
+                    SpotiTunes
+                </Link>
                 <NavigationButtons />
             </div>
             <SearchBox />
@@ -51,21 +53,25 @@ const SideNav = () => {
     return (
         <nav className="relative mb-8" ref={navRef}>
             {/* <div className="mb-8 font-light text-white text-opacity-65">MENU</div> */}
-            <ul>
-                <SideNavItem icon={RiHome6Fill} text="Home" to="/" />
-                <SideNavItem icon={FaCompass} text="Discover" to="/discover" />
-                <SideNavItem icon={BiLibrary} text="My Library" to="/my" />
-                <SideNavItem icon={LuRadioTower} text="Radio" to="/radio" />
-                <SideNavItem icon={PiMicrophoneStageFill} text="Artists" to="/artist" />
-                <SideNavItem icon={BsCassetteFill} text="Albums" to="/album" />
-                <SideNavItem icon={FaPodcast} text="Podcasts" to="podcasts" />
-            </ul>
+            <Navitems />
             <div
                 className="absolute -left-6 h-[48px] w-[6px] rounded-e-sm bg-current
              text-spotiGreen shadow-[6px_0px_24px_3px_currentColor] transition-all duration-200"
                 style={{ top, display: top === -1 ? 'none' : 'block' }}
             ></div>
         </nav>
+    );
+};
+
+const Navitems = () => {
+    return (
+        <ul>
+            <SideNavItem icon={RiHome6Fill} text="Home" to="/" />
+            <SideNavItem icon={FaCompass} text="Discover" to="/discover" />
+            <SideNavItem icon={BiLibrary} text="My Library" to="/my" />
+            <SideNavItem icon={PiMicrophoneStageFill} text="Artists" to="/artist" />
+            <SideNavItem icon={BsCassetteFill} text="Albums" to="/album" />
+        </ul>
     );
 };
 

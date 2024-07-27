@@ -1,4 +1,4 @@
-import { MouseEventHandler, PropsWithChildren } from 'react';
+import { memo, MouseEventHandler, PropsWithChildren } from 'react';
 import { IconType } from 'react-icons';
 
 export type IconButtonProps = PropsWithChildren<{
@@ -11,7 +11,7 @@ export type IconButtonProps = PropsWithChildren<{
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }>;
 
-export const IconButton = (props: IconButtonProps) => {
+const IconButtonInner = (props: IconButtonProps) => {
     const sizeMap = {
         sm: 'size-5',
         md: 'size-6',
@@ -23,7 +23,8 @@ export const IconButton = (props: IconButtonProps) => {
 
     let hoverEffect = '';
     if (props.hoverEffect === 'opacity') {
-        hoverEffect = 'opacity-65 hover:opacity-100 active:scale-90 disabled:opacity-65';
+        hoverEffect =
+            'opacity-65 hover:opacity-100 active:scale-90 disabled:scale-100 disabled:opacity-35 ';
     } else {
         hoverEffect = 'hover:scale-110 active:scale-100 disabled:scale-100';
     }
@@ -45,3 +46,5 @@ export const IconButton = (props: IconButtonProps) => {
         </button>
     );
 };
+
+export const IconButton = memo(IconButtonInner);

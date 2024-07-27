@@ -4,11 +4,11 @@ import { BiSolidAlbum } from 'react-icons/bi';
 import { pickImage } from '../utils';
 
 export type SpImageProps = {
-    type?: 'album' | 'artist';
     images: Image[];
     size: number;
     displaySize?: number | 'full';
     alt: string;
+    rounded?: 'full' | 'md' | 'sm' | 'none';
     className?: string;
 };
 
@@ -18,7 +18,7 @@ export const SpotiImage = ({
     displaySize,
     alt,
     className,
-    type = 'album',
+    rounded = 'md',
 }: SpImageProps) => {
     const image = useMemo(() => pickImage(images, size), [images, size]);
     let style = {};
@@ -28,7 +28,7 @@ export const SpotiImage = ({
         style = { width: `${displaySize ?? size}px` };
     }
 
-    const rounded = type === 'artist' ? 'rounded-full' : 'rounded-md';
+    rounded = 'rounded-' + rounded;
 
     return (
         <div className={`${rounded} aspect-square shadow-lg ${className ?? ''}`} style={style}>

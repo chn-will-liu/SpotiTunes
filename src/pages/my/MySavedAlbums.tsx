@@ -1,21 +1,11 @@
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 import { AlbumListSection } from '../../components/album/AlbumListSection';
 import { useSpotify } from '../../hooks/useSpotify';
-import { AlbumNewRelease } from './AlbumNewRelease';
 
-const PageAlbumList = () => {
-    return (
-        <div className="pt-5">
-            <UserSavedAlbumSection />
-            <AlbumNewRelease showTopItems />
-        </div>
-    );
-};
-
-const UserSavedAlbumSection = () => {
+const MySavedAlbums = ({ showTopItems }: { showTopItems?: boolean }) => {
     const { data, isLoading } = useSpotify({
         api: ['currentUser', 'albums', 'savedAlbums'],
-        queryKey: [6],
+        queryKey: [showTopItems ? 6 : undefined],
     });
     if (isLoading) return <div>is loading...</div>;
     if (!data) return <div>No data</div>;
@@ -28,11 +18,13 @@ const UserSavedAlbumSection = () => {
     return (
         <AlbumListSection
             albums={albums}
-            displayMode="top-items"
+            displayMode={showTopItems ? 'top-items' : 'all'}
             title="My saved albums"
             link="/my/albums"
         />
     );
 };
 
-export const Component = PageAlbumList;
+export const MySavedAlbumSection = () => <MySavedAlbums showTopItems />;
+export const MySavedAlbumPage = () => <MySavedAlbums />;
+export const Component = MySavedAlbumPage;

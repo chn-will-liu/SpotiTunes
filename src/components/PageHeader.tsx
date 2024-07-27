@@ -47,7 +47,7 @@ export const PageHeader = (props: PageHeaderProps) => {
             />
             <div className="text-shadow-lg">
                 {!isArtist && <div>{props.type}</div>}
-                <h1 className="text-[5rem] font-semibold">{props.header}</h1>
+                <h1 className="text-[5rem] font-normal">{props.header}</h1>
                 {props.children}
             </div>
         </header>

@@ -3,11 +3,11 @@ import { RouteObject } from 'react-router-dom';
 export const artistRoutes: RouteObject[] = [
     {
         index: true,
-        lazy: () => import('./ArtistList'),
+        lazy: () => import('./ArtistIndex'),
     },
     {
         path: 'top',
-        lazy: () => import('./ArtistTopList'),
+        lazy: () => import('../my/MySavedArtists'),
     },
     {
         path: ':artistId',

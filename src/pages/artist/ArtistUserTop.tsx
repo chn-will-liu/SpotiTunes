@@ -2,7 +2,7 @@ import { Artist } from '@spotify/web-api-ts-sdk';
 import { ArtistListSection } from '../../components/artist/ArtistListSection';
 import { useSpotify } from '../../hooks/useSpotify';
 
-export const UserTopArtistSection = ({ showTopItems }: { showTopItems: boolean }) => {
+const UserTopArtists = ({ showTopItems }: { showTopItems: boolean }) => {
     const { data, isLoading } = useSpotify({
         api: ['currentUser', 'topItems'],
         queryKey: ['artists', 'medium_term', showTopItems ? 6 : undefined],
@@ -21,8 +21,6 @@ export const UserTopArtistSection = ({ showTopItems }: { showTopItems: boolean }
     );
 };
 
-const PageUserTopArtist = () => {
-    return <UserTopArtistSection showTopItems={false} />;
-};
-
+const PageUserTopArtist = () => <UserTopArtists showTopItems={false} />;
+export const UserTopArtistSection = () => <UserTopArtists showTopItems />;
 export const Component = PageUserTopArtist;
