@@ -43,7 +43,7 @@ export const PageHeader = (props: PageHeaderProps) => {
                 images={props.images}
                 size={240}
                 alt={props.header}
-                type={isArtist ? 'artist' : 'album'}
+                rounded={isArtist ? 'full' : 'md'}
             />
             <div className="text-shadow-lg">
                 {!isArtist && <div>{props.type}</div>}

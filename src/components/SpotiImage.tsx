@@ -8,7 +8,7 @@ export type SpImageProps = {
     size: number;
     displaySize?: number | 'full';
     alt: string;
-    rounded?: 'full' | 'md' | 'sm' | 'none';
+    rounded?: 'full' | 'xl' | 'lg' | 'md' | 'sm' | 'none';
     className?: string;
 };
 

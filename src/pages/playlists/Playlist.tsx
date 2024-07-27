@@ -1,3 +1,4 @@
+import { Track } from '@spotify/web-api-ts-sdk';
 import { useParams } from 'react-router-dom';
 import { PageContent } from '../../components/PageContent';
 import { PageHeader } from '../../components/PageHeader';
@@ -22,7 +23,7 @@ export const PagePlaylist = () => {
 
     const tracks = playlist.tracks.items
         .map((track) => track.track)
-        .filter((track) => isTrack(track));
+        .filter((track): track is Track => isTrack(track));
 
     return (
         <div>

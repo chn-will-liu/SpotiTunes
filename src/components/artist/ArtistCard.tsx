@@ -16,7 +16,7 @@ export const ArtistCard = ({ artist }: { artist: Artist }) => {
                     images={artist.images}
                     alt={artist.name}
                     size={180}
-                    type="artist"
+                    rounded="full"
                     displaySize="full"
                     className="mb-2"
                 />
