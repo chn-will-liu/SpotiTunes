@@ -11,6 +11,7 @@ import { useTrackListPlay } from '../hooks/useTrackListPlay';
 import { TrackListModel } from '../models/TrackListModel';
 import { ArtistLinkList } from './artist/ArtistLinkList';
 import { IconButton } from './IconButton';
+import { SkeletonItem } from './skeletons/SkeletonItem';
 import { SpotiImage } from './SpotiImage';
 
 export const TrackList = (trackList: TrackListModel) => {
@@ -26,6 +27,33 @@ export const TrackList = (trackList: TrackListModel) => {
             onPlayButtonClick={onPlayButtonClick}
         />
     ));
+};
+
+export const TrackListSkeleton = ({ type }: { type: TrackListModel['type'] }) => {
+    return Array.from({ length: 10 }).map((_, index) => (
+        <TrackListItemSkeleton key={index} showAlbum={type !== 'album'} />
+    ));
+};
+
+const TrackListItemSkeleton = ({ showAlbum }: { showAlbum?: boolean }) => {
+    return (
+        <div className="ml-8 flex items-center gap-8 py-5 pl-5 pr-10">
+            <div className="w-5">
+                <SkeletonItem className="h-6 w-6" />
+            </div>
+            {showAlbum && <SkeletonItem className="size-[56px] rounded-md" />}
+            <div className="shrink-1 flex-1 flex-grow-[3]">
+                <SkeletonItem className="my-1 h-6 w-2/3" />
+                <SkeletonItem className="h-4 w-4/5" />
+            </div>
+            <div className="flex-1 flex-grow-[2]">
+                <SkeletonItem className="h-6 w-2/3" />
+            </div>
+            <SkeletonItem className="h-6 w-10" />
+            <SkeletonItem className="h-6 w-10" />
+            <SkeletonItem className="h-6 w-10" />
+        </div>
+    );
 };
 
 type TrackListItemProps = {

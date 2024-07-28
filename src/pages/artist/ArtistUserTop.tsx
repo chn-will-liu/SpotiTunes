@@ -1,5 +1,8 @@
 import { Artist } from '@spotify/web-api-ts-sdk';
-import { ArtistListSection } from '../../components/artist/ArtistListSection';
+import {
+    ArtistListSection,
+    ArtistListSectionSkeleton,
+} from '../../components/artist/ArtistListSection';
 import { useSpotify } from '../../hooks/useSpotify';
 
 const UserTopArtists = ({ showTopItems }: { showTopItems: boolean }) => {
@@ -8,7 +11,9 @@ const UserTopArtists = ({ showTopItems }: { showTopItems: boolean }) => {
         queryKey: ['artists', 'medium_term', showTopItems ? 6 : undefined],
     });
 
-    if (isLoading) return <div>is loading...</div>;
+    if (isLoading) {
+        return <ArtistListSectionSkeleton displayMode={showTopItems ? 'top-items' : 'all'} />;
+    }
     if (!data) return <div>No data</div>;
 
     return (

@@ -1,9 +1,9 @@
 import { Track } from '@spotify/web-api-ts-sdk';
 import { useParams } from 'react-router-dom';
 import { PageContent } from '../../components/PageContent';
-import { PageHeader } from '../../components/PageHeader';
+import { PageHeader, PageHeaderSkeleton } from '../../components/PageHeader';
 import { TextWithHref } from '../../components/TextWithHref';
-import { TrackList } from '../../components/TrackList';
+import { TrackList, TrackListSkeleton } from '../../components/TrackList';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';
 import { useSpotify } from '../../hooks/useSpotify';
 import { isTrack } from '../../utils';
@@ -17,7 +17,9 @@ export const PagePlaylist = () => {
         enabled: !!playlistId,
     });
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) {
+        return <PagePlaylistSkeleton />;
+    }
 
     if (!playlist) return <div>No playlist found!</div>;
 
@@ -43,6 +45,17 @@ export const PagePlaylist = () => {
                 <TrackList tracks={tracks} type="playlist" entityId={playlist.id} />
             </PageContent>
         </div>
+    );
+};
+
+const PagePlaylistSkeleton = () => {
+    return (
+        <>
+            <PageHeaderSkeleton type="Playlist" />
+            <PageContent>
+                <TrackListSkeleton type="playlist" />
+            </PageContent>
+        </>
     );
 };
 

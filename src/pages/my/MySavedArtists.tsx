@@ -1,4 +1,7 @@
-import { ArtistListSection } from '../../components/artist/ArtistListSection';
+import {
+    ArtistListSection,
+    ArtistListSectionSkeleton,
+} from '../../components/artist/ArtistListSection';
 import { useSpotify } from '../../hooks/useSpotify';
 
 export const MySavedArtists = ({ showTopItems }: { showTopItems: boolean }) => {
@@ -6,7 +9,9 @@ export const MySavedArtists = ({ showTopItems }: { showTopItems: boolean }) => {
         api: ['currentUser', 'followedArtists'],
         queryKey: [undefined, showTopItems ? 6 : undefined],
     });
-    if (isLoading) return <div>is loading...</div>;
+    if (isLoading) {
+        return <ArtistListSectionSkeleton displayMode={showTopItems ? 'top-items' : 'all'} />;
+    }
     if (!data) return <div>No data</div>;
 
     return (

@@ -1,5 +1,6 @@
 import { Artist } from '@spotify/web-api-ts-sdk';
 import { Link } from 'react-router-dom';
+import { SkeletonItem } from '../skeletons/SkeletonItem';
 import { SpotiGreenButton } from '../SpotiGreenButton';
 import { SpotiImage } from '../SpotiImage';
 
@@ -29,5 +30,15 @@ export const ArtistCard = ({ artist }: { artist: Artist }) => {
             </div>
             <div className="text-sm text-white text-opacity-65">artist</div>
         </Link>
+    );
+};
+
+export const ArtistCardSkeleton = () => {
+    return (
+        <div className="p-3">
+            <SkeletonItem className="mb-2 aspect-square rounded-full" />
+            <SkeletonItem className="mb-1 h-6 rounded-sm" />
+            <SkeletonItem className="h-4 rounded-sm" />
+        </div>
     );
 };

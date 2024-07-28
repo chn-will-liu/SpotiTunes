@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 type Rgb = [r: number, g: number, b: number];
 export const usePromoninentColor = (image: Image | null) => {
-    const [color, setColor] = useState<string>('transparent');
+    const [color, setColor] = useState<string | null>(null);
     useEffect(() => {
         if (image) {
             prominent(image.url, { amount: 10, group: 45, format: 'array', sample: 10 }).then(

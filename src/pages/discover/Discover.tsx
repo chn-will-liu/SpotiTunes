@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { PageTextHeader } from '../../components/PageTextHeader';
+import { PageTextHeader, PageTextHeaderSkeleton } from '../../components/PageTextHeader';
+import { SkeletonItem } from '../../components/skeletons/SkeletonItem';
 import { useSpotify } from '../../hooks/useSpotify';
 
 export const PageDiscover = () => {
@@ -8,7 +9,9 @@ export const PageDiscover = () => {
         queryKey: [],
     });
 
-    if (isLoading) return <div>is loading...</div>;
+    if (isLoading) {
+        return <PageDiscoverSkeleton />;
+    }
     if (!categories) return <div>No categories</div>;
 
     return (
@@ -24,6 +27,22 @@ export const PageDiscover = () => {
                         <img src={category.icons[0].url} alt={category.name} className="w-full" />
                         <span>{category.name}</span>
                     </Link>
+                ))}
+            </div>
+        </>
+    );
+};
+
+const PageDiscoverSkeleton = () => {
+    return (
+        <>
+            <PageTextHeaderSkeleton />
+            <div className="grid gap-5 p-5 auto-fill-[160px]">
+                {Array.from({ length: 20 }, (_, index) => (
+                    <div key={index}>
+                        <SkeletonItem className="aspect-square" />
+                        <SkeletonItem className="mt-1 h-5" />
+                    </div>
                 ))}
             </div>
         </>

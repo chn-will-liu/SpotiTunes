@@ -11,7 +11,7 @@ export const PageTextHeader = ({ children, className }: PageTextHeaderProps) => 
 export const PageTextHeaderSkeleton = (props: PageTextHeaderProps) => {
     return (
         <PageTextHeader {...props}>
-            <SkeletonItem className="h-10 w-1/2" />
+            <SkeletonItem className="h-10 w-1/3" />
         </PageTextHeader>
     );
 };

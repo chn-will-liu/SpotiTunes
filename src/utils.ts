@@ -11,7 +11,7 @@ export const pickImage = (images: Image[], size: number): Image | null => {
 };
 
 export const isTrack = (item: TrackItem): item is Track => {
-    return item.type === 'track';
+    return item && item.type === 'track';
 };
 
 export const isEpisode = (item: TrackItem): item is Episode => {

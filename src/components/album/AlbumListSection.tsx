@@ -46,11 +46,11 @@ export const AlbumListSection = ({ albums, displayMode, title, link }: AlbumList
 };
 
 export const AlbumListSectionSkeleton = ({ displayMode }: { displayMode: 'all' | 'top-items' }) => {
-    const playlists = Array.from({ length: displayMode === 'all' ? 12 : 8 }, (_, index) => (
+    const albumList = Array.from({ length: displayMode === 'all' ? 12 : 8 }, (_, index) => (
         <AlbumCardSkeleton key={index} />
     ));
 
-    const items = <div className="grid px-2 py-2 auto-fill-[220px]">{playlists}</div>;
+    const items = <div className="grid px-2 py-2 auto-fill-[220px]">{albumList}</div>;
 
     return displayMode === 'top-items' ? (
         <section className="py-5">
