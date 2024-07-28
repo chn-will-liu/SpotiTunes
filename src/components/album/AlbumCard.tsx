@@ -1,5 +1,6 @@
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 import { Link } from 'react-router-dom';
+import { SkeletonItem } from '../skeletons/SkeletonItem';
 import { SpotiGreenButton } from '../SpotiGreenButton';
 import { SpotiImage } from '../SpotiImage';
 
@@ -30,5 +31,15 @@ export const AlbumCard = ({ album }: { album: SimplifiedAlbum }) => {
                 {album.release_date} • {album.album_type}
             </div>
         </Link>
+    );
+};
+
+export const AlbumCardSkeleton = () => {
+    return (
+        <div className="p-3">
+            <SkeletonItem className="mb-2 aspect-square rounded-md" />
+            <SkeletonItem className="mb-1 h-6 rounded-sm" />
+            <SkeletonItem className="h-4 rounded-sm" />
+        </div>
     );
 };

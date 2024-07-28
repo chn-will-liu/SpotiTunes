@@ -5,7 +5,6 @@ export const useIsTrackLiked = (trackId?: string) => {
         api: ['currentUser', 'tracks', 'savedTracks'],
         queryKey: [],
         enabled: !!trackId,
-        staleTime: Infinity,
     });
 
     if (!likedTracks) return false;

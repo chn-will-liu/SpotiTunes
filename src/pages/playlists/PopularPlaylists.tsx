@@ -1,4 +1,7 @@
-import { PlaylistSeciton } from '../../components/playlist/PlaylistSection';
+import {
+    PlaylistSeciton,
+    PlaylistSectionSkeleton,
+} from '../../components/playlist/PlaylistSection';
 import { useSpotify } from '../../hooks/useSpotify';
 
 const PopularPlaylists = ({ showTopItems }: { showTopItems: boolean }) => {
@@ -6,7 +9,9 @@ const PopularPlaylists = ({ showTopItems }: { showTopItems: boolean }) => {
         api: ['browse', 'getFeaturedPlaylists'],
         queryKey: [undefined, undefined, undefined, showTopItems ? 6 : undefined],
     });
-    if (isLoading) return <div>is loading...</div>;
+    if (isLoading) {
+        return <PlaylistSectionSkeleton displayMode={showTopItems ? 'top-items' : 'all'} />;
+    }
     if (!data) return <div>no data</div>;
 
     return (

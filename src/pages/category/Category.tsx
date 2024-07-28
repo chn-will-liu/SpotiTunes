@@ -1,5 +1,8 @@
 import { useParams } from 'react-router-dom';
-import { PlaylistSeciton } from '../../components/playlist/PlaylistSection';
+import {
+    PlaylistSeciton,
+    PlaylistSectionSkeleton,
+} from '../../components/playlist/PlaylistSection';
 import { useSpotify } from '../../hooks/useSpotify';
 
 type CategoryPlaylistsProps = {
@@ -14,7 +17,9 @@ const CategoryPlaylists = ({ categoryId, showTopItems }: CategoryPlaylistsProps)
         enabled: !!categoryId,
     });
 
-    if (isLoading) return <div>is loading...</div>;
+    if (isLoading) {
+        return <PlaylistSectionSkeleton displayMode={showTopItems ? 'top-items' : 'all'} />;
+    }
     if (!data) return <div></div>;
     return (
         <PlaylistSeciton
@@ -24,6 +29,10 @@ const CategoryPlaylists = ({ categoryId, showTopItems }: CategoryPlaylistsProps)
             link={'/category/' + categoryId}
         />
     );
+};
+
+export const CategoryPlaylistsSkeleton = ({ showTopItems }: { showTopItems?: boolean }) => {
+    return <PlaylistSectionSkeleton displayMode={showTopItems ? 'top-items' : 'all'} />;
 };
 
 export const CategoryTopPlaylists = ({ categoryId }: { categoryId: string }) => {

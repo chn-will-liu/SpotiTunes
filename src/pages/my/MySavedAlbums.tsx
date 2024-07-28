@@ -1,5 +1,8 @@
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
-import { AlbumListSection } from '../../components/album/AlbumListSection';
+import {
+    AlbumListSection,
+    AlbumListSectionSkeleton,
+} from '../../components/album/AlbumListSection';
 import { useSpotify } from '../../hooks/useSpotify';
 
 const MySavedAlbums = ({ showTopItems }: { showTopItems?: boolean }) => {
@@ -7,7 +10,9 @@ const MySavedAlbums = ({ showTopItems }: { showTopItems?: boolean }) => {
         api: ['currentUser', 'albums', 'savedAlbums'],
         queryKey: [showTopItems ? 6 : undefined],
     });
-    if (isLoading) return <div>is loading...</div>;
+    if (isLoading) {
+        return <AlbumListSectionSkeleton displayMode={showTopItems ? 'top-items' : 'all'} />;
+    }
     if (!data) return <div>No data</div>;
 
     const albums = data.items.map<SimplifiedAlbum>((item) => ({

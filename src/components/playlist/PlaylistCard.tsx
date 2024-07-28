@@ -1,8 +1,19 @@
 import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk';
 import { Link } from 'react-router-dom';
+import { SkeletonItem } from '../skeletons/SkeletonItem';
 import { SpotiGreenButton } from '../SpotiGreenButton';
 import { SpotiImage } from '../SpotiImage';
 import { TextWithHref } from '../TextWithHref';
+
+export const PlaylistCardSkeleton = () => {
+    return (
+        <div className="p-3">
+            <SkeletonItem className="mb-2 aspect-square rounded-md" />
+            <SkeletonItem className="mb-1 h-6 rounded-sm" />
+            <SkeletonItem className="h-8 rounded-sm" />
+        </div>
+    );
+};
 
 export const PlaylistCard = ({ playlist }: { playlist: SimplifiedPlaylist }) => {
     return (

@@ -1,4 +1,7 @@
-import { AlbumListSection } from '../../components/album/AlbumListSection';
+import {
+    AlbumListSection,
+    AlbumListSectionSkeleton,
+} from '../../components/album/AlbumListSection';
 import { useSpotify } from '../../hooks/useSpotify';
 
 export const AlbumNewRelease = ({ showTopItems }: { showTopItems?: boolean }) => {
@@ -7,7 +10,9 @@ export const AlbumNewRelease = ({ showTopItems }: { showTopItems?: boolean }) =>
         queryKey: [undefined, showTopItems ? 6 : undefined],
     });
 
-    if (isLoading) return <div>is loading...</div>;
+    if (isLoading) {
+        return <AlbumListSectionSkeleton displayMode={showTopItems ? 'top-items' : 'all'} />;
+    }
     if (!data) return <div>No data</div>;
 
     return (

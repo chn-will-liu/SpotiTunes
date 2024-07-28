@@ -1,5 +1,5 @@
 import { useSpotify } from '../../hooks/useSpotify';
-import { CategoryTopPlaylists } from '../category/Category';
+import { CategoryPlaylistsSkeleton, CategoryTopPlaylists } from '../category/Category';
 import { TopPopularPlaylists } from '../playlists/PopularPlaylists';
 
 export const PageHome = () => {
@@ -17,7 +17,11 @@ const TopCategories = () => {
         queryKey: [undefined, undefined, 8],
     });
 
-    if (isLoading) return <div>is loading...</div>;
+    if (isLoading) {
+        return Array.from({ length: 8 }, (_, index) => (
+            <CategoryPlaylistsSkeleton key={index} showTopItems />
+        ));
+    }
     if (!data) return <div></div>;
 
     return (

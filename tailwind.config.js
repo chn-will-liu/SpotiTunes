@@ -18,6 +18,17 @@ export default {
             },
             animation: {
                 'spin-slow': 'spin 3s linear infinite',
+                'skeleton-loading': 'skeleton-loading 1s infinite linear',
+            },
+            keyframes: {
+                'skeleton-loading': {
+                    '0%': {
+                        left: '-50%',
+                    },
+                    '100%': {
+                        left: '100%',
+                    },
+                },
             },
         },
     },
