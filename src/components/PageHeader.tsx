@@ -26,7 +26,7 @@ const HeaderBg = () => {
 };
 
 export type PageHeaderProps = PropsWithChildren<{
-    type: 'Song' | 'Artist' | 'Album' | 'Playlist';
+    type: 'song' | 'artist' | 'album' | 'playlist';
     images: Image[];
     header: string;
 }>;
@@ -34,7 +34,7 @@ export type PageHeaderProps = PropsWithChildren<{
 export const PageHeader = (props: PageHeaderProps) => {
     const image = pickImage(props.images, 240);
     const bgColor = usePromoninentColor(image);
-    const isArtist = props.type === 'Artist';
+    const isArtist = props.type === 'artist';
 
     const { setBg } = useContext(AppBgContext);
 
@@ -54,7 +54,7 @@ export const PageHeader = (props: PageHeaderProps) => {
                 rounded={isArtist ? 'full' : 'md'}
             />
             <div className="text-shadow-lg">
-                {!isArtist && <div>{props.type}</div>}
+                {!isArtist && <div>{props.type.charAt(0).toUpperCase() + props.type.slice(1)}</div>}
                 <h1 className="text-[5rem] font-normal">{props.header}</h1>
                 {props.children}
             </div>
@@ -63,7 +63,7 @@ export const PageHeader = (props: PageHeaderProps) => {
 };
 
 export const PageHeaderSkeleton = (props: { type?: PageHeaderProps['type'] }) => {
-    const isArtist = props.type === 'Artist';
+    const isArtist = props.type === 'artist';
 
     return (
         <header className="flex items-end gap-5 px-6 py-8">

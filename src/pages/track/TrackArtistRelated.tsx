@@ -10,7 +10,7 @@ export const TrackArtistRelated = () => {
         queryKey: [[trackId!]],
     });
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <RelatedArtists artistId={null} />;
     if (!track) return <div>Track not found</div>;
 
     return <RelatedArtists artistId={track.artists[0].id} />;

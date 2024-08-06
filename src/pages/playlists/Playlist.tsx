@@ -29,7 +29,7 @@ export const PagePlaylist = () => {
 
     return (
         <div>
-            <PageHeader type="Playlist" header={playlist.name} images={playlist.images}>
+            <PageHeader type="playlist" header={playlist.name} images={playlist.images}>
                 <div className="flex items-center">
                     <TrackListPlayButton tracks={tracks} type="playlist" entityId={playlist.id} />
                     <div className="ml-4 shrink align-bottom text-sm">
@@ -51,7 +51,7 @@ export const PagePlaylist = () => {
 const PagePlaylistSkeleton = () => {
     return (
         <>
-            <PageHeaderSkeleton type="Playlist" />
+            <PageHeaderSkeleton type="playlist" />
             <PageContent>
                 <TrackListSkeleton type="playlist" />
             </PageContent>

@@ -10,7 +10,8 @@ export const PlaylistCardSkeleton = () => {
         <div className="p-3">
             <SkeletonItem className="mb-2 aspect-square rounded-md" />
             <SkeletonItem className="mb-1 h-6 rounded-sm" />
-            <SkeletonItem className="h-8 rounded-sm" />
+            <SkeletonItem className="mb-1 h-3 rounded-sm" />
+            <SkeletonItem className="h-3 w-2/3 rounded-sm" />
         </div>
     );
 };

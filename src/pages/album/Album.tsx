@@ -3,8 +3,8 @@ import { AlbumCard } from '../../components/album/AlbumCard';
 import { AlbumCopyrights } from '../../components/album/AlbumCopyrights';
 import { ArtistLinkList } from '../../components/artist/ArtistLinkList';
 import { PageContent } from '../../components/PageContent';
-import { PageHeader } from '../../components/PageHeader';
-import { TrackList } from '../../components/TrackList';
+import { PageHeader, PageHeaderSkeleton } from '../../components/PageHeader';
+import { TrackList, TrackListSkeleton } from '../../components/TrackList';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';
 import { useAlbumTracks } from '../../hooks/useAlbumTracks';
 import { useSpotify } from '../../hooks/useSpotify';
@@ -13,14 +13,14 @@ export const PageAlbum = () => {
     const { albumId } = useParams<{ albumId: string }>();
     const { album, tracks, isLoading } = useAlbumTracks(albumId);
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <PageAlbumSkeleton />;
     if (!album) return <div>No album found!</div>;
 
     const artist = album.artists[0];
 
     return (
         <div>
-            <PageHeader type="Album" header={album.name} images={album.images}>
+            <PageHeader type="album" header={album.name} images={album.images}>
                 <TrackListPlayButton tracks={tracks} type="album" entityId={album.id} />
                 <span className="ml-4 text-sm">
                     <ArtistLinkList artists={album.artists} /> • {album.release_date} •{' '}
@@ -62,4 +62,14 @@ export const MoreByArtist = ({ artistId, name }: { artistId: string; name: strin
     );
 };
 
+const PageAlbumSkeleton = () => {
+    return (
+        <div>
+            <PageHeaderSkeleton type="album" />
+            <PageContent>
+                <TrackListSkeleton type="album" />
+            </PageContent>
+        </div>
+    );
+};
 export const Component = PageAlbum;

@@ -1,5 +1,6 @@
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { AlbumCard } from '../../components/album/AlbumCard';
+import { AlbumCard, AlbumCardSkeleton } from '../../components/album/AlbumCard';
 import { useSpotify } from '../../hooks/useSpotify';
 
 export const ArtistAlbums = () => {
@@ -11,15 +12,16 @@ export const ArtistAlbums = () => {
         enabled: !!artistId,
     });
 
-    if (isLoading) return <div>Loading...</div>;
-    if (!albums) return <div>No albums found</div>;
-    return (
-        <div className="grid p-4 auto-fill-[180px]">
-            {albums.items.map((album) => (
-                <AlbumCard album={album} key={album.id} />
-            ))}
-        </div>
-    );
+    let content: React.ReactNode;
+    if (isLoading) {
+        content = Array.from({ length: 12 }).map((_, i) => <AlbumCardSkeleton key={i} />);
+    } else if (albums && albums.items.length > 0) {
+        content = albums.items.map((album) => <AlbumCard album={album} key={album.id} />);
+    } else {
+        content = <div>No albums found</div>;
+    }
+
+    return <div className="grid p-4 auto-fill-[180px]">{content}</div>;
 };
 
 export const Component = ArtistAlbums;

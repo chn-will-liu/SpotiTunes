@@ -1,6 +1,6 @@
 import { PageContent } from '../../components/PageContent';
-import { PageHeader } from '../../components/PageHeader';
-import { TrackList } from '../../components/TrackList';
+import { PageHeader, PageHeaderSkeleton } from '../../components/PageHeader';
+import { TrackList, TrackListSkeleton } from '../../components/TrackList';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';
 import { useSpotify } from '../../hooks/useSpotify';
 import { likedSongsImage } from './linkedSongsImage';
@@ -15,14 +15,14 @@ export const PageFavorite = () => {
         queryKey: [],
     });
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <PageFavoriteSkeleton />;
     if (!favorite) return <div>Error occured</div>;
 
     const tracks = favorite.items.map((item) => item.track);
 
     return (
         <>
-            <PageHeader type="Playlist" header="Liked Songs" images={likedSongsImage}>
+            <PageHeader type="playlist" header="Liked Songs" images={likedSongsImage}>
                 <div className="mb-2">
                     {userProfile?.display_name} • {favorite.items.length} songs
                 </div>
@@ -30,6 +30,17 @@ export const PageFavorite = () => {
             </PageHeader>
             <PageContent>
                 <TrackList tracks={tracks} type="savedTracks" />
+            </PageContent>
+        </>
+    );
+};
+
+const PageFavoriteSkeleton = () => {
+    return (
+        <>
+            <PageHeaderSkeleton type="playlist" />
+            <PageContent>
+                <TrackListSkeleton type="savedTracks" />
             </PageContent>
         </>
     );

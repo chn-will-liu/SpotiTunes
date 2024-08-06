@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { PageContent } from '../../components/PageContent';
-import { PageHeader } from '../../components/PageHeader';
+import { PageHeader, PageHeaderSkeleton } from '../../components/PageHeader';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';
 import { useArtistTopTracks } from '../../hooks/useArtistTopTracks';
 import { useFormatter } from '../../hooks/useFormatter';
@@ -26,12 +26,12 @@ export const PageArtist = () => {
 
     const { topTracks, artist, isLoading } = useArtistTopTracks(artistId!);
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <PageArtistSkeleton />;
     if (!artist) return <div>Artist not found</div>;
 
     return (
         <div>
-            <PageHeader type="Artist" header={artist.name} images={artist.images}>
+            <PageHeader type="artist" header={artist.name} images={artist.images}>
                 <TrackListPlayButton
                     tracks={topTracks?.tracks ?? []}
                     type="artistPopularTracks"
@@ -46,4 +46,12 @@ export const PageArtist = () => {
     );
 };
 
+const PageArtistSkeleton = () => {
+    return (
+        <div>
+            <PageHeaderSkeleton type="artist" />
+            <PageContent links={links} isLoading />
+        </div>
+    );
+};
 export const Component = PageArtist;

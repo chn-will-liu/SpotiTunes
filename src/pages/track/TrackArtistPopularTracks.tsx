@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { TrackList } from '../../components/TrackList';
+import { TrackList, TrackListSkeleton } from '../../components/TrackList';
 import { useArtistTopTracks } from '../../hooks/useArtistTopTracks';
 import { useSpotify } from '../../hooks/useSpotify';
 
@@ -18,7 +18,8 @@ export const Component = () => {
         isLoading: isLoadingTopTracks,
     } = useArtistTopTracks(track?.artists?.[0].id);
 
-    if (isLoadingTrack || isLoadingTopTracks) return <div>Loading...</div>;
+    if (isLoadingTrack || isLoadingTopTracks)
+        return <TrackListSkeleton type="artistPopularTracks" />;
     if (!artist || !topTracks) return <div>No artist found!</div>;
 
     return (

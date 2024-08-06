@@ -21,6 +21,7 @@ const CategoryPlaylists = ({ categoryId, showTopItems }: CategoryPlaylistsProps)
         return <PlaylistSectionSkeleton displayMode={showTopItems ? 'top-items' : 'all'} />;
     }
     if (!data) return <div></div>;
+
     return (
         <PlaylistSeciton
             title={data.message}

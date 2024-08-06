@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArtistLinkList } from '../../components/artist/ArtistLinkList';
 import { PageContent } from '../../components/PageContent';
-import { PageHeader } from '../../components/PageHeader';
+import { PageHeader, PageHeaderSkeleton } from '../../components/PageHeader';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';
 import { useFormatter } from '../../hooks/useFormatter';
 import { useSpotify } from '../../hooks/useSpotify';
@@ -39,12 +39,14 @@ export const PageTrack = () => {
     const { tracks: recommendedTracks, isLoading: isRecomendationLoading } =
         useTrackRecommendations(trackId);
 
-    if (isLoading || isRecomendationLoading) return <div>Loading...</div>;
+    if (isLoading || isRecomendationLoading) {
+        return <PageTrackSkeleton />;
+    }
     if (!track || !recommendedTracks) return <div>Track not found</div>;
 
     return (
         <div>
-            <PageHeader type="Song" header={track.name} images={track.album.images}>
+            <PageHeader type="song" header={track.name} images={track.album.images}>
                 <TrackListPlayButton
                     tracks={[track, ...recommendedTracks]}
                     type="trackRecommendations"
@@ -83,4 +85,12 @@ const TrackMetadata = ({ track }: { track: Track }) => {
     );
 };
 
+const PageTrackSkeleton = () => {
+    return (
+        <>
+            <PageHeaderSkeleton type="song" />
+            <PageContent links={links} isLoading></PageContent>
+        </>
+    );
+};
 export const Component = PageTrack;

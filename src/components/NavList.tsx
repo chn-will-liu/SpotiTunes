@@ -1,17 +1,19 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { SkeletonItem } from './skeletons/SkeletonItem';
 
 export type NavListProps = {
     links: { label: string; to: string }[];
+    isLoading?: boolean;
 };
 
-export const NavList = ({ links }: NavListProps) => {
+export const NavList = ({ links, isLoading }: NavListProps) => {
     const navRef = useRef<HTMLUListElement | null>(null);
     const [indicator, setIndicator] = useState({ width: 20, left: -20 });
     const location = useLocation();
 
     useLayoutEffect(() => {
-        if (navRef.current) {
+        if (navRef.current && !isLoading) {
             const activeEl = navRef.current.querySelector('a.active');
             if (activeEl) {
                 const rect = activeEl.getBoundingClientRect();
@@ -22,26 +24,30 @@ export const NavList = ({ links }: NavListProps) => {
                 });
             }
         }
-    }, [navRef, location]);
+    }, [navRef, location, isLoading]);
 
     return (
         <>
             <ul className="mr-12 flex h-full gap-10" ref={navRef}>
                 {links.map((link) => (
                     <li key={link.to}>
-                        <NavLink
-                            end
-                            to={link.to}
-                            className={({ isActive }) =>
-                                `flex h-full items-center text-lg text-white hover:text-opacity-100 ${isActive ? 'active text-opacity-100' : 'text-opacity-65'}`
-                            }
-                        >
-                            {link.label}
-                        </NavLink>
+                        {isLoading ? (
+                            <SkeletonItem className="h-1/2 w-32 translate-y-1/2" />
+                        ) : (
+                            <NavLink
+                                end
+                                to={link.to}
+                                className={({ isActive }) =>
+                                    `flex h-full items-center text-lg text-white hover:text-opacity-100 ${isActive ? 'active text-opacity-100' : 'text-opacity-65'}`
+                                }
+                            >
+                                {link.label}
+                            </NavLink>
+                        )}
                     </li>
                 ))}
             </ul>
-            <NavIndicator {...indicator} />
+            {!isLoading && <NavIndicator {...indicator} />}
         </>
     );
 };

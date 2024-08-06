@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { AlbumCopyrights } from '../../components/album/AlbumCopyrights';
-import { TrackList } from '../../components/TrackList';
+import { TrackList, TrackListSkeleton } from '../../components/TrackList';
 import { useAlbumTracks } from '../../hooks/useAlbumTracks';
 import { useSpotify } from '../../hooks/useSpotify';
 
@@ -8,7 +8,7 @@ export const TrackAlbum = () => {
     const { trackId } = useParams<{ trackId: string }>();
 
     const { tracks, album, isLoading } = useSameAlbumTracks(trackId);
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <TrackListSkeleton type="album" />;
     if (!album) return <div>No album found!</div>;
 
     return (
