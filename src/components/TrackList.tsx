@@ -3,10 +3,11 @@ import { useMemo } from 'react';
 import { BsSoundwave } from 'react-icons/bs';
 import { IoMdTime } from 'react-icons/io';
 import { MdMoreHoriz } from 'react-icons/md';
-import { PiHeart, PiHeartFill, PiPlayFill } from 'react-icons/pi';
+import { PiHeart, PiHeartFill, PiPauseFill, PiPlayFill } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import { useFormatter } from '../hooks/useFormatter';
 import { useIsTrackLiked } from '../hooks/useIsTrackLiked';
+import { usePlayerState } from '../hooks/usePlayer';
 import { useTrackListPlay } from '../hooks/useTrackListPlay';
 import { TrackListModel } from '../models/TrackListModel';
 import { ArtistLinkList } from './artist/ArtistLinkList';
@@ -15,7 +16,9 @@ import { SkeletonItem } from './skeletons/SkeletonItem';
 import { SpotiImage } from './SpotiImage';
 
 export const TrackList = (trackList: TrackListModel) => {
-    const onPlayButtonClick = useTrackListPlay(trackList);
+    const { isTrackListInPlayer, toggleTrackListPlay } = useTrackListPlay(trackList);
+
+    const currentPlayTrack = usePlayerState((state) => state.trackWindow.currentTrack);
 
     return trackList.tracks.map((track, index) => (
         <TrackListItem
@@ -23,8 +26,9 @@ export const TrackList = (trackList: TrackListModel) => {
             index={index}
             track={track}
             album={track.album}
+            isInPlayer={isTrackListInPlayer && track.id === currentPlayTrack?.id}
             showAlbum={trackList.type !== 'album'}
-            onPlayButtonClick={onPlayButtonClick}
+            onPlayButtonClick={() => toggleTrackListPlay(index)}
         />
     ));
 };
@@ -61,6 +65,7 @@ type TrackListItemProps = {
     track: SimplifiedTrack;
     album: SimplifiedAlbum;
     index: number;
+    isInPlayer: boolean;
     onPlayButtonClick?: (index: number) => void;
 };
 
@@ -69,6 +74,7 @@ const TrackListItem = ({
     album,
     index,
     showAlbum,
+    isInPlayer,
     onPlayButtonClick,
 }: TrackListItemProps) => {
     const formatter = useFormatter();
@@ -77,6 +83,7 @@ const TrackListItem = ({
         [track, formatter]
     );
     const isTrackLiked = useIsTrackLiked(track.id);
+    const isPlayerPaused = usePlayerState((state) => state.paused);
 
     return (
         <div
@@ -84,9 +91,11 @@ const TrackListItem = ({
             border-b border-white border-opacity-25 from-transparent to-[#ffffff22] py-5 pl-5 pr-10 hover:bg-gradient-to-r"
         >
             <div className="w-5">
-                <span className="group-hover:hidden">#{index + 1}</span>
+                <span className={`group-hover:hidden ${isInPlayer ? 'text-spotiGreen' : ''}`}>
+                    #{index + 1}
+                </span>
                 <IconButton
-                    icon={PiPlayFill}
+                    icon={!isPlayerPaused && isInPlayer ? PiPauseFill : PiPlayFill}
                     hoverEffect="opacity"
                     size="sm"
                     className="hidden group-hover:block"
@@ -95,7 +104,10 @@ const TrackListItem = ({
             </div>
             {showAlbum && <SpotiImage images={album.images} alt={album.name} size={56} />}
             <div className="shrink-1 flex-1 flex-grow-[3] overflow-hidden whitespace-nowrap mask-gradient text-shadow-md">
-                <Link to={`/track/${track.id}`} className="group/link">
+                <Link
+                    to={`/track/${track.id}`}
+                    className={`group/link ${isInPlayer ? 'text-spotiGreen' : ''}`}
+                >
                     {track.preview_url && (
                         <BsSoundwave className="mr-1 inline-block align-middle" />
                     )}

@@ -1,6 +1,6 @@
 import { Image } from '@spotify/web-api-ts-sdk';
 import { PropsWithChildren, useContext, useEffect } from 'react';
-import { usePromoninentColor } from '../hooks/useProminentColor';
+import { useProminentColor } from '../hooks/useProminentColor';
 import { pickImage } from '../utils';
 import { AppBgContext } from './shell/AppBgColor';
 import { SkeletonItem } from './skeletons/SkeletonItem';
@@ -33,7 +33,7 @@ export type PageHeaderProps = PropsWithChildren<{
 
 export const PageHeader = (props: PageHeaderProps) => {
     const image = pickImage(props.images, 240);
-    const bgColor = usePromoninentColor(image);
+    const bgColor = useProminentColor(image);
     const isArtist = props.type === 'artist';
 
     const { setBg } = useContext(AppBgContext);

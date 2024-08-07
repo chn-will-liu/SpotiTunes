@@ -7,7 +7,7 @@ export const artistRoutes: RouteObject[] = [
     },
     {
         path: 'top',
-        lazy: () => import('../my/MySavedArtists'),
+        lazy: () => import('./ArtistUserTop'),
     },
     {
         path: ':artistId',

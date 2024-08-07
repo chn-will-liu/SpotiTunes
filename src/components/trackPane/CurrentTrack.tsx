@@ -23,7 +23,7 @@ export const CurrentTrack = () => {
                 />
             </div>
             <div>
-                <div className="line-clamp-2 text-lg">
+                <div className="line-clamp-2 text-lg leading-5">
                     {currentTrack ? (
                         <Link to={`/track/${currentTrack.id}`} className="hover:underline">
                             {currentTrack.name}

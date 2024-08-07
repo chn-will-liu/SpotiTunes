@@ -1,5 +1,6 @@
 import { SimplifiedAlbum, SimplifiedTrack } from '@spotify/web-api-ts-sdk';
-import { usePlayer, usePlayerState } from '../hooks/usePlayer';
+import React from 'react';
+import { usePlayerState } from '../hooks/usePlayer';
 import { useTrackListPlay } from '../hooks/useTrackListPlay';
 import { TrackListModel } from '../models/TrackListModel';
 import { PlaybackTrackListType } from '../spotify/webPlayer/types';
@@ -10,33 +11,16 @@ export type TrackListPlayButtonProps = PlaybackTrackListType & {
     album: SimplifiedAlbum;
 };
 
-export const TrackListPlayButton = (trackList: TrackListModel) => {
-    const trackListType = usePlayerState((state) => state.trackWindow.trackListType);
+export const TrackListPlayButton = React.memo((trackList: TrackListModel) => {
     const isPaused = usePlayerState((state) => state.paused);
-    const isCurrentTrackListInPlayer = isTrackListTypeEqual(trackListType, trackList);
-    const isPlaying = isCurrentTrackListInPlayer && !isPaused;
-    const player = usePlayer();
-    const playTrackList = useTrackListPlay(trackList);
 
-    const onButtonClick = () => {
-        if (isCurrentTrackListInPlayer) {
-            player.togglePlay();
-        } else {
-            playTrackList(0);
-        }
-    };
+    const { toggleTrackListPlay, isTrackListInPlayer } = useTrackListPlay(trackList);
+    const isPlaying = isTrackListInPlayer && !isPaused;
 
-    return <SpotiGreenButton type={isPlaying ? 'pause' : 'play'} onButtonClick={onButtonClick} />;
-};
-
-const isTrackListTypeEqual = (a: PlaybackTrackListType | null, b: TrackListModel | null) => {
-    if (a?.type !== b?.type) {
-        return false;
-    }
-
-    if (b?.type === 'savedTracks') {
-        return true;
-    }
-
-    return a?.entityId === b?.entityId;
-};
+    return (
+        <SpotiGreenButton
+            type={isPlaying ? 'pause' : 'play'}
+            onButtonClick={() => toggleTrackListPlay()}
+        />
+    );
+});

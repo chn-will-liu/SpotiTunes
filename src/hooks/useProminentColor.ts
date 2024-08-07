@@ -3,7 +3,7 @@ import { prominent } from 'color.js';
 import { useEffect, useState } from 'react';
 
 type Rgb = [r: number, g: number, b: number];
-export const usePromoninentColor = (image: Image | null) => {
+export const useProminentColor = (image: Image | null) => {
     const [color, setColor] = useState<string | null>(null);
     useEffect(() => {
         if (image) {
