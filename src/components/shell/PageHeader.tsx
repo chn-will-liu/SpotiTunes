@@ -1,10 +1,10 @@
 import { Image } from '@spotify/web-api-ts-sdk';
 import { PropsWithChildren, useContext, useEffect } from 'react';
-import { useProminentColor } from '../hooks/useProminentColor';
-import { pickImage } from '../utils';
-import { AppBgContext } from './shell/AppBgColor';
-import { SkeletonItem } from './skeletons/SkeletonItem';
-import { SpotiImage } from './SpotiImage';
+import { useProminentColor } from '../../hooks/useProminentColor';
+import { pickImage } from '../../utils';
+import { SkeletonItem } from '../skeletons/SkeletonItem';
+import { SpotiImage } from '../SpotiImage';
+import { AppBgContext } from './AppBgColor';
 
 declare module 'react' {
     interface CSSProperties {

@@ -5,6 +5,7 @@ import { artistRoutes } from './pages/artist/routes';
 import { ErrorNotFound } from './pages/ErrorNotFound';
 import { myRoutes } from './pages/my/routes';
 import { playlistRoutes } from './pages/playlists/routes';
+import { searchRoutes } from './pages/search/routes';
 import { trackRoutes } from './pages/track/routes';
 
 export const router = createBrowserRouter([
@@ -22,7 +23,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'search',
-                element: <div>Search</div>,
+                children: searchRoutes,
             },
             {
                 path: 'my',

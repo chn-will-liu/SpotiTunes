@@ -1,12 +1,12 @@
 import { Artist } from '@spotify/web-api-ts-sdk';
 import { Link } from 'react-router-dom';
-import { PageTextHeader, PageTextHeaderSkeleton } from '../PageTextHeader';
+import { PageTextHeader, PageTextHeaderSkeleton } from '../shell/PageTextHeader';
 import { SkeletonItem } from '../skeletons/SkeletonItem';
 import { ArtistCard, ArtistCardSkeleton } from './ArtistCard';
 
 export type ArtistListSectionProps = {
     artists: Artist[];
-    title: string;
+    title?: string;
     displayMode: 'all' | 'top-items';
     link: string;
 };
@@ -44,7 +44,7 @@ export const ArtistListSection = ({
         </section>
     ) : (
         <>
-            <PageTextHeader>{title}</PageTextHeader>
+            {title && <PageTextHeader>{title}</PageTextHeader>}
             {items}
         </>
     );
@@ -52,8 +52,10 @@ export const ArtistListSection = ({
 
 export const ArtistListSectionSkeleton = ({
     displayMode,
+    hideTitleInAllMode,
 }: {
     displayMode: 'all' | 'top-items';
+    hideTitleInAllMode?: boolean;
 }) => {
     const artistList = Array.from({ length: displayMode === 'all' ? 12 : 6 }, (_, index) => (
         <ArtistCardSkeleton key={index} />
@@ -66,11 +68,12 @@ export const ArtistListSectionSkeleton = ({
             <div className="px-5">
                 <SkeletonItem className="h-8 w-1/3" />
             </div>
+
             {items}
         </section>
     ) : (
         <>
-            <PageTextHeaderSkeleton />
+            {!hideTitleInAllMode && <PageTextHeaderSkeleton />}
             {items}
         </>
     );

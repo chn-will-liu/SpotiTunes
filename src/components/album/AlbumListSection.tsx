@@ -1,12 +1,12 @@
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 import { Link } from 'react-router-dom';
-import { PageTextHeader, PageTextHeaderSkeleton } from '../PageTextHeader';
+import { PageTextHeader, PageTextHeaderSkeleton } from '../shell/PageTextHeader';
 import { SkeletonItem } from '../skeletons/SkeletonItem';
 import { AlbumCard, AlbumCardSkeleton } from './AlbumCard';
 
 export type AlbumListSectionProps = {
     albums: SimplifiedAlbum[];
-    title: string;
+    title?: string;
     displayMode: 'all' | 'top-items';
     link: string;
 };
@@ -39,7 +39,7 @@ export const AlbumListSection = ({ albums, displayMode, title, link }: AlbumList
         </section>
     ) : (
         <>
-            <PageTextHeader>{title}</PageTextHeader>
+            {title && <PageTextHeader>{title}</PageTextHeader>}
             {items}
         </>
     );

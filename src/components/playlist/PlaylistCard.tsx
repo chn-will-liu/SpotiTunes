@@ -16,7 +16,11 @@ export const PlaylistCardSkeleton = () => {
     );
 };
 
-export const PlaylistCard = ({ playlist }: { playlist: SimplifiedPlaylist }) => {
+export type PlaylistCardProps = {
+    playlist: Omit<SimplifiedPlaylist, 'tracks'>;
+};
+
+export const PlaylistCard = ({ playlist }: PlaylistCardProps) => {
     return (
         <Link
             to={'/playlist/' + playlist.id}

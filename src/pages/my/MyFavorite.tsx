@@ -1,5 +1,5 @@
-import { PageContent } from '../../components/PageContent';
-import { PageHeader, PageHeaderSkeleton } from '../../components/PageHeader';
+import { PageContent } from '../../components/shell/PageContent';
+import { PageHeader, PageHeaderSkeleton } from '../../components/shell/PageHeader';
 import { TrackList, TrackListSkeleton } from '../../components/TrackList';
 import { TrackListPlayButton } from '../../components/TrackListPlayButton';
 import { useSpotify } from '../../hooks/useSpotify';

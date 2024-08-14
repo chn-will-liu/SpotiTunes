@@ -4,10 +4,9 @@ import { BiLibrary } from 'react-icons/bi';
 import { BsCassetteFill } from 'react-icons/bs';
 import { FaCompass, FaSpotify } from 'react-icons/fa';
 import { PiMicrophoneStageFill } from 'react-icons/pi';
-import { RiHome6Fill } from 'react-icons/ri';
+import { RiHome6Fill, RiSearch2Line } from 'react-icons/ri';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { NavigationButtons } from '../NavigationButtons';
-import { SearchBox } from '../SearchBox';
 import { TrackPane } from '../trackPane/TrackPane';
 
 export const SideMenuBar = () => {
@@ -22,7 +21,6 @@ export const SideMenuBar = () => {
                 </Link>
                 <NavigationButtons />
             </div>
-            <SearchBox />
             <div className="flex-shrink-1 flex-1 px-6">
                 <SideNav />
             </div>
@@ -51,7 +49,7 @@ const SideNav = () => {
     }, [navRef, top, location.pathname]);
 
     return (
-        <nav className="relative mb-8" ref={navRef}>
+        <nav className="relative my-8" ref={navRef}>
             {/* <div className="mb-8 font-light text-white text-opacity-65">MENU</div> */}
             <Navitems />
             <div
@@ -67,6 +65,7 @@ const Navitems = () => {
     return (
         <ul>
             <SideNavItem icon={RiHome6Fill} text="Home" to="/" />
+            <SideNavItem icon={RiSearch2Line} text="Search" to="/search" />
             <SideNavItem icon={FaCompass} text="Discover" to="/discover" />
             <SideNavItem icon={BiLibrary} text="My Library" to="/my" />
             <SideNavItem icon={PiMicrophoneStageFill} text="Artists" to="/artist" />

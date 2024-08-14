@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PageTextHeader, PageTextHeaderSkeleton } from '../../components/PageTextHeader';
+import { PageTextHeader, PageTextHeaderSkeleton } from '../../components/shell/PageTextHeader';
 import { SkeletonItem } from '../../components/skeletons/SkeletonItem';
 import { useSpotify } from '../../hooks/useSpotify';
 

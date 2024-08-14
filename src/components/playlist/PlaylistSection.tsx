@@ -1,12 +1,11 @@
-import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk';
 import { Link } from 'react-router-dom';
-import { PageTextHeader, PageTextHeaderSkeleton } from '../PageTextHeader';
+import { PageTextHeader, PageTextHeaderSkeleton } from '../shell/PageTextHeader';
 import { SkeletonItem } from '../skeletons/SkeletonItem';
-import { PlaylistCard, PlaylistCardSkeleton } from './PlaylistCard';
+import { PlaylistCard, PlaylistCardProps, PlaylistCardSkeleton } from './PlaylistCard';
 
 export type PlaylistSecitonProps = {
-    playlists: SimplifiedPlaylist[];
-    title: string;
+    playlists: PlaylistCardProps['playlist'][];
+    title?: string;
     displayMode: 'all' | 'top-items';
     link: string;
 };
@@ -37,7 +36,7 @@ export const PlaylistSeciton = ({ playlists, displayMode, title, link }: Playlis
         </section>
     ) : (
         <>
-            <PageTextHeader>{title}</PageTextHeader>
+            {title && <PageTextHeader>{title}</PageTextHeader>}
             {items}
         </>
     );

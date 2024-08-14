@@ -27,7 +27,7 @@ export const NavList = ({ links, isLoading }: NavListProps) => {
     }, [navRef, location, isLoading]);
 
     return (
-        <>
+        <nav className="relative flex h-20 items-center gap-5 bg-black bg-opacity-35 px-6">
             <ul className="mr-12 flex h-full gap-10" ref={navRef}>
                 {links.map((link) => (
                     <li key={link.to}>
@@ -48,7 +48,7 @@ export const NavList = ({ links, isLoading }: NavListProps) => {
                 ))}
             </ul>
             {!isLoading && <NavIndicator {...indicator} />}
-        </>
+        </nav>
     );
 };
 

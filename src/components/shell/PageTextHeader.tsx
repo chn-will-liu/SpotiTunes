@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { SkeletonItem } from './skeletons/SkeletonItem';
+import { SkeletonItem } from '../skeletons/SkeletonItem';
 
 export type PageTextHeaderProps = PropsWithChildren<{
     className?: string;

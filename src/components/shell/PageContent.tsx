@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { Outlet } from 'react-router-dom';
-import { NavList } from './NavList';
+import { NavList } from '../NavList';
 
 export type PageContentProps = PropsWithChildren<{
     links?: { label: string; to: string }[];
@@ -11,9 +11,7 @@ export const PageContent = (props: PageContentProps) => {
     if (props.links) {
         return (
             <div>
-                <nav className="relative flex h-20 items-center gap-5 bg-black bg-opacity-35 px-6">
-                    <NavList links={props.links} isLoading={props.isLoading} />
-                </nav>
+                <NavList links={props.links} isLoading={props.isLoading} />
                 <Outlet />
             </div>
         );
