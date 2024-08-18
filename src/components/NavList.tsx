@@ -1,5 +1,6 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { RefObject, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { AppBgContext } from './shell/AppBgColor';
 import { SkeletonItem } from './skeletons/SkeletonItem';
 
 export type NavListProps = {
@@ -9,26 +10,23 @@ export type NavListProps = {
 
 export const NavList = ({ links, isLoading }: NavListProps) => {
     const navRef = useRef<HTMLUListElement | null>(null);
-    const [indicator, setIndicator] = useState({ width: 20, left: -20 });
-    const location = useLocation();
-
-    useLayoutEffect(() => {
-        if (navRef.current && !isLoading) {
-            const activeEl = navRef.current.querySelector('a.active');
-            if (activeEl) {
-                const rect = activeEl.getBoundingClientRect();
-                const containerRect = navRef.current.getBoundingClientRect();
-                setIndicator({
-                    left: rect.left - containerRect.left + rect.width / 2,
-                    width: rect.width,
-                });
-            }
-        }
-    }, [navRef, location, isLoading]);
+    const { bg } = useContext(AppBgContext);
+    const { isStuck } = useIsStuck(navRef);
+    const { indicator } = useActiveIndicator({
+        navRef,
+        isLoading,
+        initial: { width: 20, left: -20 },
+    });
 
     return (
-        <nav className="relative flex h-20 items-center gap-5 bg-black bg-opacity-35 px-6">
-            <ul className="mr-12 flex h-full gap-10" ref={navRef}>
+        <nav
+            ref={navRef}
+            className={`sticky -top-1 z-10 flex h-20 items-center gap-5  px-6 ${isStuck ? 'shadow-lg' : ''}`}
+            style={{
+                backgroundColor: `color-mix(in srgb,${bg.color} 30%, black 90%)`,
+            }}
+        >
+            <ul className=" mr-12 flex h-full gap-10">
                 {links.map((link) => (
                     <li key={link.to}>
                         {isLoading ? (
@@ -38,7 +36,7 @@ export const NavList = ({ links, isLoading }: NavListProps) => {
                                 end
                                 to={link.to}
                                 className={({ isActive }) =>
-                                    `flex h-full items-center text-lg text-white hover:text-opacity-100 ${isActive ? 'active text-opacity-100' : 'text-opacity-65'}`
+                                    `flex h-full items-center text-lg text-white text-shadow-lg hover:text-opacity-100 ${isActive ? 'active text-opacity-100' : 'text-opacity-65'}`
                                 }
                             >
                                 {link.label}
@@ -58,8 +56,58 @@ const NavIndicator = ({ left, width }: { left: number; width: number }) => {
             className="absolute left-6 top-[100%] h-[5px] w-6 rounded-sm bg-white shadow-[0px_-5px_12px_1px_white] transition-all duration-200"
             style={{
                 transform: `translateX(calc(-50% + ${left}px))`,
-                width: `${Math.min(30, width / 2)}px`,
+                width: `${Math.max(30, width / 2)}px`,
             }}
         />
     );
+};
+
+type useActiveIndicatorHookArgs = {
+    navRef: RefObject<HTMLElement>;
+
+    isLoading?: boolean;
+    initial: { width: number; left: number };
+};
+const useActiveIndicator = ({ navRef, isLoading, initial }: useActiveIndicatorHookArgs) => {
+    const [indicator, setIndicator] = useState(initial);
+
+    const location = useLocation();
+
+    useLayoutEffect(() => {
+        if (navRef.current && !isLoading) {
+            const activeEl = navRef.current.querySelector('a.active');
+            if (activeEl) {
+                const rect = activeEl.getBoundingClientRect();
+                const containerRect = navRef.current.getBoundingClientRect();
+                const paddingLeft = navRef.current
+                    .computedStyleMap()
+                    .get('padding-left') as CSSUnitValue;
+                setIndicator({
+                    left: rect.left - containerRect.left - paddingLeft.value + rect.width / 2,
+                    width: rect.width,
+                });
+            }
+        }
+    }, [navRef, location, isLoading]);
+
+    return { indicator };
+};
+
+const useIsStuck = (ref: RefObject<HTMLElement>) => {
+    const [isStuck, setIsStuck] = useState(false);
+
+    useEffect(() => {
+        if (ref.current) {
+            const observer = new IntersectionObserver(
+                ([e]) => setIsStuck(e.intersectionRatio < 1),
+                {
+                    threshold: [1],
+                }
+            );
+            observer.observe(ref.current);
+            return () => observer.disconnect();
+        }
+    }, [ref]);
+
+    return { isStuck };
 };

@@ -42,7 +42,13 @@ export const PlaylistSeciton = ({ playlists, displayMode, title, link }: Playlis
     );
 };
 
-export const PlaylistSectionSkeleton = ({ displayMode }: { displayMode: 'all' | 'top-items' }) => {
+export const PlaylistSectionSkeleton = ({
+    displayMode,
+    hideTitle,
+}: {
+    displayMode: 'all' | 'top-items';
+    hideTitle?: boolean;
+}) => {
     const playlists = Array.from({ length: displayMode === 'all' ? 12 : 6 }, (_, index) => (
         <PlaylistCardSkeleton key={index} />
     ));
@@ -51,14 +57,16 @@ export const PlaylistSectionSkeleton = ({ displayMode }: { displayMode: 'all' | 
 
     return displayMode === 'top-items' ? (
         <section className="py-5">
-            <div className="px-5">
-                <SkeletonItem className="h-8 w-1/3" />
-            </div>
+            {!hideTitle && (
+                <div className="px-5">
+                    <SkeletonItem className="h-8 w-1/3" />
+                </div>
+            )}
             {items}
         </section>
     ) : (
         <>
-            <PageTextHeaderSkeleton />
+            {!hideTitle && <PageTextHeaderSkeleton />}
             {items}
         </>
     );

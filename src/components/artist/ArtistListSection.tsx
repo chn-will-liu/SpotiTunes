@@ -52,10 +52,10 @@ export const ArtistListSection = ({
 
 export const ArtistListSectionSkeleton = ({
     displayMode,
-    hideTitleInAllMode,
+    hideTitle,
 }: {
     displayMode: 'all' | 'top-items';
-    hideTitleInAllMode?: boolean;
+    hideTitle?: boolean;
 }) => {
     const artistList = Array.from({ length: displayMode === 'all' ? 12 : 6 }, (_, index) => (
         <ArtistCardSkeleton key={index} />
@@ -65,15 +65,16 @@ export const ArtistListSectionSkeleton = ({
 
     return displayMode === 'top-items' ? (
         <section className="py-5">
-            <div className="px-5">
-                <SkeletonItem className="h-8 w-1/3" />
-            </div>
-
+            {!hideTitle && (
+                <div className="px-5">
+                    <SkeletonItem className="h-8 w-1/3" />
+                </div>
+            )}
             {items}
         </section>
     ) : (
         <>
-            {!hideTitleInAllMode && <PageTextHeaderSkeleton />}
+            {!hideTitle && <PageTextHeaderSkeleton />}
             {items}
         </>
     );

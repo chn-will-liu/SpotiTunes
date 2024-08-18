@@ -45,7 +45,13 @@ export const AlbumListSection = ({ albums, displayMode, title, link }: AlbumList
     );
 };
 
-export const AlbumListSectionSkeleton = ({ displayMode }: { displayMode: 'all' | 'top-items' }) => {
+export const AlbumListSectionSkeleton = ({
+    displayMode,
+    hideTitle,
+}: {
+    displayMode: 'all' | 'top-items';
+    hideTitle?: boolean;
+}) => {
     const albumList = Array.from({ length: displayMode === 'all' ? 12 : 8 }, (_, index) => (
         <AlbumCardSkeleton key={index} />
     ));
@@ -54,14 +60,16 @@ export const AlbumListSectionSkeleton = ({ displayMode }: { displayMode: 'all' |
 
     return displayMode === 'top-items' ? (
         <section className="py-5">
-            <div className="px-5">
-                <SkeletonItem className="h-8 w-1/3" />
-            </div>
+            {!hideTitle && (
+                <div className="px-5">
+                    <SkeletonItem className="h-8 w-1/3" />
+                </div>
+            )}
             {items}
         </section>
     ) : (
         <>
-            <PageTextHeaderSkeleton />
+            {!hideTitle && <PageTextHeaderSkeleton />}
             {items}
         </>
     );

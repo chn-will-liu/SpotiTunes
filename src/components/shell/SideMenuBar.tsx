@@ -50,7 +50,6 @@ const SideNav = () => {
 
     return (
         <nav className="relative my-8" ref={navRef}>
-            {/* <div className="mb-8 font-light text-white text-opacity-65">MENU</div> */}
             <Navitems />
             <div
                 className="absolute -left-6 h-[48px] w-[6px] rounded-e-sm bg-current
