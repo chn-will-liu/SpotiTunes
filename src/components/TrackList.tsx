@@ -13,6 +13,7 @@ export const TrackList = (trackList: TrackListModel) => {
             {trackList.tracks.map((track, index) => (
                 <TrackListItem
                     key={track.id}
+                    showIndex
                     index={index}
                     track={track}
                     album={track.album}
