@@ -9,6 +9,7 @@ const SearchTypeNav = () => {
 
     const links = [
         { label: 'All', to: `/search/${searchText}` },
+        { label: 'Songs', to: `/search/${searchText}/track` },
         { label: 'Artists', to: `/search/${searchText}/artist` },
         { label: 'Albums', to: `/search/${searchText}/album` },
         { label: 'Playlists', to: `/search/${searchText}/playlist` },
@@ -41,7 +42,11 @@ export const PageSearch = () => {
     return (
         <>
             <div className="my-8 ml-6 mr-2 max-w-lg">
-                <SearchBox value={searchText ?? ''} onChange={handleSearch} />
+                <SearchBox
+                    placeholder="What do you want to play?"
+                    value={searchText ?? ''}
+                    onChange={handleSearch}
+                />
             </div>
             {searchText && (
                 <>
@@ -50,7 +55,7 @@ export const PageSearch = () => {
                         searchText={searchText}
                         displayMode={searchTypeToUse.length === 1 ? 'all' : 'top-items'}
                         searchType={searchTypeToUse}
-                        className="mx-2"
+                        className="m-2"
                     />
                 </>
             )}

@@ -2,7 +2,7 @@ import { useSpotify } from '../../hooks/useSpotify';
 import { AlbumListSection, AlbumListSectionSkeleton } from '../album/AlbumListSection';
 import { ArtistListSection, ArtistListSectionSkeleton } from '../artist/ArtistListSection';
 import { PlaylistSeciton, PlaylistSectionSkeleton } from '../playlist/PlaylistSection';
-import { TrackList } from '../TrackList';
+import { TrackSearchResult } from './TrackSearchResult';
 
 export type SearchResultProps = {
     searchType: Array<'album' | 'artist' | 'playlist' | 'track'>;
@@ -52,11 +52,7 @@ export const SearchResult = (props: SearchResultProps) => {
     return (
         <div className={props.className}>
             {data.tracks && data.tracks.items.length > 0 && (
-                <TrackList
-                    tracks={data.tracks.items}
-                    type="trackRecommendations"
-                    entityId={props.searchText}
-                />
+                <TrackSearchResult tracks={data.tracks.items} displayMode={props.displayMode} />
             )}
             {data.artists && data.artists.items.length > 0 && (
                 <ArtistListSection

@@ -6,6 +6,7 @@ import { IconButton } from './IconButton';
 export type SearchBoxProps = {
     value: string;
     onChange: (value: string) => void;
+    placeholder?: string;
 };
 
 export const SearchBox = (props: SearchBoxProps) => {
@@ -29,7 +30,7 @@ export const SearchBox = (props: SearchBoxProps) => {
             <input
                 type="text"
                 className="w-full rounded-lg bg-white bg-opacity-5 px-12 py-3 pr-4 text-sm font-light text-inherit placeholder:text-current"
-                placeholder="Search"
+                placeholder={props.placeholder}
                 autoFocus
                 onChange={(e) => setValue(e.target.value)}
                 value={value}
