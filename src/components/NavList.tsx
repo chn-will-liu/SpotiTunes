@@ -21,9 +21,9 @@ export const NavList = ({ links, isLoading }: NavListProps) => {
     return (
         <nav
             ref={navRef}
-            className={`sticky -top-1 z-10 flex h-20 items-center gap-5  px-6 ${isStuck ? 'shadow-lg' : ''}`}
+            className={`sticky -top-1 z-10 flex h-20 items-center gap-5 px-6 ${isStuck ? 'shadow-lg' : ''}`}
             style={{
-                backgroundColor: `color-mix(in srgb,${bg.color} 30%, black 90%)`,
+                backgroundColor: `color-mix(in srgb,${bg.color} 30%, black 70%)`,
             }}
         >
             <ul className=" mr-12 flex h-full gap-10">

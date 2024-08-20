@@ -12,15 +12,21 @@ export type SearchBoxProps = {
 export const SearchBox = (props: SearchBoxProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState(props.value);
+    const hasPendingValueChagnes = useRef(false);
 
     const onSearchTextChange = useDebounce(props.onChange, 300);
 
     useEffect(() => {
-        const valueTrimed = value.trimEnd();
-        if (valueTrimed !== props.value) {
-            onSearchTextChange(valueTrimed);
+        const valueTrimmed = value.trimEnd();
+        if (valueTrimmed !== props.value) {
+            if (hasPendingValueChagnes.current) {
+                onSearchTextChange(valueTrimmed);
+                hasPendingValueChagnes.current = false;
+            } else {
+                inputRef.current?.focus();
+            }
         }
-    }, [value, props.value, onSearchTextChange]);
+    }, [value, props.value, onSearchTextChange, hasPendingValueChagnes]);
 
     return (
         <div
@@ -32,7 +38,10 @@ export const SearchBox = (props: SearchBoxProps) => {
                 className="w-full rounded-lg bg-white bg-opacity-5 px-12 py-3 pr-4 text-sm font-light text-inherit placeholder:text-current"
                 placeholder={props.placeholder}
                 autoFocus
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => {
+                    setValue(e.target.value);
+                    hasPendingValueChagnes.current = e.target.value.trimEnd() !== props.value;
+                }}
                 value={value}
                 ref={inputRef}
             />
@@ -41,7 +50,10 @@ export const SearchBox = (props: SearchBoxProps) => {
                 <IconButton
                     className="absolute right-3 size-7"
                     size="md"
-                    onClick={() => setValue('')}
+                    onClick={() => {
+                        setValue('');
+                        hasPendingValueChagnes.current = true;
+                    }}
                     icon={RiCloseFill}
                 />
             )}

@@ -32,7 +32,7 @@ const AppBg = (props: React.PropsWithChildren) => {
         <div
             className="flex h-screen w-screen flex-row overflow-clip transition-[background-color] duration-200"
             style={{
-                backgroundColor: `rgb(from ${bg.color} r g b / 10%)`,
+                backgroundColor: `rgb(from ${bg.color} r g b / 15%)`,
             }}
         >
             {props.children}

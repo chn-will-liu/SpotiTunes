@@ -46,7 +46,7 @@ export const TrackListItem = ({
 
     return (
         <div
-            className={`group flex items-center whitespace-nowrap  ${compactMode ? 'compact-mode gap-4 p-2' : 'gap-8 border-b border-white border-opacity-25 py-5 pl-5 pr-10'}
+            className={`group flex items-center whitespace-nowrap  ${compactMode ? 'gap-4 p-2' : 'gap-8 border-b border-white border-opacity-25 py-5 pl-5 pr-10'}
             from-transparent to-[#ffffff22] hover:bg-gradient-to-r `}
         >
             {showIndex && (
@@ -111,13 +111,29 @@ export const TrackListItem = ({
     );
 };
 
-export const TrackListItemSkeleton = ({ showAlbum }: { showAlbum?: boolean }) => {
+export const TrackListItemSkeleton = ({
+    showAlbum,
+    showIndex,
+    compactMode,
+}: {
+    showAlbum?: boolean;
+    showIndex?: boolean;
+    compactMode?: boolean;
+}) => {
     return (
-        <div className="flex items-center gap-8 py-5 pl-5 pr-10">
-            <div className="w-5">
-                <SkeletonItem className="h-6 w-6" />
-            </div>
-            {showAlbum && <SkeletonItem className="size-[56px] rounded-md" />}
+        <div
+            className={`flex items-center ${compactMode ? ' gap-4 p-2' : 'gap-8  py-5 pl-5 pr-10'}`}
+        >
+            {showIndex && (
+                <div className="w-5">
+                    <SkeletonItem className="h-6 w-6" />
+                </div>
+            )}
+            {showAlbum && (
+                <SkeletonItem
+                    className={`rounded-md ${compactMode ? 'size-[42px]' : 'size-[56px]'}`}
+                />
+            )}
             <div className="shrink-1 flex-1 flex-grow-[3]">
                 <SkeletonItem className="my-1 h-6 w-2/3" />
                 <SkeletonItem className="h-4 w-4/5" />

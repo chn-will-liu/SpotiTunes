@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { TbMusicSearch } from 'react-icons/tb';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavList } from '../../components/NavList';
 import { SearchResult, SearchResultProps } from '../../components/search/SearchResult';
@@ -20,18 +20,17 @@ const SearchTypeNav = () => {
 
 export const PageSearch = () => {
     const navigate = useNavigate();
+
     const { searchText, searchType } = useParams<{ searchText: string; searchType: string }>();
 
-    const handleSearch = useCallback(
-        (newSearchText: string) => {
-            if (newSearchText !== searchText) {
-                navigate(`/search/${encodeURIComponent(newSearchText)}`, {
-                    replace: true,
-                });
-            }
-        },
-        [searchText, navigate]
-    );
+    const handleSearch = (input: string) => {
+        if (input !== searchText) {
+            const text = searchType ? input.padEnd(1, ' ') : input;
+            navigate(`/${['search', text, searchType].filter(Boolean).join('/')}`, {
+                replace: true,
+            });
+        }
+    };
 
     const searchTypeAll: SearchResultProps['searchType'] = ['album', 'artist', 'playlist', 'track'];
     let searchTypeToUse = searchTypeAll;
@@ -40,12 +39,14 @@ export const PageSearch = () => {
     }
 
     return (
-        <>
-            <div className="my-8 ml-6 mr-2 max-w-lg">
+        <div
+            className={searchText ? '' : 'flex h-full flex-col-reverse items-center justify-center'}
+        >
+            <div className={`${searchText ? 'my-8 ml-6 mr-2' : ''} w-[512px]`}>
                 <SearchBox
-                    placeholder="What do you want to play?"
                     value={searchText ?? ''}
                     onChange={handleSearch}
+                    placeholder="what do you want to play?"
                 />
             </div>
             {searchText && (
@@ -59,7 +60,8 @@ export const PageSearch = () => {
                     />
                 </>
             )}
-        </>
+            {!searchText && <TbMusicSearch className="mb-4 h-40 w-40" />}
+        </div>
     );
 };
 

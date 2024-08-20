@@ -2,7 +2,7 @@ import { useSpotify } from '../../hooks/useSpotify';
 import { AlbumListSection, AlbumListSectionSkeleton } from '../album/AlbumListSection';
 import { ArtistListSection, ArtistListSectionSkeleton } from '../artist/ArtistListSection';
 import { PlaylistSeciton, PlaylistSectionSkeleton } from '../playlist/PlaylistSection';
-import { TrackSearchResult } from './TrackSearchResult';
+import { TrackSearchResult, TrackSearchResultSkeleton } from './TrackSearchResult';
 
 export type SearchResultProps = {
     searchType: Array<'album' | 'artist' | 'playlist' | 'track'>;
@@ -23,6 +23,9 @@ export const SearchResult = (props: SearchResultProps) => {
     if (isLoading) {
         return (
             <div className={props.className}>
+                {props.searchType.includes('track') && (
+                    <TrackSearchResultSkeleton displayMode={props.displayMode} />
+                )}
                 {props.searchType.includes('artist') && (
                     <ArtistListSectionSkeleton
                         displayMode={props.displayMode}
@@ -52,7 +55,11 @@ export const SearchResult = (props: SearchResultProps) => {
     return (
         <div className={props.className}>
             {data.tracks && data.tracks.items.length > 0 && (
-                <TrackSearchResult tracks={data.tracks.items} displayMode={props.displayMode} />
+                <TrackSearchResult
+                    tracks={data.tracks.items}
+                    displayMode={props.displayMode}
+                    searchText={props.searchText}
+                />
             )}
             {data.artists && data.artists.items.length > 0 && (
                 <ArtistListSection

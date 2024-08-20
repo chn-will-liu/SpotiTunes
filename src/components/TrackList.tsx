@@ -9,7 +9,7 @@ export const TrackList = (trackList: TrackListModel) => {
     const currentPlayTrack = usePlayerState((state) => state.trackWindow.currentTrack);
 
     return (
-        <div className="ml-8">
+        <div className="ml-4">
             {trackList.tracks.map((track, index) => (
                 <TrackListItem
                     key={track.id}
@@ -29,9 +29,9 @@ export const TrackList = (trackList: TrackListModel) => {
 
 export const TrackListSkeleton = ({ type }: { type: TrackListModel['type'] }) => {
     return (
-        <div className="ml-8">
+        <div className="ml-4">
             {Array.from({ length: 10 }).map((_, index) => (
-                <TrackListItemSkeleton key={index} showAlbum={type !== 'album'} />
+                <TrackListItemSkeleton key={index} showAlbum={type !== 'album'} showIndex />
             ))}
         </div>
     );

@@ -23,9 +23,11 @@ export default {
             keyframes: {
                 'skeleton-loading': {
                     '0%': {
-                        left: '-50%',
+                        translate: '-100%',
+                        left: '0',
                     },
                     '100%': {
+                        translate: '0',
                         left: '100%',
                     },
                 },
