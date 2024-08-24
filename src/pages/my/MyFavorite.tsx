@@ -26,10 +26,16 @@ export const PageFavorite = () => {
                 <div className="mb-2">
                     {userProfile?.display_name} • {favorite.items.length} songs
                 </div>
-                <TrackListPlayButton tracks={tracks} type="savedTracks" />
+                <TrackListPlayButton
+                    tracks={tracks}
+                    contextUri={`spotify:user:${userProfile?.id}:collection`}
+                />
             </PageHeader>
             <PageContent>
-                <TrackList tracks={tracks} type="savedTracks" />
+                <TrackList
+                    tracks={tracks}
+                    contextUri={`spotify:user:${userProfile?.id}:collection`}
+                />
             </PageContent>
         </>
     );
@@ -40,7 +46,7 @@ const PageFavoriteSkeleton = () => {
         <>
             <PageHeaderSkeleton type="playlist" />
             <PageContent>
-                <TrackListSkeleton type="savedTracks" />
+                <TrackListSkeleton contextUri={`spotify:user:$any$:collection`} />
             </PageContent>
         </>
     );

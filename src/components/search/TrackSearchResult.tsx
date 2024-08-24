@@ -13,7 +13,7 @@ export interface TrackSearchResultProps {
     searchText: string;
 }
 
-export const TrackSearchResult = ({ tracks, displayMode, searchText }: TrackSearchResultProps) => {
+export const TrackSearchResult = ({ tracks, displayMode }: TrackSearchResultProps) => {
     if (displayMode === 'top-items') {
         const [top, ...rest] = tracks.slice(0, 5);
         return (
@@ -29,7 +29,7 @@ export const TrackSearchResult = ({ tracks, displayMode, searchText }: TrackSear
         );
     }
 
-    return <TrackList tracks={tracks} entityId={searchText} type="trackRecommendations" />;
+    return <TrackList tracks={tracks} contextUri="" />;
 };
 
 export const TrackSearchResultSkeleton = ({
@@ -52,5 +52,5 @@ export const TrackSearchResultSkeleton = ({
         );
     }
 
-    return <TrackListSkeleton type="trackRecommendations" />;
+    return <TrackListSkeleton contextUri="" />;
 };

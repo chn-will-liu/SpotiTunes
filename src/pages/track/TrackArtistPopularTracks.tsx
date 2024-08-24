@@ -19,14 +19,8 @@ export const Component = () => {
     } = useArtistTopTracks(track?.artists?.[0].id);
 
     if (isLoadingTrack || isLoadingTopTracks)
-        return <TrackListSkeleton type="artistPopularTracks" />;
+        return <TrackListSkeleton contextUri={`spotify:artist:$any$`} />;
     if (!artist || !topTracks) return <div>No artist found!</div>;
 
-    return (
-        <TrackList
-            tracks={topTracks.tracks ?? []}
-            type="artistPopularTracks"
-            entityId={artist.id}
-        />
-    );
+    return <TrackList tracks={topTracks.tracks ?? []} contextUri={`spotify:artist:${artist.id}`} />;
 };

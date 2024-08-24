@@ -1,5 +1,13 @@
 import { Image } from '@spotify/web-api-ts-sdk';
-import { PropsWithChildren, useContext, useEffect } from 'react';
+import {
+    PropsWithChildren,
+    useCallback,
+    useContext,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from 'react';
 import { useProminentColor } from '../../hooks/useProminentColor';
 import { pickImage } from '../../utils';
 import { SkeletonItem } from '../skeletons/SkeletonItem';
@@ -53,9 +61,11 @@ export const PageHeader = (props: PageHeaderProps) => {
                 alt={props.header}
                 rounded={isArtist ? 'full' : 'md'}
             />
-            <div className="text-shadow-lg">
+            <div className="flex-1 text-shadow-lg">
                 {!isArtist && <div>{props.type.charAt(0).toUpperCase() + props.type.slice(1)}</div>}
-                <h1 className="text-[5rem] font-normal">{props.header}</h1>
+                <h1 className="font-normal">
+                    <HeaderText header={props.header} />
+                </h1>
                 {props.children}
             </div>
         </header>
@@ -71,10 +81,70 @@ export const PageHeaderSkeleton = (props: { type?: PageHeaderProps['type'] }) =>
             <SkeletonItem className={`size-[240px] ${isArtist ? 'rounded-full' : 'rounded-md'}`} />
             <div className="flex-1">
                 {!isArtist && <SkeletonItem className="mb-4 h-5 w-20" />}
-                <SkeletonItem className="mb-4 h-12 w-2/3" />
+                <SkeletonItem className="mb-4 h-20 w-1/3" />
                 <SkeletonItem className="mb-2 h-5 w-3/5" />
                 <SkeletonItem className="h-5 w-2/5" />
             </div>
         </header>
+    );
+};
+
+const HeaderText = (props: { header: string }) => {
+    const ref = useRef<HTMLSpanElement>(null);
+    const [fontSizeRem, setFontSizeRem] = useState(2);
+    const currentFontSizeRem = useRef(fontSizeRem);
+    currentFontSizeRem.current = fontSizeRem;
+
+    const updateFontSize = useCallback(() => {
+        if (!ref.current || !ref.current.parentElement) return;
+
+        const currentRem = currentFontSizeRem.current;
+        const textWidth = ref.current.getBoundingClientRect().width;
+        const parentWidth = ref.current.parentElement.getBoundingClientRect().width * 0.8;
+
+        let adjustedFontSize = currentRem;
+        let adjustedWidth = textWidth;
+        const maxRem = 5;
+        const minRem = 2;
+
+        // when text is too long, reduce font size
+        while (adjustedWidth > parentWidth && adjustedFontSize > minRem) {
+            adjustedWidth = (adjustedWidth * (adjustedFontSize - 0.25)) / adjustedFontSize;
+            if (adjustedWidth > parentWidth) {
+                adjustedFontSize -= 0.25;
+            }
+        }
+
+        // when text is too short, increase font size
+        while (adjustedWidth < parentWidth && adjustedFontSize < maxRem) {
+            adjustedWidth = (adjustedWidth * (adjustedFontSize + 0.25)) / adjustedFontSize;
+            if (adjustedWidth < parentWidth) {
+                adjustedFontSize += 0.25;
+            }
+        }
+
+        if (adjustedFontSize !== currentRem) {
+            setFontSizeRem(adjustedFontSize);
+        }
+    }, [ref]);
+
+    useLayoutEffect(() => updateFontSize(), [updateFontSize]);
+
+    useEffect(() => {
+        const resizeObserver = new ResizeObserver(() => updateFontSize());
+        resizeObserver.observe(ref.current!.parentElement!);
+        return () => resizeObserver.disconnect();
+    }, [updateFontSize]);
+
+    return (
+        <div className="line-clamp-3">
+            <span
+                className=" break-words font-normal"
+                ref={ref}
+                style={{ fontSize: fontSizeRem + 'rem' }}
+            >
+                {props.header}
+            </span>
+        </div>
     );
 };

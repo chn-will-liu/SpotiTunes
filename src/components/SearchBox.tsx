@@ -12,21 +12,21 @@ export type SearchBoxProps = {
 export const SearchBox = (props: SearchBoxProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState(props.value);
-    const hasPendingValueChagnes = useRef(false);
+    const hasPendingChanges = useRef(false);
 
     const onSearchTextChange = useDebounce(props.onChange, 300);
 
     useEffect(() => {
         const valueTrimmed = value.trimEnd();
         if (valueTrimmed !== props.value) {
-            if (hasPendingValueChagnes.current) {
+            if (hasPendingChanges.current) {
                 onSearchTextChange(valueTrimmed);
-                hasPendingValueChagnes.current = false;
+                hasPendingChanges.current = false;
             } else {
                 inputRef.current?.focus();
             }
         }
-    }, [value, props.value, onSearchTextChange, hasPendingValueChagnes]);
+    }, [value, props.value, onSearchTextChange, hasPendingChanges]);
 
     return (
         <div
@@ -40,7 +40,7 @@ export const SearchBox = (props: SearchBoxProps) => {
                 autoFocus
                 onChange={(e) => {
                     setValue(e.target.value);
-                    hasPendingValueChagnes.current = e.target.value.trimEnd() !== props.value;
+                    hasPendingChanges.current = e.target.value.trimEnd() !== props.value;
                 }}
                 value={value}
                 ref={inputRef}
@@ -52,7 +52,7 @@ export const SearchBox = (props: SearchBoxProps) => {
                     size="md"
                     onClick={() => {
                         setValue('');
-                        hasPendingValueChagnes.current = true;
+                        hasPendingChanges.current = true;
                     }}
                     icon={RiCloseFill}
                 />

@@ -31,7 +31,10 @@ export const PagePlaylist = () => {
         <div>
             <PageHeader type="playlist" header={playlist.name} images={playlist.images}>
                 <div className="flex items-center">
-                    <TrackListPlayButton tracks={tracks} type="playlist" entityId={playlist.id} />
+                    <TrackListPlayButton
+                        tracks={tracks}
+                        contextUri={`spotify:playlist:${playlistId}`}
+                    />
                     <div className="ml-4 shrink align-bottom text-sm">
                         <TextWithHref text={playlist.description} />
                         <div>
@@ -42,7 +45,7 @@ export const PagePlaylist = () => {
                 </div>
             </PageHeader>
             <PageContent>
-                <TrackList tracks={tracks} type="playlist" entityId={playlist.id} />
+                <TrackList tracks={tracks} contextUri={`spotify:playlist:${playlistId}`} />
             </PageContent>
         </div>
     );
@@ -53,7 +56,7 @@ const PagePlaylistSkeleton = () => {
         <>
             <PageHeaderSkeleton type="playlist" />
             <PageContent>
-                <TrackListSkeleton type="playlist" />
+                <TrackListSkeleton contextUri={`spotify:playlist:$any$`} />
             </PageContent>
         </>
     );

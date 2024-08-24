@@ -8,9 +8,8 @@ export const TimelineBar = () => {
     const formatter = useFormatter();
     const position = usePlayerState((state) => state.position);
     const totalDuration = usePlayerState((state) => state.totalDuration);
-
     const [draggingPosition, setDraggingPosition] = useState<number | null>(null);
-    const [isDragging, setIsDragging] = useState(false);
+
     const totalDurationStr = useMemo(
         () => formatter.formatDuration(totalDuration),
         [totalDuration, formatter]
@@ -26,15 +25,8 @@ export const TimelineBar = () => {
             <div className="flex-1">
                 <ProgressBar
                     progress={currentPosition}
-                    onChange={(position) => {
-                        if (!isDragging) {
-                            player.seek(position);
-                        } else {
-                            setDraggingPosition(position);
-                        }
-                    }}
+                    onChange={setDraggingPosition}
                     isDraggingChange={(value) => {
-                        setIsDragging(value);
                         if (!value) {
                             player.seek(draggingPosition ?? position);
                             setDraggingPosition(null);

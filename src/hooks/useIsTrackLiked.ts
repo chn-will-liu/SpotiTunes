@@ -1,6 +1,6 @@
 import { useSpotify } from './useSpotify';
 
-export const useIsTrackLiked = (trackId?: string) => {
+export const useIsTrackLiked = (trackId?: string | null) => {
     const { data: likedTracks } = useSpotify({
         api: ['currentUser', 'tracks', 'savedTracks'],
         queryKey: [],

@@ -47,11 +47,7 @@ export const PageTrack = () => {
     return (
         <div>
             <PageHeader type="song" header={track.name} images={track.album.images}>
-                <TrackListPlayButton
-                    tracks={[track, ...recommendedTracks]}
-                    type="trackRecommendations"
-                    entityId={trackId!}
-                />
+                <TrackListPlayButton tracks={[track, ...recommendedTracks]} />
                 <TrackMetadata track={track} />
             </PageHeader>
             <PageContent links={links} />

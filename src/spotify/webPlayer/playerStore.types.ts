@@ -1,18 +1,16 @@
-import { Image } from '@spotify/web-api-ts-sdk';
-
 export interface PlaybackTrack {
     uri: string;
-    id: string;
-    resouceUrl: string | null;
+    id: string | null;
+    resouceUrl?: string | null;
     type: string;
     name: string;
     album: {
-        id: string;
+        uri: string;
         name: string;
-        images: Image[];
+        images: Array<{ url: string; width?: number | null; height?: number | null }>;
     };
     artists: {
-        id: string;
+        uri: string;
         name: string;
     }[];
 }
@@ -22,14 +20,6 @@ export enum RepeatMode {
     Context = 1,
     Track = 2,
 }
-
-// export interface Disallows {
-//     pausing: boolean;
-//     skippingPrev: boolean;
-//     skippingNext: boolean;
-//     togglingRepeatContext: boolean;
-//     togglingShuffle: boolean;
-// }
 
 export interface PlayerState extends PersistablePlayerState {
     // disallows: Disallows;
@@ -63,17 +53,8 @@ export interface PlayerActions {
     skipToPrevious: () => void;
 }
 
-// export interface WebPlayerEvents {
-//     playerStateChanged: ((state: PlayerCurrentState) => void)[];
-// }
-
-export type PlaybackTrackListType = {
-    type: 'savedTracks' | 'playlist' | 'album' | 'artistPopularTracks' | 'trackRecommendations';
-    entityId?: string | undefined;
-};
-
 export interface PlaybackTrackWindow {
-    trackListType: PlaybackTrackListType | null;
+    contextUri: string | null;
     currentTrack: PlaybackTrack | null;
     previousTracks: PlaybackTrack[];
     nextTracks: PlaybackTrack[];

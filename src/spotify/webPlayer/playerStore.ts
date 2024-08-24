@@ -1,17 +1,27 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
-import { PlaybackTrackWindow, PlayerActions, PlayerState, RepeatMode } from './types';
+import {
+    PersistablePlayerState,
+    PlaybackTrackWindow,
+    PlayerActions,
+    PlayerState,
+    RepeatMode,
+} from './playerStore.types';
+
+const persistedState: PersistablePlayerState = JSON.parse(
+    window.localStorage.getItem('playerState') || '{}'
+);
 
 export const usePlayerStore = create<PlayerState & PlayerActions>()(
     subscribeWithSelector((set) => ({
-        volume: 1,
+        volume: persistedState.volume ?? 0.5,
         paused: true,
         position: 0,
         totalDuration: 0,
         currentTime: 0,
-        repeatMode: RepeatMode.Context,
-        isShuffled: false,
-        trackWindow: {
+        repeatMode: persistedState.repeatMode ?? RepeatMode.Context,
+        isShuffled: persistedState.isShuffled ?? false,
+        trackWindow: persistedState.trackWindow ?? {
             trackListType: null,
             currentTrack: null,
             previousTracks: [],
@@ -31,7 +41,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             set((state) => ({
                 ...state,
                 trackWindow: {
-                    trackListType: state.trackWindow.trackListType,
+                    contextUri: state.trackWindow.contextUri,
                     currentTrack: state.trackWindow.nextTracks[0],
                     previousTracks: [
                         ...state.trackWindow.previousTracks,
@@ -44,7 +54,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             set((state) => ({
                 ...state,
                 trackWindow: {
-                    trackListType: state.trackWindow.trackListType,
+                    contextUri: state.trackWindow.contextUri,
                     currentTrack:
                         state.trackWindow.previousTracks[
                             state.trackWindow.previousTracks.length - 1
@@ -57,4 +67,23 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
                 },
             })),
     }))
+);
+
+usePlayerStore.subscribe(
+    (state): PersistablePlayerState => ({
+        volume: state.volume,
+        trackWindow: state.trackWindow,
+        isShuffled: state.isShuffled,
+        repeatMode: state.repeatMode,
+    }),
+    (state) => {
+        window.localStorage.setItem('playerState', JSON.stringify(state));
+    },
+    {
+        equalityFn: (a, b) =>
+            a.volume === b.volume &&
+            a.trackWindow === b.trackWindow &&
+            a.isShuffled === b.isShuffled &&
+            a.repeatMode === b.repeatMode,
+    }
 );

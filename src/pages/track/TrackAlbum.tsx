@@ -8,12 +8,12 @@ export const TrackAlbum = () => {
     const { trackId } = useParams<{ trackId: string }>();
 
     const { tracks, album, isLoading } = useSameAlbumTracks(trackId);
-    if (isLoading) return <TrackListSkeleton type="album" />;
+    if (isLoading) return <TrackListSkeleton contextUri={`spotify:album:$any$`} />;
     if (!album) return <div>No album found!</div>;
 
     return (
         <div>
-            <TrackList tracks={tracks} type="album" entityId={album.id} />
+            <TrackList tracks={tracks} contextUri={`spotify:album:${album.id}`} />
             <AlbumCopyrights className="p-8" album={album} />
         </div>
     );

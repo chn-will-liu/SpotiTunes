@@ -4,18 +4,7 @@ export type SimplifiedTrackWithAlbum = SimplifiedTrack & {
     album: SimplifiedAlbum;
 };
 
-export type TrackListModel =
-    | {
-          type:
-              | 'savedTracks'
-              | 'album'
-              | 'artistPopularTracks'
-              | 'trackRecommendations'
-              | 'playlist';
-          tracks: SimplifiedTrackWithAlbum[];
-          entityId: string;
-      }
-    | {
-          type: 'savedTracks';
-          tracks: SimplifiedTrackWithAlbum[];
-      };
+export type TrackListModel = {
+    contextUri?: string;
+    tracks: SimplifiedTrackWithAlbum[];
+};

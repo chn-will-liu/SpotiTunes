@@ -7,9 +7,11 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { SdkContext } from './SdkContext';
-import { WebPlayer } from './webPlayer/WebPlayer';
+import { AbstractPlayer, createWebPlayer } from './webPlayer/WebPlayer';
 
-const createSpofitySdk = (auth: IAuthStrategy): SpotifySdk => {
+const queryClient = new QueryClient();
+
+const createSpofitySdk = async (auth: IAuthStrategy): Promise<SpotifySdk> => {
     let signal: AbortSignal | null = null;
     const api = new SpotifyApi(auth, {
         beforeRequest: (_url, request) => {
@@ -20,7 +22,7 @@ const createSpofitySdk = (auth: IAuthStrategy): SpotifySdk => {
 
     return {
         api,
-        player: new WebPlayer(),
+        player: await createWebPlayer(api, queryClient),
         setAbortSignalOnceForApi: (newSignal) => {
             signal = newSignal;
         },
@@ -29,10 +31,9 @@ const createSpofitySdk = (auth: IAuthStrategy): SpotifySdk => {
 
 export type SpotifySdk = {
     api: SpotifyApi;
-    player: WebPlayer;
+    player: AbstractPlayer;
     setAbortSignalOnceForApi: (signal: AbortSignal) => void;
 };
-const queryClient = new QueryClient();
 
 export const SpotifySdk = ({ children }: PropsWithChildren) => {
     const sdkinitialized = useRef(false);
@@ -49,7 +50,7 @@ export const SpotifySdk = ({ children }: PropsWithChildren) => {
             currentUrl.searchParams.delete('code');
             const redirectUrl = currentUrl.toString();
             const auth = new AuthorizationCodeWithPKCEStrategy(clientId, redirectUrl, scope);
-            const internalSdk = createSpofitySdk(auth);
+            const internalSdk = await createSpofitySdk(auth);
 
             try {
                 const { authenticated } = await internalSdk.api.authenticate();

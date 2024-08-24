@@ -5,10 +5,10 @@ import { useTrackRecommendations } from '../../hooks/useTrackRecommendations';
 export const TrackRecommended = () => {
     const { trackId } = useParams<{ trackId: string }>();
     const { tracks, isLoading } = useTrackRecommendations(trackId);
-    if (isLoading) return <TrackListSkeleton type="trackRecommendations" />;
+    if (isLoading) return <TrackListSkeleton />;
     if (!tracks) return <div>No tracks found</div>;
 
-    return <TrackList type="trackRecommendations" tracks={tracks} entityId={trackId!} />;
+    return <TrackList tracks={tracks} />;
 };
 
 export const Component = TrackRecommended;

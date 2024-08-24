@@ -21,14 +21,14 @@ export const PageAlbum = () => {
     return (
         <div>
             <PageHeader type="album" header={album.name} images={album.images}>
-                <TrackListPlayButton tracks={tracks} type="album" entityId={album.id} />
+                <TrackListPlayButton tracks={tracks} contextUri={`spotify:album:${albumId}`} />
                 <span className="ml-4 text-sm">
                     <ArtistLinkList artists={album.artists} /> • {album.release_date} •{' '}
                     <span>{album.tracks.items.length} songs</span>
                 </span>
             </PageHeader>
             <PageContent>
-                <TrackList tracks={tracks} type="album" entityId={album.id} />
+                <TrackList tracks={tracks} contextUri={`spotify:album:${albumId}`} />
                 <AlbumCopyrights className="p-8" album={album} />
                 <MoreByArtist artistId={artist.id} name={artist.name} />
             </PageContent>
@@ -67,7 +67,7 @@ const PageAlbumSkeleton = () => {
         <div>
             <PageHeaderSkeleton type="album" />
             <PageContent>
-                <TrackListSkeleton type="album" />
+                <TrackListSkeleton contextUri={`spotify:album:$any$`} />
             </PageContent>
         </div>
     );

@@ -34,8 +34,7 @@ export const PageArtist = () => {
             <PageHeader type="artist" header={artist.name} images={artist.images}>
                 <TrackListPlayButton
                     tracks={topTracks?.tracks ?? []}
-                    type="artistPopularTracks"
-                    entityId={artist?.id}
+                    contextUri={`spotify:artist:${artistId}`}
                 />
                 <span className="ml-4 text-sm">
                     {formatter.formatNumber(artist.followers.total)} followers

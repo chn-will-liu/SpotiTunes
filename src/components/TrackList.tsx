@@ -1,16 +1,17 @@
+import { useMemo } from 'react';
 import { usePlayerState } from '../hooks/usePlayer';
 import { useTrackListPlay } from '../hooks/useTrackListPlay';
 import { TrackListModel } from '../models/TrackListModel';
 import { TrackListItem, TrackListItemSkeleton } from './TrackListItem';
 
-export const TrackList = (trackList: TrackListModel) => {
-    const { isTrackListInPlayer, toggleTrackListPlay } = useTrackListPlay(trackList);
-
+export const TrackList = ({ contextUri, tracks }: TrackListModel) => {
+    const { isTrackListInPlayer, toggleTrackListPlay } = useTrackListPlay({ contextUri, tracks });
     const currentPlayTrack = usePlayerState((state) => state.trackWindow.currentTrack);
+    const isAlbumTracks = useMemo(() => contextUri?.startsWith('spotify:album'), [contextUri]);
 
     return (
         <div className="ml-4">
-            {trackList.tracks.map((track, index) => (
+            {tracks.map((track, index) => (
                 <TrackListItem
                     key={track.id}
                     showIndex
@@ -18,8 +19,8 @@ export const TrackList = (trackList: TrackListModel) => {
                     track={track}
                     album={track.album}
                     isInPlayer={isTrackListInPlayer && track.id === currentPlayTrack?.id}
-                    showAlbum={trackList.type !== 'album'}
-                    showAlbumName={trackList.type === 'album'}
+                    showAlbum={isAlbumTracks}
+                    showAlbumName={isAlbumTracks}
                     onPlayButtonClick={() => toggleTrackListPlay(index)}
                 />
             ))}
@@ -27,11 +28,15 @@ export const TrackList = (trackList: TrackListModel) => {
     );
 };
 
-export const TrackListSkeleton = ({ type }: { type: TrackListModel['type'] }) => {
+export const TrackListSkeleton = ({ contextUri }: { contextUri?: string }) => {
     return (
         <div className="ml-4">
             {Array.from({ length: 10 }).map((_, index) => (
-                <TrackListItemSkeleton key={index} showAlbum={type !== 'album'} showIndex />
+                <TrackListItemSkeleton
+                    key={index}
+                    showAlbum={contextUri?.startsWith('spotify:album')}
+                    showIndex
+                />
             ))}
         </div>
     );

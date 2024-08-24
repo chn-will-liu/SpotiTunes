@@ -1,6 +1,6 @@
 import { SimplifiedAlbum, SimplifiedTrack } from '@spotify/web-api-ts-sdk';
-import { PlaybackTrack } from '../spotify/webPlayer/types';
-import { SimplifiedTrackWithAlbum, TrackListModel } from './TrackListModel';
+import { PlaybackTrack } from '../spotify/webPlayer/playerStore.types';
+import { SimplifiedTrackWithAlbum } from './TrackListModel';
 
 export const mapSimplifiedTrackToPlaybackTrack = (
     track: SimplifiedTrack,
@@ -12,8 +12,8 @@ export const mapSimplifiedTrackToPlaybackTrack = (
         type: track.type,
         name: track.name,
         resouceUrl: track.preview_url,
-        artists: track.artists.map((a) => ({ name: a.name, id: a.id })),
-        album: { id: album.id, name: album.name, images: album.images },
+        artists: track.artists.map((a) => ({ name: a.name, uri: a.uri })),
+        album: { uri: album.uri, name: album.name, images: album.images },
     };
 };
 
@@ -21,6 +21,8 @@ export const mapTrackToPlaybackTrack = (track: SimplifiedTrackWithAlbum): Playba
     return mapSimplifiedTrackToPlaybackTrack(track, track.album);
 };
 
-export const mapTrackListToPlaybackTracks = (trackList: TrackListModel): PlaybackTrack[] => {
-    return trackList.tracks.map((track) => mapTrackToPlaybackTrack(track));
+export const mapTrackListToPlaybackTracks = (
+    tracks: SimplifiedTrackWithAlbum[]
+): PlaybackTrack[] => {
+    return tracks.map((track) => mapTrackToPlaybackTrack(track));
 };
