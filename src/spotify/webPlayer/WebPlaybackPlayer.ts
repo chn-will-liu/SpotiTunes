@@ -86,7 +86,7 @@ export class WebPlaybackPlayer implements AbstractPlayer {
 
     public setPlaybackTracks(trackWindow: PlaybackTrackWindow): void {
         const { contextUri, currentTrack, nextTracks, previousTracks } = trackWindow;
-        const useOffset = !!contextUri?.match(/^spotify:(album|playlist|artist)/);
+        const useOffset = !!contextUri?.match(/^spotify:(album|playlist|artist|user)/);
         const offset = useOffset ? { uri: currentTrack?.uri } : { position: previousTracks.length };
         const tracks = useOffset
             ? undefined
