@@ -1,13 +1,16 @@
 import EMPTY_AUDIO_URL from './../../assets/10-seconds-of-silence.mp3';
-import { usePlayerStore } from './playerStore';
-import { PlaybackTrackWindow, PlayerActions, RepeatMode } from './playerStore.types';
-import { AbstractPlayer } from './WebPlayer';
+import { PlaybackTrackWindow, RepeatMode } from './playerStore.types';
+import { WebPlayer } from './WebPlayer';
 
-export class PreviewPlaybackPlayer implements AbstractPlayer {
+export class PreviewPlaybackPlayer extends WebPlayer {
     private audioEl = document.createElement('audio');
-    private playerActions: PlayerActions = usePlayerStore.getState();
 
-    public async initialize(): Promise<void> {
+    constructor() {
+        super();
+        this.initialize();
+    }
+
+    public initialize(): void {
         document.body.appendChild(this.audioEl);
         this.audioEl.hidden = true;
         this.audioEl.addEventListener('loadedmetadata', () => {
@@ -25,14 +28,14 @@ export class PreviewPlaybackPlayer implements AbstractPlayer {
         });
         this.audioEl.addEventListener('ended', () => this.handleTrackEnd());
 
-        const { volume, trackWindow } = usePlayerStore.getState();
+        const { volume, trackWindow } = this.playerStore.getState();
         this.audioEl.volume = volume;
         const currentTrack = trackWindow.currentTrack;
         if (currentTrack && currentTrack.resouceUrl !== this.audioEl.src) {
             this.audioEl.src = currentTrack.resouceUrl ?? EMPTY_AUDIO_URL;
         }
 
-        usePlayerStore.subscribe(
+        this.playerStore.subscribe(
             (state) => state.trackWindow.currentTrack,
             (current, prev) => {
                 if (current?.resouceUrl !== this.audioEl.src) {
@@ -57,13 +60,13 @@ export class PreviewPlaybackPlayer implements AbstractPlayer {
     }
 
     public resume() {
-        if (usePlayerStore.getState().trackWindow.currentTrack == null) return;
+        if (this.playerStore.getState().trackWindow.currentTrack == null) return;
         this.audioEl.play();
         this.playerActions.setPaused(false);
     }
 
     public togglePlay() {
-        if (usePlayerStore.getState().paused) {
+        if (this.playerStore.getState().paused) {
             this.resume();
         } else {
             this.pause();
@@ -87,7 +90,7 @@ export class PreviewPlaybackPlayer implements AbstractPlayer {
 
     public skipToNext() {
         this.playerActions.skipToNext();
-        const { currentTrack } = usePlayerStore.getState().trackWindow;
+        const { currentTrack } = this.playerStore.getState().trackWindow;
         if (currentTrack) {
             this.resume();
         }
@@ -104,7 +107,7 @@ export class PreviewPlaybackPlayer implements AbstractPlayer {
     }
 
     private handleTrackEnd() {
-        const { repeatMode, trackWindow } = usePlayerStore.getState();
+        const { repeatMode, trackWindow } = this.playerStore.getState();
 
         if (repeatMode === RepeatMode.Track) {
             this.seek(0);

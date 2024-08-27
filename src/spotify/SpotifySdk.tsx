@@ -7,7 +7,8 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { SdkContext } from './SdkContext';
-import { AbstractPlayer, createWebPlayer } from './webPlayer/WebPlayer';
+import { createWebPlayer } from './webPlayer/createWebPlayer';
+import { WebPlayer } from './webPlayer/WebPlayer';
 
 const queryClient = new QueryClient();
 
@@ -31,7 +32,7 @@ const createSpofitySdk = async (auth: IAuthStrategy): Promise<SpotifySdk> => {
 
 export type SpotifySdk = {
     api: SpotifyApi;
-    player: AbstractPlayer;
+    player: WebPlayer;
     setAbortSignalOnceForApi: (signal: AbortSignal) => void;
 };
 

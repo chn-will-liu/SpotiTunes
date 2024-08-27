@@ -188,4 +188,4 @@ interface WebPlaybackInstance {
     device_id: string;
 }
 
-export type PlayerClass = { new (options: PlayerInit): Player };
+export type WebPlaybackPlayerClass = { new (options: PlayerInit): Player };

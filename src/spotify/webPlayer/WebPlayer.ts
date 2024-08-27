@@ -1,11 +1,15 @@
-import { SpotifyApi } from '@spotify/web-api-ts-sdk';
-import { QueryClient } from '@tanstack/react-query';
-import { PlaybackTrackWindow, RepeatMode } from './playerStore.types';
-import { PreviewPlaybackPlayer } from './PreviewPlaybackPlayer';
-import { WebPlaybackPlayer } from './WebPlaybackPlayer';
+import { createPlayerStore } from './playerStore';
+import {
+    PersistablePlayerState,
+    PlaybackTrackWindow,
+    PlayerActions,
+    RepeatMode,
+} from './playerStore.types';
 
-export abstract class AbstractPlayer {
-    public abstract initialize(): Promise<void>;
+export abstract class WebPlayer {
+    protected playerActions: PlayerActions;
+    protected playerStore: ReturnType<typeof createPlayerStore>;
+
     public abstract setVolume(volume: number): void;
     public abstract pause(): void;
     public abstract resume(): void;
@@ -16,24 +20,39 @@ export abstract class AbstractPlayer {
     public abstract skipToNext(): void;
     public abstract skipToPrevious(): void;
     public abstract setPlaybackTracks(trackWindow: PlaybackTrackWindow): void;
-}
 
-export async function createWebPlayer(
-    api: SpotifyApi,
-    queryClient: QueryClient
-): Promise<AbstractPlayer> {
-    const profile = await queryClient.fetchQuery({
-        queryKey: ['spotify', 'api', 'currentUser', 'profile'],
-        queryFn: () => api.currentUser.profile(),
-    });
+    constructor() {
+        let persistedState: Partial<PersistablePlayerState>;
+        try {
+            persistedState = JSON.parse(window.localStorage.getItem('playerState') || '{}');
+        } catch {
+            persistedState = {};
+        }
 
-    let player: AbstractPlayer;
-    if (profile.product === 'free' || profile.product === 'open') {
-        player = new PreviewPlaybackPlayer();
-    } else {
-        player = new WebPlaybackPlayer(api);
+        this.playerStore = createPlayerStore(persistedState);
+        this.playerActions = this.playerStore.getState();
+
+        this.playerStore.subscribe(
+            (state): PersistablePlayerState => ({
+                volume: state.volume,
+                trackWindow: state.trackWindow,
+                isShuffled: state.isShuffled,
+                repeatMode: state.repeatMode,
+            }),
+            (state) => {
+                window.localStorage.setItem('playerState', JSON.stringify(state));
+            },
+            {
+                equalityFn: (a, b) =>
+                    a.volume === b.volume &&
+                    a.trackWindow === b.trackWindow &&
+                    a.isShuffled === b.isShuffled &&
+                    a.repeatMode === b.repeatMode,
+            }
+        );
     }
 
-    await player.initialize();
-    return player;
+    public get usePlayerStore() {
+        return this.playerStore;
+    }
 }

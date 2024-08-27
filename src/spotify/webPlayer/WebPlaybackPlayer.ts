@@ -1,58 +1,71 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
-import { usePlayerStore } from './playerStore';
-import { PlaybackTrackWindow, PlayerActions, RepeatMode } from './playerStore.types';
+import { PlaybackTrackWindow, RepeatMode } from './playerStore.types';
 import './WebPlaybackSdk.types';
-import { PlaybackState, PlayerClass } from './WebPlaybackSdk.types';
-import { AbstractPlayer } from './WebPlayer';
+import { PlaybackState, WebPlaybackPlayerClass } from './WebPlaybackSdk.types';
+import { WebPlayer } from './WebPlayer';
 
 declare global {
     interface Window {
         onSpotifyWebPlaybackSDKReady(): void;
-        Spotify: { Player: PlayerClass };
+        Spotify: { Player: WebPlaybackPlayerClass };
     }
 }
 
-export class WebPlaybackPlayer implements AbstractPlayer {
-    private player!: InstanceType<PlayerClass>;
+export class WebPlaybackPlayer extends WebPlayer {
+    private player!: InstanceType<WebPlaybackPlayerClass>;
     private playerStatePolling!: ReturnType<Window['setTimeout']>;
-
     private deviceId!: string;
-    private playerStore: PlayerActions = usePlayerStore.getState();
 
-    constructor(private api: SpotifyApi) {}
+    // we don't want the WebPlayback SDK player initialization to lag our player initialization behind
+    private isPlayerReady: Promise<void>;
+    private resolvePlayerReady!: VoidFunction;
 
-    public async initialize(): Promise<void> {
-        return new Promise((resolve) => {
-            const script = document.createElement('script');
-            script.src = 'https://sdk.scdn.co/spotify-player.js';
-            script.async = true;
-            document.head.appendChild(script);
+    constructor(private api: SpotifyApi) {
+        super();
 
-            window.onSpotifyWebPlaybackSDKReady = () => {
-                this.onWebPlaybackSDKReady(resolve);
-            };
+        this.isPlayerReady = new Promise((resolve) => {
+            this.resolvePlayerReady = resolve;
         });
+        this.initialize();
     }
 
-    public setVolume(newVolume: number): void {
-        const { volume } = usePlayerStore.getState();
+    public initialize() {
+        const script = document.createElement('script');
+        script.src = 'https://sdk.scdn.co/spotify-player.js';
+        script.async = true;
+        document.head.appendChild(script);
+
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            this.onWebPlaybackSDKReady();
+        };
+    }
+
+    public async setVolume(newVolume: number): Promise<void> {
+        await this.isPlayerReady;
+
+        const { volume } = this.playerStore.getState();
         if (newVolume !== volume) {
             this.player.setVolume(newVolume);
-            this.playerStore.setVolume(newVolume);
+            this.playerActions.setVolume(newVolume);
         }
     }
 
-    public pause(): void {
+    public async pause(): Promise<void> {
+        await this.isPlayerReady;
         this.player.pause();
     }
 
-    public resume(): void {
-        // somehow the player.resume() method doesn't work
-        this.api.player.startResumePlayback(this.deviceId);
+    public async resume(): Promise<void> {
+        try {
+            // somehow the player.resume() method doesn't work
+            await this.api.player.startResumePlayback(this.deviceId);
+        } catch {
+            // websdk doesn't handle player response correctly.
+        }
     }
 
     public togglePlay(): void {
-        const { paused } = usePlayerStore.getState();
+        const { paused } = this.playerStore.getState();
         if (paused) {
             this.resume();
         } else {
@@ -60,46 +73,63 @@ export class WebPlaybackPlayer implements AbstractPlayer {
         }
     }
 
-    public setRepeatMode(mode: RepeatMode): void {
+    public async setRepeatMode(mode: RepeatMode): Promise<void> {
         const repeatMode =
             mode === RepeatMode.None ? 'off' : mode === RepeatMode.Context ? 'context' : 'track';
-        this.api.player.setRepeatMode(repeatMode, this.deviceId);
+        try {
+            await this.api.player.setRepeatMode(repeatMode, this.deviceId);
+        } catch {
+            // websdk doesn't handle player response correctly.
+        }
     }
 
-    public toggleShuffle(isShuffled?: boolean): void {
-        this.api.player.togglePlaybackShuffle(!!isShuffled, this.deviceId);
+    public async toggleShuffle(isShuffled?: boolean): Promise<void> {
+        try {
+            await this.api.player.togglePlaybackShuffle(!!isShuffled, this.deviceId);
+        } catch {
+            // websdk doesn't handle player response correctly.
+        }
     }
 
-    public seek(position: number): void {
-        const { totalDuration } = usePlayerStore.getState();
+    public async seek(position: number): Promise<void> {
+        await this.isPlayerReady;
+
+        const { totalDuration } = this.playerStore.getState();
         this.player.seek(totalDuration * position * 1000);
-        this.playerStore.setPosition(position);
+        this.playerActions.setPosition(position);
     }
 
-    public skipToNext(): void {
+    public async skipToNext(): Promise<void> {
+        await this.isPlayerReady;
         this.player.nextTrack();
     }
 
-    public skipToPrevious(): void {
+    public async skipToPrevious(): Promise<void> {
+        await this.isPlayerReady;
         this.player.previousTrack();
     }
 
-    public setPlaybackTracks(trackWindow: PlaybackTrackWindow): void {
+    public async setPlaybackTracks(trackWindow: PlaybackTrackWindow): Promise<void> {
         const { contextUri, currentTrack, nextTracks, previousTracks } = trackWindow;
         const useOffset = !!contextUri?.match(/^spotify:(album|playlist|artist|user)/);
         const offset = useOffset ? { uri: currentTrack?.uri } : { position: previousTracks.length };
         const tracks = useOffset
             ? undefined
             : [...previousTracks, currentTrack!, ...nextTracks].map((track) => track.uri);
-        this.api.player.startResumePlayback(
-            this.deviceId,
-            trackWindow.contextUri ?? undefined,
-            tracks,
-            offset
-        );
+
+        try {
+            await this.api.player.startResumePlayback(
+                this.deviceId,
+                trackWindow.contextUri ?? undefined,
+                tracks,
+                offset
+            );
+        } catch {
+            // websdk doesn't handle player response correctly.
+        }
     }
 
-    private onWebPlaybackSDKReady(ready: () => void) {
+    private onWebPlaybackSDKReady() {
         const player = new window.Spotify.Player({
             name: 'SpotiTunes',
             getOAuthToken: (cb) => {
@@ -109,12 +139,11 @@ export class WebPlaybackPlayer implements AbstractPlayer {
                     }
                 });
             },
-            volume: usePlayerStore.getState().volume,
         });
 
         player.addListener('ready', ({ device_id }) => {
             this.deviceId = device_id;
-            ready();
+            this.resolvePlayerReady();
         });
         player.addListener('player_state_changed', (state) => this.onPlayerStateChanged(state));
         player.connect();
@@ -122,32 +151,32 @@ export class WebPlaybackPlayer implements AbstractPlayer {
     }
 
     private onPlayerStateChanged(state: PlaybackState) {
-        const storeState = usePlayerStore.getState();
+        const storeState = this.playerStore.getState();
 
         const duration = Math.floor(state.duration / 1000);
         if (duration !== storeState.totalDuration) {
-            this.playerStore.setTotalDuration(duration);
+            this.playerActions.setTotalDuration(duration);
         }
 
         const position = state.position / state.duration;
         if (position !== storeState.position) {
-            this.playerStore.setPosition(Number.isNaN(position) ? 0 : position);
+            this.playerActions.setPosition(Number.isNaN(position) ? 0 : position);
         }
 
         if (state.paused !== storeState.paused) {
-            this.playerStore.setPaused(state.paused);
+            this.playerActions.setPaused(state.paused);
         }
 
         if (state.repeat_mode !== storeState.repeatMode) {
-            this.playerStore.setRepeatMode(state.repeat_mode);
+            this.playerActions.setRepeatMode(state.repeat_mode);
         }
 
         if (state.shuffle !== storeState.isShuffled) {
-            this.playerStore.toggleShuffled(state.shuffle);
+            this.playerActions.toggleShuffled(state.shuffle);
         }
 
         if (state.track_window.current_track.uri !== storeState.trackWindow.currentTrack?.uri) {
-            this.playerStore.setTrackWindow({
+            this.playerActions.setTrackWindow({
                 currentTrack: state.track_window.current_track,
                 nextTracks: state.track_window.next_tracks,
                 previousTracks: state.track_window.previous_tracks,
@@ -165,9 +194,9 @@ export class WebPlaybackPlayer implements AbstractPlayer {
     private startPositionAndVolumePolling() {
         this.playerStatePolling = setTimeout(() => {
             this.player.getVolume().then((playerVolume) => {
-                const { volume } = usePlayerStore.getState();
+                const { volume } = this.playerStore.getState();
                 if (playerVolume !== volume) {
-                    this.playerStore.setVolume(playerVolume);
+                    this.playerActions.setVolume(playerVolume);
                 }
             });
 
