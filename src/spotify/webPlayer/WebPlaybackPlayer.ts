@@ -1,4 +1,5 @@
-import { SpotifyApi } from '@spotify/web-api-ts-sdk';
+import { SpotifyApi, TrackItem } from '@spotify/web-api-ts-sdk';
+import { mapTrackToPlaybackTrack } from '../../models/mappings';
 import { PlaybackTrackWindow, RepeatMode } from './playerStore.types';
 import './WebPlaybackSdk.types';
 import { PlaybackState, WebPlaybackPlayerClass } from './WebPlaybackSdk.types';
@@ -143,6 +144,7 @@ export class WebPlaybackPlayer extends WebPlayer {
 
         player.addListener('ready', ({ device_id }) => {
             this.deviceId = device_id;
+            this.syncPlayerState();
             this.resolvePlayerReady();
         });
         player.addListener('player_state_changed', (state) => this.onPlayerStateChanged(state));
@@ -204,5 +206,31 @@ export class WebPlaybackPlayer extends WebPlayer {
                 .getCurrentState()
                 .then((state) => state && this.onPlayerStateChanged(state));
         }, 250);
+    }
+
+    private async syncPlayerState() {
+        const [state, queue] = await Promise.all([
+            this.api.player.getPlaybackState(),
+            this.api.player.getUsersQueue(),
+        ]);
+
+        this.playerActions.toggleShuffled(state.shuffle_state);
+        if (state.device.volume_percent) {
+            this.playerActions.setVolume(state.device.volume_percent / 100);
+        }
+
+        const mapQueueToPlaybackTrack = (track: TrackItem | null) => {
+            if (track && 'album' in track) {
+                return mapTrackToPlaybackTrack(track);
+            }
+            return null;
+        };
+
+        this.playerActions.setTrackWindow({
+            currentTrack: mapQueueToPlaybackTrack(queue.currently_playing),
+            nextTracks: queue.queue.map(mapQueueToPlaybackTrack).filter((t) => t !== null),
+            previousTracks: [],
+            contextUri: state.context?.uri ?? '',
+        });
     }
 }
