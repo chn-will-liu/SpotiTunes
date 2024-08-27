@@ -228,7 +228,9 @@ export class WebPlaybackPlayer extends WebPlayer {
 
         this.playerActions.setTrackWindow({
             currentTrack: mapQueueToPlaybackTrack(queue.currently_playing),
-            nextTracks: queue.queue.map(mapQueueToPlaybackTrack).filter((t) => t !== null),
+            nextTracks: queue.queue
+                .map(mapQueueToPlaybackTrack)
+                .filter(<T>(t: T): t is NonNullable<T> => t !== null),
             previousTracks: [],
             contextUri: state.context?.uri ?? '',
         });
