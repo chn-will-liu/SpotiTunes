@@ -44,7 +44,7 @@ export const PageSearch = () => {
         >
             <div className={`${searchText ? 'my-8 ml-6 mr-2' : ''} w-[512px]`}>
                 <SearchBox
-                    value={searchText ?? ''}
+                    initialValue={searchText ?? ''}
                     onChange={handleSearch}
                     placeholder="what do you want to play?"
                 />

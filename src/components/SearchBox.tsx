@@ -1,32 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { RiCloseFill, RiSearch2Line } from 'react-icons/ri';
 import { useDebounce } from '../hooks/useDebounce';
 import { IconButton } from './IconButton';
 
 export type SearchBoxProps = {
-    value: string;
+    initialValue: string;
     onChange: (value: string) => void;
     placeholder?: string;
 };
 
 export const SearchBox = (props: SearchBoxProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [value, setValue] = useState(props.value);
-    const hasPendingChanges = useRef(false);
-
     const onSearchTextChange = useDebounce(props.onChange, 300);
-
-    useEffect(() => {
-        const valueTrimmed = value.trimEnd();
-        if (valueTrimmed !== props.value) {
-            if (hasPendingChanges.current) {
-                onSearchTextChange(valueTrimmed);
-                hasPendingChanges.current = false;
-            } else {
-                inputRef.current?.focus();
-            }
-        }
-    }, [value, props.value, onSearchTextChange, hasPendingChanges]);
 
     return (
         <div
@@ -35,28 +20,25 @@ export const SearchBox = (props: SearchBoxProps) => {
         >
             <input
                 type="text"
-                className="w-full rounded-lg bg-white bg-opacity-5 px-12 py-3 pr-4 text-sm font-light text-inherit placeholder:text-current"
+                className="peer w-full rounded-lg bg-white bg-opacity-5 px-12 py-3 pr-4 text-sm font-light text-inherit placeholder:text-current"
                 placeholder={props.placeholder}
                 autoFocus
                 onChange={(e) => {
-                    setValue(e.target.value);
-                    hasPendingChanges.current = e.target.value.trimEnd() !== props.value;
+                    onSearchTextChange(e.target.value.trimEnd());
                 }}
-                value={value}
+                defaultValue={props.initialValue}
                 ref={inputRef}
             />
+            <IconButton
+                className="absolute right-3 block size-7 peer-placeholder-shown:hidden"
+                size="md"
+                onClick={() => {
+                    inputRef.current!.value = '';
+                    onSearchTextChange('');
+                }}
+                icon={RiCloseFill}
+            />
             <RiSearch2Line className="absolute left-3 size-7" />
-            {props.value && (
-                <IconButton
-                    className="absolute right-3 size-7"
-                    size="md"
-                    onClick={() => {
-                        setValue('');
-                        hasPendingChanges.current = true;
-                    }}
-                    icon={RiCloseFill}
-                />
-            )}
         </div>
     );
 };
