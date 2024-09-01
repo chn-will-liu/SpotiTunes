@@ -112,7 +112,7 @@ export class WebPlaybackPlayer extends WebPlayer {
 
     public async setPlaybackTracks(trackWindow: PlaybackTrackWindow): Promise<void> {
         const { contextUri, currentTrack, nextTracks, previousTracks } = trackWindow;
-        const useOffset = !!contextUri?.match(/^spotify:(album|playlist|artist|user)/);
+        const useOffset = !!contextUri?.match(/^spotify:(album|playlist|user)/);
         const offset = useOffset ? { uri: currentTrack?.uri } : { position: previousTracks.length };
         const tracks = useOffset
             ? undefined
