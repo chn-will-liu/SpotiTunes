@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { memo, MouseEventHandler, PropsWithChildren } from 'react';
 import { IconType } from 'react-icons';
 
@@ -37,11 +38,11 @@ const IconButtonInner = (props: IconButtonProps) => {
     return (
         <button
             type="button"
-            className={`translation-transform transform ${bgStyle} ${hoverEffect} disabled:opacity-50 ${props.className ?? ''}`}
+            className={`translation-transform transform  disabled:opacity-50 ${clsx([props.className, bgStyle, hoverEffect])}`}
             onClick={props.onClick}
             disabled={props.disabled}
         >
-            <Icon className={`${sizeMap[props.size ?? 'md']}`} />
+            <Icon className={sizeMap[props.size ?? 'md']} />
             {props.children}
         </button>
     );

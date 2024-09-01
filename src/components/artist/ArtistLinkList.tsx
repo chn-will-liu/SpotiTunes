@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 export type ArtistLinkListProps = {
@@ -13,7 +14,9 @@ export const ArtistLinkList = ({ artists, className, usePrimaryColor }: ArtistLi
                 <span key={artist.uri}>
                     <Link
                         to={'/artist/' + artist.uri.split(':')[2]}
-                        className={`${className} text-sm text-white ${usePrimaryColor ? '' : 'text-opacity-65'} hover:text-opacity-100 hover:underline`}
+                        className={`text-sm text-white hover:text-opacity-100 hover:underline ${clsx(
+                            [className, !usePrimaryColor && 'text-opacity-65']
+                        )}`}
                     >
                         {artist.name}
                     </Link>

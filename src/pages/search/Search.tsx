@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { TbMusicSearch } from 'react-icons/tb';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavList } from '../../components/NavList';
@@ -40,9 +41,11 @@ export const PageSearch = () => {
 
     return (
         <div
-            className={searchText ? '' : 'flex h-full flex-col-reverse items-center justify-center'}
+            className={clsx({
+                'flex h-full flex-col-reverse items-center justify-center': !searchText,
+            })}
         >
-            <div className={`${searchText ? 'my-8 ml-6 mr-2' : ''} w-[512px]`}>
+            <div className={`${clsx({ 'my-8 ml-6 mr-2': searchText })} w-[512px]`}>
                 <SearchBox
                     initialValue={searchText ?? ''}
                     onChange={handleSearch}

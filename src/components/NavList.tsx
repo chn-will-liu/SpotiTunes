@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { RefObject, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { AppBgContext } from './shell/AppBgColor';
@@ -21,7 +22,7 @@ export const NavList = ({ links, isLoading }: NavListProps) => {
     return (
         <nav
             ref={navRef}
-            className={`sticky -top-1 z-10 flex h-20 items-center gap-5 px-6 ${isStuck ? 'shadow-lg' : ''}`}
+            className={`sticky -top-1 z-10 flex h-20 items-center gap-5 px-6 ${clsx({ 'shadow-lg': isStuck })}`}
             style={{
                 backgroundColor: `color-mix(in srgb,${bg.color} 30%, black 70%)`,
             }}

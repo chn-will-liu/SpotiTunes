@@ -1,4 +1,5 @@
 import { Image } from '@spotify/web-api-ts-sdk';
+import clsx from 'clsx';
 import { useMemo } from 'react';
 import { BiSolidAlbum } from 'react-icons/bi';
 import { useImageLoader } from '../hooks/useImageLoader';
@@ -34,7 +35,7 @@ export const SpotiImage = ({
     rounded = 'rounded-' + rounded;
 
     return (
-        <div className={`${rounded} aspect-square shadow-lg ${className ?? ''}`} style={style}>
+        <div className={`aspect-square shadow-lg ${clsx([rounded, className])}`} style={style}>
             {image ? (
                 loaded ? (
                     <img

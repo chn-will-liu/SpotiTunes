@@ -112,18 +112,20 @@ export class WebPlaybackPlayer extends WebPlayer {
 
     public async setPlaybackTracks(trackWindow: PlaybackTrackWindow): Promise<void> {
         const { contextUri, currentTrack, nextTracks, previousTracks } = trackWindow;
-        const useOffset = !!contextUri?.match(/^spotify:(album|playlist|user)/);
+        const useOffset = !!contextUri?.match(/^spotify:(album|artist|playlist|user)/);
         const offset = useOffset ? { uri: currentTrack?.uri } : { position: previousTracks.length };
-        const tracks = useOffset
-            ? undefined
-            : [...previousTracks, currentTrack!, ...nextTracks].map((track) => track.uri);
+        const isArtistTracks = contextUri?.startsWith('spotify:artist');
 
         try {
             await this.api.player.startResumePlayback(
                 this.deviceId,
                 useOffset ? contextUri! : undefined,
-                tracks,
-                offset
+                useOffset
+                    ? undefined
+                    : [...previousTracks, currentTrack!, ...nextTracks].map((track) => track.uri),
+                // TODO: fix this issue
+                // when playing an artist, the player API doesn't support offset (WHY??)
+                isArtistTracks ? undefined : offset
             );
         } catch {
             // websdk doesn't handle player response correctly.

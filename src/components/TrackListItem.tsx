@@ -1,4 +1,5 @@
 import { SimplifiedAlbum, SimplifiedTrack } from '@spotify/web-api-ts-sdk';
+import clsx from 'clsx';
 import { useMemo } from 'react';
 import { BsSoundwave } from 'react-icons/bs';
 import { IoMdTime } from 'react-icons/io';
@@ -46,12 +47,15 @@ export const TrackListItem = ({
 
     return (
         <div
-            className={`group flex items-center whitespace-nowrap  ${compactMode ? 'gap-4 p-2' : 'gap-8 border-b border-white border-opacity-25 py-5 pl-5 pr-10'}
-            from-transparent to-[#ffffff22] hover:bg-gradient-to-r `}
+            className={`group flex items-center whitespace-nowrap  
+            from-transparent to-[#ffffff22] hover:bg-gradient-to-r ${clsx({
+                'gap-4 p-2': compactMode,
+                'gap-8 border-b border-white border-opacity-25 py-5 pl-5 pr-10': !compactMode,
+            })}`}
         >
             {showIndex && (
                 <div className="w-5">
-                    <span className={`group-hover:hidden ${isInPlayer ? 'text-spotiGreen' : ''}`}>
+                    <span className={`group-hover:hidden ${clsx(isInPlayer && 'text-spotiGreen')}`}>
                         #{index! + 1}
                     </span>
                     <IconButton
@@ -69,7 +73,7 @@ export const TrackListItem = ({
             <div className="shrink-1 flex-1 flex-grow-[3] overflow-hidden whitespace-nowrap mask-gradient text-shadow-md">
                 <Link
                     to={`/track/${track.id}`}
-                    className={`group/link ${isInPlayer ? 'text-spotiGreen' : ''}`}
+                    className={`group/link ${clsx(isInPlayer && 'text-spotiGreen')}`}
                 >
                     {track.preview_url && (
                         <BsSoundwave className="mr-1 inline-block align-middle" />
