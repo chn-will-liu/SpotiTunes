@@ -121,7 +121,7 @@ export class WebPlaybackPlayer extends WebPlayer {
         try {
             await this.api.player.startResumePlayback(
                 this.deviceId,
-                trackWindow.contextUri ?? undefined,
+                useOffset ? contextUri! : undefined,
                 tracks,
                 offset
             );
